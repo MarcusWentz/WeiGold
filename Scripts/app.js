@@ -108,9 +108,12 @@ contractDefined_JS.events.contractStateChangeEvent({
  }, function(error, eventResult){})
  .on('data', function(eventResult){
    console.log(eventResult)
-   //Call the get function to get the most accurate present state for the value.
-   contractDefined_JS.methods.State().call((err, balance) => {
+     //Call the get function to get the most accurate present values.
+     contractDefined_JS.methods.State().call((err, balance) => {
       document.getElementById("getValueStateSmartContract").innerHTML =  balance
+     })
+     contractDefined_JS.methods.Scale_Fee().call((err, balance) => {
+         document.getElementById("getValueScale_FeeSmartContract").innerHTML =  balance
      })
    })
  .on('changed', function(eventResult){
