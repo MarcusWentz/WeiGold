@@ -61,7 +61,7 @@ contractDefined_JS.methods.State().call((err, balance) => {
     document.getElementById("getValueStateSmartContract").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
   }
   else{
-    document.getElementById("getValueStateSmartContract").innerHTML =  balance
+    document.getElementById("getValueStateSmartContract").innerHTML =  "State = " + balance
   }
 })
 
@@ -71,7 +71,47 @@ contractDefined_JS.methods.Scale_Fee().call((err, balance) => {
     document.getElementById("getValueScale_FeeSmartContract").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
   }
   else{
-    document.getElementById("getValueScale_FeeSmartContract").innerHTML =  balance/10 + "%"
+    document.getElementById("getValueScale_FeeSmartContract").innerHTML = "Scale_Fee = " + balance/10 + "%"
+  }
+})
+
+////Get the latest WEI_Gold_Price price
+contractDefined_JS.methods.getLatest_WEI_Gold_Price().call((err, balance) => {
+  if(balance === undefined){
+    document.getElementById("getValueWEI_Gold_Price").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
+  }
+  else{
+    document.getElementById("getValueWEI_Gold_Price").innerHTML =  "??? USD => "+ balance/(10**18) + " ETH"
+  }
+})
+
+////Get the latest getValueWEI_Silver_Price price
+contractDefined_JS.methods.getLatest_WEI_Silver_Price().call((err, balance) => {
+  if(balance === undefined){
+    document.getElementById("getValueWEI_Silver_Price").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
+  }
+  else{
+    document.getElementById("getValueWEI_Silver_Price").innerHTML =  "??? USD => "+ balance/(10**18) + " ETH"
+  }
+})
+
+////Get the latest getValueWEI_Silver_Price price
+contractDefined_JS.methods.getLatest_WEI_Silver_Price().call((err, balance) => {
+  if(balance === undefined){
+    document.getElementById("getValueWEI_Silver_Price").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
+  }
+  else{
+    document.getElementById("getValueWEI_Silver_Price").innerHTML =  "??? USD => "+ balance/(10**18) + " ETH"
+  }
+})
+
+////Get the latest getValueWEI_Silver_Price price
+contractDefined_JS.methods.getLatest_WEI_Oil_Price().call((err, balance) => {
+  if(balance === undefined){
+    document.getElementById("getValueWEI_Oil_Price").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
+  }
+  else{
+    document.getElementById("getValueWEI_Oil_Price").innerHTML =  "??? USD => "+ balance/(10**18) + " ETH"
   }
 })
 
@@ -161,10 +201,10 @@ contractDefined_JS.events.contractStateChangeEvent({
    console.log(eventResult)
      //Call the get function to get the most accurate present values.
      contractDefined_JS.methods.State().call((err, balance) => {
-      document.getElementById("getValueStateSmartContract").innerHTML =  balance
+      document.getElementById("getValueStateSmartContract").innerHTML =   "State = " + balance
      })
      contractDefined_JS.methods.Scale_Fee().call((err, balance) => {
-         document.getElementById("getValueScale_FeeSmartContract").innerHTML =  balance/10 + "%"
+         document.getElementById("getValueScale_FeeSmartContract").innerHTML = "Scale_Fee = " + balance/10 + "%"
      })
    })
  .on('changed', function(eventResult){
