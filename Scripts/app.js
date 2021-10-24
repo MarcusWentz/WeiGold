@@ -71,7 +71,7 @@ contractDefined_JS.methods.Scale_Fee().call((err, balance) => {
     document.getElementById("getValueScale_FeeSmartContract").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
   }
   else{
-    document.getElementById("getValueScale_FeeSmartContract").innerHTML =  balance
+    document.getElementById("getValueScale_FeeSmartContract").innerHTML =  balance/10 + "%"
   }
 })
 
@@ -164,7 +164,7 @@ contractDefined_JS.events.contractStateChangeEvent({
       document.getElementById("getValueStateSmartContract").innerHTML =  balance
      })
      contractDefined_JS.methods.Scale_Fee().call((err, balance) => {
-         document.getElementById("getValueScale_FeeSmartContract").innerHTML =  balance
+         document.getElementById("getValueScale_FeeSmartContract").innerHTML =  balance/10 + "%"
      })
    })
  .on('changed', function(eventResult){
