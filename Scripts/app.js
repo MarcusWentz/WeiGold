@@ -80,7 +80,7 @@ const changeStateInContractEvent = document.querySelector('.changeStateInContrac
 changeStateInContractEvent.addEventListener('click', () => {
   checkAddressMissingMetamask()
   //uint cannot be negative, force to absolute value.
-  var inputContractText =  Math.abs(document.getElementById("setValueSmartContract").value);
+  var inputContractText =  Math.abs(document.getElementById("setValueStateSmartContract").value);
   //Check if value is an integer. If not throw an error.
   if(Number.isInteger(inputContractText) == false){
     alert("Input value is not an integer! Only put an integer for input.")
@@ -102,8 +102,32 @@ changeStateInContractEvent.addEventListener('click', () => {
     .catch((error) => console.error);
 });
 
-//
-
+// MODIFY CONTRACT STATE WITH SET FUNCTION WITH PREDEFINED DATA FROM WEB3.JS
+const changeScale_FeeInContractEvent = document.querySelector('.changeScale_FeeInContractEvent');
+changeScale_FeeInContractEvent.addEventListener('click', () => {
+  checkAddressMissingMetamask()
+  //uint cannot be negative, force to absolute value.
+  var inputContractText =  Math.abs(document.getElementById("setValueScale_FeeSmartContract").value);
+  //Check if value is an integer. If not throw an error.
+  if(Number.isInteger(inputContractText) == false){
+    alert("Input value is not an integer! Only put an integer for input.")
+  }
+  ethereum
+    .request({
+      method: 'eth_sendTransaction',
+      params: [
+        {
+          from: accounts[0],
+          to: contractAddress_JS,
+          gasPrice: '2540be400',
+          gas:  'C3500',
+          data: contractDefined_JS.methods.OwnerChangeScaleFee(inputContractText).encodeABI()
+        },
+      ],
+    })
+    .then((txHash) => console.log(txHash))
+    .catch((error) => console.error);
+});
 
 //Get the latest event. Once the event is triggered, website will update value.
 contractDefined_JS.events.contractStateChangeEvent({
