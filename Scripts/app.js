@@ -129,6 +129,30 @@ changeScale_FeeInContractEvent.addEventListener('click', () => {
     .catch((error) => console.error);
 });
 
+//OwnerWithdrawAllWEI FUNCTION
+// MODIFY CONTRACT STATE WITH SET FUNCTION WITH PREDEFINED DATA FROM WEB3.JS
+const changeOwnerWithdrawAllWEIContract = document.querySelector('.changeOwnerWithdrawAllWEIContract');
+changeOwnerWithdrawAllWEIContract.addEventListener('click', () => {
+  checkAddressMissingMetamask()
+  ethereum
+    .request({
+      method: 'eth_sendTransaction',
+      params: [
+        {
+          from: accounts[0],
+          to: contractAddress_JS,
+          gasPrice: '2540be400',
+          gas:  'C3500',
+          data: contractDefined_JS.methods.OwnerWithdrawAllWEI().encodeABI()
+        },
+      ],
+    })
+    .then((txHash) => console.log(txHash))
+    .catch((error) => console.error);
+});
+//
+
+
 //Get the latest event. Once the event is triggered, website will update value.
 contractDefined_JS.events.contractStateChangeEvent({
      fromBlock: 'latest'
