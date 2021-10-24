@@ -50,19 +50,28 @@ async function getAccount() {
 //Make Metamask the client side Web3 provider. Needed for tracking live events.
 const web3 = new Web3(window.ethereum)
 //Now build the contract with Web3.
-const contractAddress_JS = '0x167a6D482086d47F595546F6c5772908f7535c5b'
+const contractAddress_JS = '0x20E5C8AfC26Bec865d749393308E433436757664'
 const contractABI_JS =
-[{"anonymous": false,"inputs": [{"indexed": true,"internalType": "uint256","name": "date","type": "uint256"},{"indexed": true,"internalType": "address","name": "from","type": "address"},{"indexed": false,"internalType": "uint256",
-"name": "valueChangeEventWenjs","type": "uint256"}],"name": "setValueUpdatedViaWebjs","type": "event"},{"constant": false,"inputs": [{"internalType": "uint256","name": "x","type": "uint256"}],"name": "set","outputs": [],"payable": false,"stateMutability": "nonpayable","type": "function"},{"constant": true,"inputs": [],"name": "storedData","outputs": [{"internalType": "uint256","name": "","type": "uint256"}],"payable": false,"stateMutability": "view","type": "function"}];
+[{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"date","type":"uint256"},{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":false,"internalType":"uint256","name":"valueChangeEventWenjs","type":"uint256"},{"indexed":false,"internalType":"int256","name":"feeChange","type":"int256"}],"name":"contractStateChangeEvent","type":"event"},{"inputs":[],"name":"BuwWTI","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"BuyGold","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"BuySilver","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"Owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"int256","name":"update_Scale_Fee","type":"int256"}],"name":"OwnerChangeScaleFee","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"update_State","type":"uint256"}],"name":"OwnerChangeStateServoRefill","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"OwnerWithdrawAllWEI","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"Scale_Fee","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"State","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_ETH_USD_Price","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_WEI_Gold_Price","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_WEI_Oil_Price","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_WEI_Silver_Price","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}]
 const contractDefined_JS = new web3.eth.Contract(contractABI_JS, contractAddress_JS)
 
-//Get the latest value.
-contractDefined_JS.methods.storedData().call((err, balance) => {
+//Get the latest value for State.
+contractDefined_JS.methods.State().call((err, balance) => {
   if(balance === undefined){
     document.getElementById("getValueStateSmartContract").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
   }
   else{
     document.getElementById("getValueStateSmartContract").innerHTML =  balance
+  }
+})
+
+////Get the latest value for Scale_Fee
+contractDefined_JS.methods.Scale_Fee().call((err, balance) => {
+  if(balance === undefined){
+    document.getElementById("getValueScale_FeeSmartContract").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
+  }
+  else{
+    document.getElementById("getValueScale_FeeSmartContract").innerHTML =  balance
   }
 })
 
@@ -94,13 +103,13 @@ changeStateInContractEvent.addEventListener('click', () => {
 });
 
 //Get the latest event. Once the event is triggered, website will update value.
-contractDefined_JS.events.setValueUpdatedViaWebjs({
+contractDefined_JS.events.contractStateChangeEvent({
      fromBlock: 'latest'
  }, function(error, eventResult){})
  .on('data', function(eventResult){
    console.log(eventResult)
    //Call the get function to get the most accurate present state for the value.
-   contractDefined_JS.methods.storedData().call((err, balance) => {
+   contractDefined_JS.methods.State().call((err, balance) => {
       document.getElementById("getValueStateSmartContract").innerHTML =  balance
      })
    })
