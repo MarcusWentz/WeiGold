@@ -55,16 +55,6 @@ const contractABI_JS =
 [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"date","type":"uint256"},{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":false,"internalType":"uint256","name":"valueChangeEventWenjs","type":"uint256"},{"indexed":false,"internalType":"int256","name":"feeChange","type":"int256"}],"name":"contractStateChangeEvent","type":"event"},{"inputs":[],"name":"BuwWTI","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"BuyGold","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"BuySilver","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"Owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"int256","name":"update_Scale_Fee","type":"int256"}],"name":"OwnerChangeScaleFee","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"update_State","type":"uint256"}],"name":"OwnerChangeStateServoRefill","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"OwnerWithdrawAllWEI","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"Scale_Fee","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"State","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_ETH_USD_Price","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_WEI_Gold_Price","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_WEI_Oil_Price","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_WEI_Silver_Price","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}]
 const contractDefined_JS = new web3.eth.Contract(contractABI_JS, contractAddress_JS)
 
-//Get the latest value for State.
-contractDefined_JS.methods.State().call((err, balance) => {
-  if(balance === undefined){
-    document.getElementById("getValueStateSmartContract").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
-  }
-  else{
-    document.getElementById("getValueStateSmartContract").innerHTML =  "State = " + balance
-  }
-})
-
 ////Get the latest value for Scale_Fee
 contractDefined_JS.methods.Scale_Fee().call((err, balance) => {
   if(balance === undefined){
@@ -121,16 +111,10 @@ contractDefined_JS.methods.getLatest_WEI_Oil_Price().call((err, balance) => {
 
 //OwnerWithdrawAllWEI FUNCTION
 // MODIFY CONTRACT STATE WITH SET FUNCTION WITH PREDEFINED DATA FROM WEB3.JS
-var BuyGoldValueLatestAfterScale_Fee;
+// MODIFY CONTRACT STATE WITH SET FUNCTION WITH PREDEFINED DATA FROM WEB3.JS
 const changeBuyGold = document.querySelector('.changeBuyGold');
 changeBuyGold.addEventListener('click', () => {
   checkAddressMissingMetamask()
-  ////Get the latest getValueWEI_Silver_Price price
-  contractDefined_JS.methods.getLatest_WEI_Gold_Price().call((err, balance) => {
-    console.log("balance: " + balance)
-       BuyGoldValueLatestAfterScale_Fee = balance
-  })
-  console.log("DEBUG: " + BuyGoldValueLatestAfterScale_Fee)
 
   ethereum
     .request({
@@ -138,17 +122,29 @@ changeBuyGold.addEventListener('click', () => {
       params: [
         {
           from: accounts[0],
-          to: contractDefined_JS,
+          to: contractAddress_JS,
           gasPrice: '2540be400',
           gas:  'C3500',
-          value: web3.utils.toHex(BuyGoldValueLatestAfterScale_Fee),
-          data: contractDefined_JS.methods.BuyGold().encodeABI()
-        },
+          data: contractDefined_JS.methods.BuyGold().encodeABI(),
+          //value: '440685862452690833',
+          value: web3.utils.toHex('440685862452690833')
+          },
       ],
     })
     .then((txHash) => console.log(txHash))
     .catch((error) => console.error);
+
 });
+
+
+//
+// from: accounts[0],
+// to: contractDefined_JS,
+// gasPrice: '2540be400',
+// gas:  'C3500',
+// //value: BuyGoldValueLatestAfterScale_Fee,
+// value: '61DA17501077F91' ,
+
 //BUY BuySilver
 //           value: '0x29a2241af62c0',
 //BUY BuyOil
@@ -156,92 +152,13 @@ changeBuyGold.addEventListener('click', () => {
 //
 /////////////////////////
 
-// MODIFY CONTRACT STATE WITH SET FUNCTION WITH PREDEFINED DATA FROM WEB3.JS
-const changeStateInContractEvent = document.querySelector('.changeStateInContractEvent');
-changeStateInContractEvent.addEventListener('click', () => {
-  checkAddressMissingMetamask()
-  //uint cannot be negative, force to absolute value.
-  var inputContractText =  Math.abs(document.getElementById("setValueStateSmartContract").value);
-  //Check if value is an integer. If not throw an error.
-  if(Number.isInteger(inputContractText) == false){
-    alert("Input value is not an integer! Only put an integer for input.")
-  }
-  ethereum
-    .request({
-      method: 'eth_sendTransaction',
-      params: [
-        {
-          from: accounts[0],
-          to: contractAddress_JS,
-          gasPrice: '2540be400',
-          gas:  'C3500',
-          data: contractDefined_JS.methods.OwnerChangeStateServoRefill(inputContractText).encodeABI()
-        },
-      ],
-    })
-    .then((txHash) => console.log(txHash))
-    .catch((error) => console.error);
-});
-
-// MODIFY CONTRACT STATE WITH SET FUNCTION WITH PREDEFINED DATA FROM WEB3.JS
-const changeScale_FeeInContractEvent = document.querySelector('.changeScale_FeeInContractEvent');
-changeScale_FeeInContractEvent.addEventListener('click', () => {
-  checkAddressMissingMetamask()
-  //uint cannot be negative, force to absolute value.
-  var inputContractText =  Math.abs(document.getElementById("setValueScale_FeeSmartContract").value);
-  //Check if value is an integer. If not throw an error.
-  if(Number.isInteger(inputContractText) == false){
-    alert("Input value is not an integer! Only put an integer for input.")
-  }
-  ethereum
-    .request({
-      method: 'eth_sendTransaction',
-      params: [
-        {
-          from: accounts[0],
-          to: contractAddress_JS,
-          gasPrice: '2540be400',
-          gas:  'C3500',
-          data: contractDefined_JS.methods.OwnerChangeScaleFee(inputContractText).encodeABI()
-        },
-      ],
-    })
-    .then((txHash) => console.log(txHash))
-    .catch((error) => console.error);
-});
-
-//OwnerWithdrawAllWEI FUNCTION
-// MODIFY CONTRACT STATE WITH SET FUNCTION WITH PREDEFINED DATA FROM WEB3.JS
-const changeOwnerWithdrawAllWEIContract = document.querySelector('.changeOwnerWithdrawAllWEIContract');
-changeOwnerWithdrawAllWEIContract.addEventListener('click', () => {
-  checkAddressMissingMetamask()
-  ethereum
-    .request({
-      method: 'eth_sendTransaction',
-      params: [
-        {
-          from: accounts[0],
-          to: contractAddress_JS,
-          gasPrice: '2540be400',
-          gas:  'C3500',
-          data: contractDefined_JS.methods.OwnerWithdrawAllWEI().encodeABI()
-        },
-      ],
-    })
-    .then((txHash) => console.log(txHash))
-    .catch((error) => console.error);
-});
-
 //Get the latest event. Once the event is triggered, website will update value.
 contractDefined_JS.events.contractStateChangeEvent({
      fromBlock: 'latest'
  }, function(error, eventResult){})
  .on('data', function(eventResult){
    console.log(eventResult)
-     //Call the get function to get the most accurate present values.
-     contractDefined_JS.methods.State().call((err, balance) => {
-      document.getElementById("getValueStateSmartContract").innerHTML =   "State = " + balance
-     })
+     //Get latest Scale_Fee after event.
      contractDefined_JS.methods.Scale_Fee().call((err, balance) => {
      document.getElementById("getValueScale_FeeSmartContract").innerHTML = "Scale_Fee = " + balance/10 + "%"
      })
