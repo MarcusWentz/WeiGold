@@ -95,6 +95,23 @@ contractDefined_JS.methods.getLatest_WEI_Oil_Price().call((err, balance) => {
   }
 })
 
+
+//
+////Get the latest getValueWEI_Oil_Price price
+contractDefined_JS.methods.State().call((err, balance) => {
+  if( (balance&4) == 4 ){
+    document.getElementById("getValueWEI_Gold_Price").innerHTML = "GOLD SOLD!"
+  }
+  if( (balance&2) == 2 ){
+    document.getElementById("getValueWEI_Silver_Price").innerHTML = "SILVER SOLD!"
+  }
+  if( (balance&1) == 1 ){
+    document.getElementById("getValueWEI_Oil_Price").innerHTML = "OIL SOLD!"
+  }
+})
+
+//
+
 //BuyGold button
 const changeBuyGold = document.querySelector('.changeBuyGold');
 changeBuyGold.addEventListener('click', () => {
@@ -212,6 +229,19 @@ contractDefined_JS.events.contractStateChangeEvent({
      contractDefined_JS.methods.Scale_Fee().call((err, balance) => {
      document.getElementById("getValueScale_FeeSmartContract").innerHTML = "Scale_Fee = " + balance/10 + "%"
      })
+     //Check if anything was sold live on the page.
+     contractDefined_JS.methods.State().call((err, balance) => {
+       if( (balance&4) == 4 ){
+         document.getElementById("getValueWEI_Gold_Price").innerHTML = "GOLD SOLD!"
+       }
+       if( (balance&2) == 2 ){
+         document.getElementById("getValueWEI_Silver_Price").innerHTML = "SILVER SOLD!"
+       }
+       if( (balance&1) == 1 ){
+         document.getElementById("getValueWEI_Oil_Price").innerHTML = "OIL SOLD!"
+       }
+     })
+
    })
  .on('changed', function(eventResult){
      // remove event from local database
