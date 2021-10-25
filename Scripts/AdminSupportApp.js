@@ -79,63 +79,83 @@ contractDefined_JS.methods.Scale_Fee().call((err, balance) => {
 const changeStateInContractEvent = document.querySelector('.changeStateInContractEvent');
 changeStateInContractEvent.addEventListener('click', () => {
   checkAddressMissingMetamask()
-  //uint cannot be negative, force to absolute value.
-  var inputContractText =  Math.abs(document.getElementById("setValueStateSmartContract").value);
-  //Check if value is an integer. If not throw an error.
-  if(Number.isInteger(inputContractText) == false){
-    alert("Input value is not an integer! Only put an integer for input.")
-  }
-  ethereum
-    .request({
-      method: 'eth_sendTransaction',
-      params: [
-        {
-          from: accounts[0],
-          to: contractAddress_JS,
-          gasPrice: '2540be400',
-          gas:  'C3500',
-          data: contractDefined_JS.methods.OwnerChangeStateServoRefill(inputContractText).encodeABI()
-        },
-      ],
-    })
-    .then((txHash) => console.log(txHash))
-    .catch((error) => console.error);
+
+
+  ////Get the latest value for Scale_Fee
+  contractDefined_JS.methods.Owner().call((err, address) => {
+    if(accounts[0] != address.toLowerCase() ){
+      alert("Connected address does not match Owner address! Connect as Owner then try again.")
+    }
+    if(accounts[0] == address.toLowerCase() ){
+        ethereum
+          .request({
+            method: 'eth_sendTransaction',
+            params: [
+              {
+                from: accounts[0],
+                to: contractAddress_JS,
+                gasPrice: '2540be400',
+                gas:  'C3500',
+                data: contractDefined_JS.methods.OwnerChangeStateServoRefill(document.getElementById("setValueStateSmartContract").value).encodeABI()
+              },
+            ],
+          })
+          .then((txHash) => console.log(txHash))
+          .catch((error) => console.error);
+    }
+  })
+
 });
 
 // MODIFY CONTRACT STATE WITH SET FUNCTION WITH PREDEFINED DATA FROM WEB3.JS
 const changeScale_FeeInContractEvent = document.querySelector('.changeScale_FeeInContractEvent');
 changeScale_FeeInContractEvent.addEventListener('click', () => {
   checkAddressMissingMetamask()
-  //uint cannot be negative, force to absolute value.
-  var inputContractText =  Math.abs(document.getElementById("setValueScale_FeeSmartContract").value);
-  //Check if value is an integer. If not throw an error.
-  if(Number.isInteger(inputContractText) == false){
-    alert("Input value is not an integer! Only put an integer for input.")
-  }
-  ethereum
-    .request({
-      method: 'eth_sendTransaction',
-      params: [
-        {
-          from: accounts[0],
-          to: contractAddress_JS,
-          gasPrice: '2540be400',
-          gas:  'C3500',
-          data: contractDefined_JS.methods.OwnerChangeScaleFee(inputContractText).encodeABI()
-        },
-      ],
-    })
-    .then((txHash) => console.log(txHash))
-    .catch((error) => console.error);
+
+  // //uint cannot be negative, force to absolute value.
+  // var inputContractText =  Math.abs(document.getElementById("setValueScale_FeeSmartContract").value);
+  // //Check if value is an integer. If not throw an error.
+  // if(Number.isInteger(inputContractText) == false){
+  //   alert("Input value is not an integer! Only put an integer for input.")
+  // }
+
+  ////Get the latest value for Scale_Fee
+  contractDefined_JS.methods.Owner().call((err, address) => {
+    if(accounts[0] != address.toLowerCase() ){
+      alert("Connected address does not match Owner address! Connect as Owner then try again.")
+    }
+    if(accounts[0] == address.toLowerCase() ){
+
+      ethereum
+        .request({
+          method: 'eth_sendTransaction',
+          params: [
+            {
+              from: accounts[0],
+              to: contractAddress_JS,
+              gasPrice: '2540be400',
+              gas:  'C3500',
+              data: contractDefined_JS.methods.OwnerChangeScaleFee(document.getElementById("setValueScale_FeeSmartContract").value).encodeABI()
+            },
+          ],
+        })
+        .then((txHash) => console.log(txHash))
+        .catch((error) => console.error);
+    }
+  })
+
 });
 
 ///CUT THIS ONCE MERGED INTO OTHER FUNCTION
-
+//
+//
+//
 //OwnerWithdrawAllWEI FUNCTION
 // MODIFY CONTRACT STATE WITH SET FUNCTION WITH PREDEFINED DATA FROM WEB3.JS
 const changeOwnerWithdrawAllWEIContract = document.querySelector('.changeOwnerWithdrawAllWEIContract');
 changeOwnerWithdrawAllWEIContract.addEventListener('click', () => {
   checkAddressMissingMetamask()
+
   ethereum
     .request({
       method: 'eth_sendTransaction',
