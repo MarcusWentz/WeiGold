@@ -105,13 +105,12 @@ contractDefined_JS.methods.getLatest_WEI_Oil_Price().call((err, balance) => {
   }
 })
 
-////////////////////////////
-//BUY BuyGold
-//           value: '0x29a2241af62c0',
 
-//OwnerWithdrawAllWEI FUNCTION
-// MODIFY CONTRACT STATE WITH SET FUNCTION WITH PREDEFINED DATA FROM WEB3.JS
-// MODIFY CONTRACT STATE WITH SET FUNCTION WITH PREDEFINED DATA FROM WEB3.JS
+//?? REMOVE ASYC HARD CODED VALUES MSG.VALUE
+//
+//
+//
+//BuyGold button
 const changeBuyGold = document.querySelector('.changeBuyGold');
 changeBuyGold.addEventListener('click', () => {
   checkAddressMissingMetamask()
@@ -126,7 +125,7 @@ changeBuyGold.addEventListener('click', () => {
           gasPrice: '2540be400',
           gas:  'C3500',
           data: contractDefined_JS.methods.BuyGold().encodeABI(),
-          //value: '440685862452690833',
+          //UPDATE VALUE
           value: web3.utils.toHex('440685862452690833')
           },
       ],
@@ -136,21 +135,67 @@ changeBuyGold.addEventListener('click', () => {
 
 });
 
-
+//?? REMOVE ASYC HARD CODED VALUES MSG.VALUE
 //
-// from: accounts[0],
-// to: contractDefined_JS,
-// gasPrice: '2540be400',
-// gas:  'C3500',
-// //value: BuyGoldValueLatestAfterScale_Fee,
-// value: '61DA17501077F91' ,
-
-//BUY BuySilver
-//           value: '0x29a2241af62c0',
-//BUY BuyOil
-//           value: '0x29a2241af62c0',
 //
-/////////////////////////
+//
+//BuySilver button
+const changeBuySilver = document.querySelector('.changeBuySilver');
+changeBuySilver.addEventListener('click', () => {
+  checkAddressMissingMetamask()
+
+  ethereum
+    .request({
+      method: 'eth_sendTransaction',
+      params: [
+        {
+          from: accounts[0],
+          to: contractAddress_JS,
+          gasPrice: '2540be400',
+          gas:  'C3500',
+          //UPDATE VALUE
+          data: contractDefined_JS.methods.BuySilver().encodeABI(),
+          value: web3.utils.toHex('5995116443080986')
+          },
+      ],
+    })
+    .then((txHash) => console.log(txHash))
+    .catch((error) => console.error);
+
+});
+
+//?? REMOVE ASYC HARD CODED VALUES MSG.VALUE
+//
+//
+//
+//BuySilver button
+//
+//
+//UPDATE CONTRACT BuwWTI SHOULD BE BuyWTI
+const changeBuyOil = document.querySelector('.changeBuyOil');
+changeBuyOil.addEventListener('click', () => {
+  checkAddressMissingMetamask()
+
+  ethereum
+    .request({
+      method: 'eth_sendTransaction',
+      params: [
+        {
+          from: accounts[0],
+          to: contractAddress_JS,
+          gasPrice: '2540be400',
+          gas:  'C3500',
+          //UPDATE FUNCTION TYPO
+          data: contractDefined_JS.methods.BuwWTI().encodeABI(),
+          //UPDATE VALUE
+          value: web3.utils.toHex('20815570874324084')
+          },
+      ],
+    })
+    .then((txHash) => console.log(txHash))
+    .catch((error) => console.error);
+
+});
 
 //Get the latest event. Once the event is triggered, website will update value.
 contractDefined_JS.events.contractStateChangeEvent({
