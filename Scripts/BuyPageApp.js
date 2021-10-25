@@ -110,13 +110,12 @@ const changeBuyGold = document.querySelector('.changeBuyGold');
 changeBuyGold.addEventListener('click', () => {
   checkAddressMissingMetamask()
 
-//
   contractDefined_JS.methods.State().call((err, balance) => {
     if((balance&4) > 0){
-      alert("Gold is sold already. Cannot buy gold until refill.")
+      alert("Gold is sold out! Cannot buy gold until Owner refill.")
     }
     if((balance&4) == 0) {
-      contractDefined_JS.methods.getLatest_WEI_Gold_Price().call((err, balance) => {
+      contractDefined_JS.methods.getLatest_WEI_Gold_Price().call((err, goldPrice) => {
           ethereum
             .request({
               method: 'eth_sendTransaction',
@@ -127,7 +126,7 @@ changeBuyGold.addEventListener('click', () => {
                   gasPrice: '2540be400',
                   gas:  'C3500',
                   data: contractDefined_JS.methods.BuyGold().encodeABI(),
-                  value: web3.utils.toHex(balance)
+                  value: web3.utils.toHex(goldPrice)
                   },
               ],
             })
@@ -144,23 +143,30 @@ const changeBuySilver = document.querySelector('.changeBuySilver');
 changeBuySilver.addEventListener('click', () => {
   checkAddressMissingMetamask()
 
-  contractDefined_JS.methods.getLatest_WEI_Silver_Price().call((err, balance) => {
-    ethereum
-      .request({
-        method: 'eth_sendTransaction',
-        params: [
-          {
-            from: accounts[0],
-            to: contractAddress_JS,
-            gasPrice: '2540be400',
-            gas:  'C3500',
-            data: contractDefined_JS.methods.BuySilver().encodeABI(),
-            value: web3.utils.toHex(balance)
-            },
-        ],
-      })
-      .then((txHash) => console.log(txHash))
-      .catch((error) => console.error);
+  contractDefined_JS.methods.State().call((err, balance) => {
+    if((balance&2) > 0){
+      alert("Silver is sold out! Cannot buy silver until Owner refill.")
+    }
+    if((balance&2) == 0) {
+        contractDefined_JS.methods.getLatest_WEI_Silver_Price().call((err, silverPrice) => {
+          ethereum
+            .request({
+              method: 'eth_sendTransaction',
+              params: [
+                {
+                  from: accounts[0],
+                  to: contractAddress_JS,
+                  gasPrice: '2540be400',
+                  gas:  'C3500',
+                  data: contractDefined_JS.methods.BuySilver().encodeABI(),
+                  value: web3.utils.toHex(silverPrice)
+                  },
+              ],
+            })
+            .then((txHash) => console.log(txHash))
+            .catch((error) => console.error);
+        })
+    }
   })
 
 });
@@ -177,25 +183,31 @@ const changeBuyOil = document.querySelector('.changeBuyOil');
 changeBuyOil.addEventListener('click', () => {
   checkAddressMissingMetamask()
 
-
-    contractDefined_JS.methods.getLatest_WEI_Oil_Price().call((err, balance) => {
-      ethereum
-        .request({
-          method: 'eth_sendTransaction',
-          params: [
-            {
-              from: accounts[0],
-              to: contractAddress_JS,
-              gasPrice: '2540be400',
-              gas:  'C3500',
-              //UPDATE FUNCTION TYPO
-              data: contractDefined_JS.methods.BuwWTI().encodeABI(),
-              value: web3.utils.toHex(balance)
-              },
-          ],
-        })
-        .then((txHash) => console.log(txHash))
-        .catch((error) => console.error);
+    contractDefined_JS.methods.State().call((err, balance) => {
+      if((balance&1) > 0){
+        alert("Oil is sold out! Cannot buy oil until Owner refill.")
+      }
+      if((balance&1) == 0) {
+            contractDefined_JS.methods.getLatest_WEI_Oil_Price().call((err, oilPrice) => {
+              ethereum
+                .request({
+                  method: 'eth_sendTransaction',
+                  params: [
+                    {
+                      from: accounts[0],
+                      to: contractAddress_JS,
+                      gasPrice: '2540be400',
+                      gas:  'C3500',
+                      //UPDATE FUNCTION TYPO
+                      data: contractDefined_JS.methods.BuwWTI().encodeABI(),
+                      value: web3.utils.toHex(oilPrice)
+                      },
+                  ],
+                })
+                .then((txHash) => console.log(txHash))
+                .catch((error) => console.error);
+            })
+      }
     })
 
 });
