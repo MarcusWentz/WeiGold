@@ -110,24 +110,31 @@ const changeBuyGold = document.querySelector('.changeBuyGold');
 changeBuyGold.addEventListener('click', () => {
   checkAddressMissingMetamask()
 
-  contractDefined_JS.methods.getLatest_WEI_Gold_Price().call((err, balance) => {
-      ethereum
-        .request({
-          method: 'eth_sendTransaction',
-          params: [
-            {
-              from: accounts[0],
-              to: contractAddress_JS,
-              gasPrice: '2540be400',
-              gas:  'C3500',
-              data: contractDefined_JS.methods.BuyGold().encodeABI(),
-              //UPDATE VALUE
-              value: web3.utils.toHex(balance)
-              },
-          ],
-        })
-        .then((txHash) => console.log(txHash))
-        .catch((error) => console.error);
+//
+  contractDefined_JS.methods.State().call((err, balance) => {
+    if((balance&4) > 0){
+      alert("Gold is sold already. Cannot buy gold until refill.")
+    }
+    if((balance&4) == 0) {
+      contractDefined_JS.methods.getLatest_WEI_Gold_Price().call((err, balance) => {
+          ethereum
+            .request({
+              method: 'eth_sendTransaction',
+              params: [
+                {
+                  from: accounts[0],
+                  to: contractAddress_JS,
+                  gasPrice: '2540be400',
+                  gas:  'C3500',
+                  data: contractDefined_JS.methods.BuyGold().encodeABI(),
+                  value: web3.utils.toHex(balance)
+                  },
+              ],
+            })
+            .then((txHash) => console.log(txHash))
+            .catch((error) => console.error);
+      })
+    }
   })
 
 });
@@ -147,7 +154,6 @@ changeBuySilver.addEventListener('click', () => {
             to: contractAddress_JS,
             gasPrice: '2540be400',
             gas:  'C3500',
-            //UPDATE VALUE
             data: contractDefined_JS.methods.BuySilver().encodeABI(),
             value: web3.utils.toHex(balance)
             },
