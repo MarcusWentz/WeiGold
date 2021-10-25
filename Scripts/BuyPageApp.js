@@ -81,16 +81,6 @@ contractDefined_JS.methods.getLatest_WEI_Silver_Price().call((err, balance) => {
     document.getElementById("getValueWEI_Silver_Price").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
   }
   else{
-    document.getElementById("getValueWEI_Silver_Price").innerHTML =  balance/(10**18) + " ETH"
-  }
-})
-
-////Get the latest getValueWEI_Silver_Price price
-contractDefined_JS.methods.getLatest_WEI_Silver_Price().call((err, balance) => {
-  if(balance === undefined){
-    document.getElementById("getValueWEI_Silver_Price").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
-  }
-  else{
     document.getElementById("getValueWEI_Silver_Price").innerHTML = balance/(10**18) + " ETH"
   }
 })
