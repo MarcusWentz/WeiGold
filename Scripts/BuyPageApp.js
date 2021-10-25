@@ -85,7 +85,7 @@ contractDefined_JS.methods.getLatest_WEI_Silver_Price().call((err, balance) => {
   }
 })
 
-////Get the latest getValueWEI_Silver_Price price
+////Get the latest getValueWEI_Oil_Price price
 contractDefined_JS.methods.getLatest_WEI_Oil_Price().call((err, balance) => {
   if(balance === undefined){
     document.getElementById("getValueWEI_Oil_Price").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
