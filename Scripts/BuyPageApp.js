@@ -71,7 +71,7 @@ contractDefined_JS.methods.getLatest_WEI_Gold_Price().call((err, balance) => {
     document.getElementById("getValueWEI_Gold_Price").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
   }
   else{
-    document.getElementById("getValueWEI_Gold_Price").innerHTML =  "??? USD => "+ balance/(10**18) + " ETH"
+    document.getElementById("getValueWEI_Gold_Price").innerHTML =   balance/(10**18) + " ETH"
   }
 })
 
@@ -81,7 +81,7 @@ contractDefined_JS.methods.getLatest_WEI_Silver_Price().call((err, balance) => {
     document.getElementById("getValueWEI_Silver_Price").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
   }
   else{
-    document.getElementById("getValueWEI_Silver_Price").innerHTML =  "??? USD => "+ balance/(10**18) + " ETH"
+    document.getElementById("getValueWEI_Silver_Price").innerHTML =  balance/(10**18) + " ETH"
   }
 })
 
@@ -91,7 +91,7 @@ contractDefined_JS.methods.getLatest_WEI_Silver_Price().call((err, balance) => {
     document.getElementById("getValueWEI_Silver_Price").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
   }
   else{
-    document.getElementById("getValueWEI_Silver_Price").innerHTML =  "??? USD => "+ balance/(10**18) + " ETH"
+    document.getElementById("getValueWEI_Silver_Price").innerHTML = balance/(10**18) + " ETH"
   }
 })
 
@@ -101,74 +101,69 @@ contractDefined_JS.methods.getLatest_WEI_Oil_Price().call((err, balance) => {
     document.getElementById("getValueWEI_Oil_Price").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
   }
   else{
-    document.getElementById("getValueWEI_Oil_Price").innerHTML =  "??? USD => "+ balance/(10**18) + " ETH"
+    document.getElementById("getValueWEI_Oil_Price").innerHTML = balance/(10**18) + " ETH"
   }
 })
 
-
-//?? REMOVE ASYC HARD CODED VALUES MSG.VALUE
-//
-//
-//
 //BuyGold button
 const changeBuyGold = document.querySelector('.changeBuyGold');
 changeBuyGold.addEventListener('click', () => {
   checkAddressMissingMetamask()
 
-  ethereum
-    .request({
-      method: 'eth_sendTransaction',
-      params: [
-        {
-          from: accounts[0],
-          to: contractAddress_JS,
-          gasPrice: '2540be400',
-          gas:  'C3500',
-          data: contractDefined_JS.methods.BuyGold().encodeABI(),
-          //UPDATE VALUE
-          value: web3.utils.toHex('440685862452690833')
-          },
-      ],
-    })
-    .then((txHash) => console.log(txHash))
-    .catch((error) => console.error);
+  contractDefined_JS.methods.getLatest_WEI_Gold_Price().call((err, balance) => {
+      ethereum
+        .request({
+          method: 'eth_sendTransaction',
+          params: [
+            {
+              from: accounts[0],
+              to: contractAddress_JS,
+              gasPrice: '2540be400',
+              gas:  'C3500',
+              data: contractDefined_JS.methods.BuyGold().encodeABI(),
+              //UPDATE VALUE
+              value: web3.utils.toHex(balance)
+              },
+          ],
+        })
+        .then((txHash) => console.log(txHash))
+        .catch((error) => console.error);
+  })
 
 });
 
-//?? REMOVE ASYC HARD CODED VALUES MSG.VALUE
-//
-//
-//
 //BuySilver button
 const changeBuySilver = document.querySelector('.changeBuySilver');
 changeBuySilver.addEventListener('click', () => {
   checkAddressMissingMetamask()
 
-  ethereum
-    .request({
-      method: 'eth_sendTransaction',
-      params: [
-        {
-          from: accounts[0],
-          to: contractAddress_JS,
-          gasPrice: '2540be400',
-          gas:  'C3500',
-          //UPDATE VALUE
-          data: contractDefined_JS.methods.BuySilver().encodeABI(),
-          value: web3.utils.toHex('5995116443080986')
-          },
-      ],
-    })
-    .then((txHash) => console.log(txHash))
-    .catch((error) => console.error);
+  contractDefined_JS.methods.getLatest_WEI_Silver_Price().call((err, balance) => {
+    ethereum
+      .request({
+        method: 'eth_sendTransaction',
+        params: [
+          {
+            from: accounts[0],
+            to: contractAddress_JS,
+            gasPrice: '2540be400',
+            gas:  'C3500',
+            //UPDATE VALUE
+            data: contractDefined_JS.methods.BuySilver().encodeABI(),
+            value: web3.utils.toHex(balance)
+            },
+        ],
+      })
+      .then((txHash) => console.log(txHash))
+      .catch((error) => console.error);
+  })
 
 });
 
-//?? REMOVE ASYC HARD CODED VALUES MSG.VALUE
-//
-//
-//
 //BuySilver button
+//
+//
+//
+//
 //
 //
 //UPDATE CONTRACT BuwWTI SHOULD BE BuyWTI
@@ -176,24 +171,26 @@ const changeBuyOil = document.querySelector('.changeBuyOil');
 changeBuyOil.addEventListener('click', () => {
   checkAddressMissingMetamask()
 
-  ethereum
-    .request({
-      method: 'eth_sendTransaction',
-      params: [
-        {
-          from: accounts[0],
-          to: contractAddress_JS,
-          gasPrice: '2540be400',
-          gas:  'C3500',
-          //UPDATE FUNCTION TYPO
-          data: contractDefined_JS.methods.BuwWTI().encodeABI(),
-          //UPDATE VALUE
-          value: web3.utils.toHex('20815570874324084')
-          },
-      ],
+
+    contractDefined_JS.methods.getLatest_WEI_Oil_Price().call((err, balance) => {
+      ethereum
+        .request({
+          method: 'eth_sendTransaction',
+          params: [
+            {
+              from: accounts[0],
+              to: contractAddress_JS,
+              gasPrice: '2540be400',
+              gas:  'C3500',
+              //UPDATE FUNCTION TYPO
+              data: contractDefined_JS.methods.BuwWTI().encodeABI(),
+              value: web3.utils.toHex(balance)
+              },
+          ],
+        })
+        .then((txHash) => console.log(txHash))
+        .catch((error) => console.error);
     })
-    .then((txHash) => console.log(txHash))
-    .catch((error) => console.error);
 
 });
 
