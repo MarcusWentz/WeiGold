@@ -72,6 +72,7 @@ contractDefined_JS.methods.getLatest_WEI_Gold_Price().call((err, balance) => {
   }
   else{
     document.getElementById("getValueWEI_Gold_Price").innerHTML =   balance/(10**18) + " ETH"
+    document.getElementById("changeBuyGold").className = "btn btn-outline-warning"
   }
 })
 
@@ -95,15 +96,18 @@ contractDefined_JS.methods.getLatest_WEI_Oil_Price().call((err, balance) => {
   }
 })
 
-//
-console.log(document.getElementById("changeBuyGold") )
-console.log(document.getElementById("changeBuyGold").className )
-document.getElementById("changeBuyGold").className = "btn btn-outline-danger"
+// //
+// console.log(document.getElementById("changeBuyGold") )
+// console.log(document.getElementById("changeBuyGold").className )
+// document.getElementById("changeBuyGold").className = "btn btn-outline-danger"
 
 ////Get the latest getValueWEI_Oil_Price price
 contractDefined_JS.methods.State().call((err, balance) => {
-  if( (balance&4) == 4 ){
-    document.getElementById("getValueWEI_Gold_Price").innerHTML = "GOLD SOLD!"  }
+  console.log( (balance&4) == 4 )
+  if( (balance&4) == 4 ) {
+    document.getElementById("getValueWEI_Gold_Price").innerHTML = "GOLD SOLD!"
+    document.getElementById("changeBuyGold").className = "btn btn-outline-danger"
+  }
   if( (balance&2) == 2 ){
     document.getElementById("getValueWEI_Silver_Price").innerHTML = "SILVER SOLD!"
   }
@@ -235,6 +239,7 @@ contractDefined_JS.events.contractStateChangeEvent({
      contractDefined_JS.methods.State().call((err, balance) => {
        if( (balance&4) == 4 ){
          document.getElementById("getValueWEI_Gold_Price").innerHTML = "GOLD SOLD!"
+         document.getElementById("changeBuyGold").className = "btn btn-outline-danger"
        }
        if( (balance&2) == 2 ){
          document.getElementById("getValueWEI_Silver_Price").innerHTML = "SILVER SOLD!"
