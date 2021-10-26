@@ -69,7 +69,7 @@ contractDefined_JS.methods.State().call((err, balance) => {
     document.getElementById("changeBuyGold").className = "btn btn-outline-warning"
     document.getElementById("getValueWEI_Gold_Price").className = "text-warning"
     contractDefined_JS.methods.getLatest_WEI_Gold_Price().call((err, balance) => {
-      document.getElementById("getValueWEI_Gold_Price").innerHTML =   balance/(10**18) + " ETH"
+      document.getElementById("getValueWEI_Gold_Price").innerHTML =  (balance/(10**18)).toFixed(6) + " ETH"
     })
   }
   if( (balance&2) == 2 ){
@@ -81,21 +81,27 @@ contractDefined_JS.methods.State().call((err, balance) => {
     document.getElementById("changeBuySilver").className = "btn btn-outline-secondary"
     document.getElementById("getValueWEI_Oil_Price").className = "text-secondary"
     contractDefined_JS.methods.getLatest_WEI_Oil_Price().call((err, balance) => {
-      document.getElementById("getValueWEI_Silver_Price").innerHTML = balance/(10**18) + " ETH"
+      document.getElementById("getValueWEI_Silver_Price").innerHTML = (balance/(10**18)).toFixed(6) + " ETH"
     })
   }
   if( (balance&1) == 1 ){
     document.getElementById("changeBuyOil").className = "btn btn-outline-danger"
     document.getElementById("getValueWEI_Oil_Price").className = "text-danger"
-    document.getElementById("getValueWEI_Oil_Price").innerHTML = "OIL SOLD!"
+    document.getElementById("getValueUSD_Oil_Price").className = "text-danger"
+    document.getElementById("getValueWEI_Oil_Price").innerHTML = "OIL"
+    document.getElementById("getValueUSD_Oil_Price").innerHTML = "SOLD!"
 
   }
   if( (balance&1) != 1 ){
     document.getElementById("changeBuyOil").className = "btn btn-outline-light"
     document.getElementById("getValueWEI_Oil_Price").className = "text-light"
     contractDefined_JS.methods.getLatest_WEI_Oil_Price().call((err, balance) => {
-      document.getElementById("getValueWEI_Oil_Price").innerHTML = balance/(10**18) + " ETH"
+      document.getElementById("getValueWEI_Oil_Price").innerHTML = (balance/(10**18)).toFixed(6) + " ETH"
+        contractDefined_JS.methods.getLatest_ETH_USD_Price().call((err, convertToETH_USD) => {
+          document.getElementById("getValueUSD_Oil_Price").innerHTML = "$"  + ( (balance*convertToETH_USD)/(10**26) ).toFixed(2) + " USD"
+        })
     })
+
   }
 
   })
