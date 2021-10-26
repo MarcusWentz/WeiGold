@@ -4,6 +4,7 @@
 //Empty array to be filled once Metamask is called.
 let accounts = [];
 document.getElementById("getCurrentAccountConnected").innerHTML =  "Ethereum address not connceted. Please refresh and click the top button to connect."
+document.getElementById("getCurrentAccountConnected").className = "text-danger"
 
 //If Metamask is not detected the user will be told to install Metamask.
 function detectMetamaskInstalled(){
@@ -36,7 +37,7 @@ function enableMetamaskOnRinkeby() {
 detectMetamaskInstalled()
 
 //Connect to Metamask.
-const ethereumButton = document.querySelector('.enableEthereumButton');
+const ethereumButton = document.querySelector('#enableEthereumButton');
 ethereumButton.addEventListener('click', () => {
     detectMetamaskInstalled()
     enableMetamaskOnRinkeby()
@@ -45,6 +46,7 @@ ethereumButton.addEventListener('click', () => {
 async function getAccount() {
   accounts = await ethereum.request({ method: 'eth_requestAccounts' });
   document.getElementById("getCurrentAccountConnected").innerHTML = accounts[0]
+  document.getElementById("getCurrentAccountConnected").className = "text-warning"
 }
 
 //Make Metamask the client side Web3 provider. Needed for tracking live events.
@@ -76,7 +78,7 @@ contractDefined_JS.methods.Scale_Fee().call((err, balance) => {
 })
 
 // MODIFY CONTRACT STATE WITH SET FUNCTION WITH PREDEFINED DATA FROM WEB3.JS
-const changeStateInContractEvent = document.querySelector('.changeStateInContractEvent');
+const changeStateInContractEvent = document.querySelector('#changeStateInContractEvent');
 changeStateInContractEvent.addEventListener('click', () => {
   checkAddressMissingMetamask()
 
@@ -108,7 +110,7 @@ changeStateInContractEvent.addEventListener('click', () => {
 });
 
 // MODIFY CONTRACT STATE WITH SET FUNCTION WITH PREDEFINED DATA FROM WEB3.JS
-const changeScale_FeeInContractEvent = document.querySelector('.changeScale_FeeInContractEvent');
+const changeScale_FeeInContractEvent = document.querySelector('#changeScale_FeeInContractEvent');
 changeScale_FeeInContractEvent.addEventListener('click', () => {
   checkAddressMissingMetamask()
 
