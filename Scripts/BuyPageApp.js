@@ -95,13 +95,15 @@ contractDefined_JS.methods.getLatest_WEI_Oil_Price().call((err, balance) => {
   }
 })
 
-
 //
+console.log(document.getElementById("changeBuyGold") )
+console.log(document.getElementById("changeBuyGold").className )
+document.getElementById("changeBuyGold").className = "btn btn-outline-danger"
+
 ////Get the latest getValueWEI_Oil_Price price
 contractDefined_JS.methods.State().call((err, balance) => {
   if( (balance&4) == 4 ){
-    document.getElementById("getValueWEI_Gold_Price").innerHTML = "GOLD SOLD!"
-  }
+    document.getElementById("getValueWEI_Gold_Price").innerHTML = "GOLD SOLD!"  }
   if( (balance&2) == 2 ){
     document.getElementById("getValueWEI_Silver_Price").innerHTML = "SILVER SOLD!"
   }
@@ -113,7 +115,7 @@ contractDefined_JS.methods.State().call((err, balance) => {
 //
 
 //BuyGold button
-const changeBuyGold = document.querySelector('.changeBuyGold');
+const changeBuyGold = document.querySelector('#changeBuyGold');
 changeBuyGold.addEventListener('click', () => {
   checkAddressMissingMetamask()
 
