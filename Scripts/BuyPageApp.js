@@ -4,6 +4,7 @@
 //Empty array to be filled once Metamask is called.
 let accounts = [];
 document.getElementById("getCurrentAccountConnected").innerHTML =  "Ethereum address not connceted. Please refresh and click the top button to connect."
+document.getElementById("getCurrentAccountConnected").className = "text-danger"
 
 //If Metamask is not detected the user will be told to install Metamask.
 function detectMetamaskInstalled(){
@@ -45,6 +46,7 @@ ethereumButton.addEventListener('click', () => {
 async function getAccount() {
   accounts = await ethereum.request({ method: 'eth_requestAccounts' });
   document.getElementById("getCurrentAccountConnected").innerHTML = accounts[0]
+  document.getElementById("getCurrentAccountConnected").className = "text-warning"
 }
 
 //Make Metamask the client side Web3 provider. Needed for tracking live events.
@@ -60,36 +62,37 @@ function getLatestState() {
 contractDefined_JS.methods.State().call((err, balance) => {
   if( (balance&4) == 4 ) {
     document.getElementById("changeBuyGold").className = "btn btn-outline-danger"
+    document.getElementById("getValueWEI_Gold_Price").className = "text-danger"
     document.getElementById("getValueWEI_Gold_Price").innerHTML = "GOLD SOLD!"
   }
-
   if( (balance&4) != 4 ){
     document.getElementById("changeBuyGold").className = "btn btn-outline-warning"
+    document.getElementById("getValueWEI_Gold_Price").className = "text-warning"
     contractDefined_JS.methods.getLatest_WEI_Gold_Price().call((err, balance) => {
       document.getElementById("getValueWEI_Gold_Price").innerHTML =   balance/(10**18) + " ETH"
     })
   }
-
   if( (balance&2) == 2 ){
     document.getElementById("changeBuySilver").className = "btn btn-outline-danger"
+    document.getElementById("getValueWEI_Silver_Price").className = "text-danger"
     document.getElementById("getValueWEI_Silver_Price").innerHTML = "SILVER SOLD!"
   }
-
   if( (balance&2) != 2 ){
     document.getElementById("changeBuySilver").className = "btn btn-outline-secondary"
+    document.getElementById("getValueWEI_Oil_Price").className = "text-secondary"
     contractDefined_JS.methods.getLatest_WEI_Oil_Price().call((err, balance) => {
       document.getElementById("getValueWEI_Silver_Price").innerHTML = balance/(10**18) + " ETH"
     })
   }
-
   if( (balance&1) == 1 ){
     document.getElementById("changeBuyOil").className = "btn btn-outline-danger"
+    document.getElementById("getValueWEI_Oil_Price").className = "text-danger"
     document.getElementById("getValueWEI_Oil_Price").innerHTML = "OIL SOLD!"
-  }
 
+  }
   if( (balance&1) != 1 ){
     document.getElementById("changeBuyOil").className = "btn btn-outline-light"
-    ////Get the latest getValueWEI_Oil_Price price
+    document.getElementById("getValueWEI_Oil_Price").className = "text-light"
     contractDefined_JS.methods.getLatest_WEI_Oil_Price().call((err, balance) => {
       document.getElementById("getValueWEI_Oil_Price").innerHTML = balance/(10**18) + " ETH"
     })
@@ -102,10 +105,13 @@ contractDefined_JS.methods.State().call((err, balance) => {
 contractDefined_JS.methods.Scale_Fee().call((err, balance) => {
   if(balance === undefined){
     document.getElementById("getValueScale_FeeSmartContract").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
+    document.getElementById("getValueScale_FeeSmartContract").className = "text-danger"
     document.getElementById("getValueWEI_Gold_Price").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
+    document.getElementById("getValueWEI_Gold_Price").className = "text-danger"
     document.getElementById("getValueWEI_Silver_Price").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
-    document.getElementById("getValueWEI_Silver_Price").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
+    document.getElementById("getValueWEI_Silver_Price").className = "text-danger"
     document.getElementById("getValueWEI_Oil_Price").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
+    document.getElementById("getValueWEI_Oil_Price").className = "text-danger"
   }
   else{
     document.getElementById("getValueScale_FeeSmartContract").innerHTML = "Scale_Fee = " + balance/10 + "%"
