@@ -135,10 +135,9 @@ changeBuyGold.addEventListener('click', () => {
               method: 'eth_sendTransaction',
               params: [
                 {
+                  //Metamask calculates gas limit and price.
                   from: accounts[0],
                   to: contractAddress_JS,
-                  gasPrice: '2540be400',
-                  gas:  'C3500',
                   data: contractDefined_JS.methods.BuyGold().encodeABI(),
                   value: web3.utils.toHex(goldPrice)
                   },
@@ -168,10 +167,9 @@ changeBuySilver.addEventListener('click', () => {
               method: 'eth_sendTransaction',
               params: [
                 {
+                  //Metamask calculates gas limit and price.
                   from: accounts[0],
                   to: contractAddress_JS,
-                  gasPrice: '2540be400',
-                  gas:  'C3500',
                   data: contractDefined_JS.methods.BuySilver().encodeABI(),
                   value: web3.utils.toHex(silverPrice)
                   },
@@ -208,10 +206,9 @@ changeBuyOil.addEventListener('click', () => {
                   method: 'eth_sendTransaction',
                   params: [
                     {
+                      //Metamask calculates gas limit and price.
                       from: accounts[0],
                       to: contractAddress_JS,
-                      gasPrice: '2540be400',
-                      gas:  'C3500',
                       //UPDATE FUNCTION TYPO
                       data: contractDefined_JS.methods.BuwWTI().encodeABI(),
                       value: web3.utils.toHex(oilPrice)
