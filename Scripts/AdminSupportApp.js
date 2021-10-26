@@ -61,6 +61,7 @@ const contractDefined_JS = new web3.eth.Contract(contractABI_JS, contractAddress
 contractDefined_JS.methods.State().call((err, balance) => {
   if(balance === undefined){
     document.getElementById("getValueStateSmartContract").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
+    document.getElementById("getValueStateSmartContract").className = "text-danger"
   }
   else{
     document.getElementById("getValueStateSmartContract").innerHTML =  "State = " + balance
@@ -71,6 +72,7 @@ contractDefined_JS.methods.State().call((err, balance) => {
 contractDefined_JS.methods.Scale_Fee().call((err, balance) => {
   if(balance === undefined){
     document.getElementById("getValueScale_FeeSmartContract").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
+    document.getElementById("getValueScale_FeeSmartContract").className = "text-danger"
   }
   else{
     document.getElementById("getValueScale_FeeSmartContract").innerHTML = "Scale_Fee = " + balance/10 + "%"
