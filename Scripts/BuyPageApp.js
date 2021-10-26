@@ -36,7 +36,7 @@ function enableMetamaskOnRinkeby() {
 detectMetamaskInstalled()
 
 //Connect to Metamask.
-const ethereumButton = document.querySelector('.enableEthereumButton');
+const ethereumButton = document.querySelector('#enableEthereumButton');
 ethereumButton.addEventListener('click', () => {
     detectMetamaskInstalled()
     enableMetamaskOnRinkeby()
@@ -55,44 +55,17 @@ const contractABI_JS =
 [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"date","type":"uint256"},{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":false,"internalType":"uint256","name":"valueChangeEventWenjs","type":"uint256"},{"indexed":false,"internalType":"int256","name":"feeChange","type":"int256"}],"name":"contractStateChangeEvent","type":"event"},{"inputs":[],"name":"BuwWTI","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"BuyGold","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"BuySilver","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"Owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"int256","name":"update_Scale_Fee","type":"int256"}],"name":"OwnerChangeScaleFee","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"update_State","type":"uint256"}],"name":"OwnerChangeStateServoRefill","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"OwnerWithdrawAllWEI","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"Scale_Fee","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"State","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_ETH_USD_Price","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_WEI_Gold_Price","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_WEI_Oil_Price","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_WEI_Silver_Price","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}]
 const contractDefined_JS = new web3.eth.Contract(contractABI_JS, contractAddress_JS)
 
-////Get the latest value for Scale_Fee
+////Get the latest value for Scale_Fee and check if we have null values
 contractDefined_JS.methods.Scale_Fee().call((err, balance) => {
   if(balance === undefined){
     document.getElementById("getValueScale_FeeSmartContract").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
-  }
-  else{
-    document.getElementById("getValueScale_FeeSmartContract").innerHTML = "Scale_Fee = " + balance/10 + "%"
-  }
-})
-
-////Get the latest WEI_Gold_Price price
-contractDefined_JS.methods.getLatest_WEI_Gold_Price().call((err, balance) => {
-  if(balance === undefined){
     document.getElementById("getValueWEI_Gold_Price").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
-  }
-  else{
-    document.getElementById("getValueWEI_Gold_Price").innerHTML =   balance/(10**18) + " ETH"
-    document.getElementById("changeBuyGold").className = "btn btn-outline-warning"
-  }
-})
-
-////Get the latest getValueWEI_Silver_Price price
-contractDefined_JS.methods.getLatest_WEI_Silver_Price().call((err, balance) => {
-  if(balance === undefined){
     document.getElementById("getValueWEI_Silver_Price").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
-  }
-  else{
-    document.getElementById("getValueWEI_Silver_Price").innerHTML = balance/(10**18) + " ETH"
-  }
-})
-
-////Get the latest getValueWEI_Oil_Price price
-contractDefined_JS.methods.getLatest_WEI_Oil_Price().call((err, balance) => {
-  if(balance === undefined){
+    document.getElementById("getValueWEI_Silver_Price").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
     document.getElementById("getValueWEI_Oil_Price").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
   }
   else{
-    document.getElementById("getValueWEI_Oil_Price").innerHTML = balance/(10**18) + " ETH"
+    document.getElementById("getValueScale_FeeSmartContract").innerHTML = "Scale_Fee = " + balance/10 + "%"
   }
 })
 
@@ -101,22 +74,51 @@ contractDefined_JS.methods.getLatest_WEI_Oil_Price().call((err, balance) => {
 // console.log(document.getElementById("changeBuyGold").className )
 // document.getElementById("changeBuyGold").className = "btn btn-outline-danger"
 
-////Get the latest getValueWEI_Oil_Price price
+//Get page info based on contract state
+
+function getLatestState() {
 contractDefined_JS.methods.State().call((err, balance) => {
-  console.log( (balance&4) == 4 )
   if( (balance&4) == 4 ) {
-    document.getElementById("getValueWEI_Gold_Price").innerHTML = "GOLD SOLD!"
     document.getElementById("changeBuyGold").className = "btn btn-outline-danger"
+    document.getElementById("getValueWEI_Gold_Price").innerHTML = "GOLD SOLD!"
   }
+
+  if( (balance&4) != 4 ){
+    document.getElementById("changeBuyGold").className = "btn btn-outline-warning"
+    contractDefined_JS.methods.getLatest_WEI_Gold_Price().call((err, balance) => {
+      document.getElementById("getValueWEI_Gold_Price").innerHTML =   balance/(10**18) + " ETH"
+    })
+  }
+
   if( (balance&2) == 2 ){
+    document.getElementById("changeBuySilver").className = "btn btn-outline-danger"
     document.getElementById("getValueWEI_Silver_Price").innerHTML = "SILVER SOLD!"
   }
+
+  if( (balance&2) != 2 ){
+    document.getElementById("changeBuySilver").className = "btn btn-outline-secondary"
+    contractDefined_JS.methods.getLatest_WEI_Oil_Price().call((err, balance) => {
+      document.getElementById("getValueWEI_Silver_Price").innerHTML = balance/(10**18) + " ETH"
+    })
+  }
+
   if( (balance&1) == 1 ){
+    document.getElementById("changeBuyOil").className = "btn btn-outline-danger"
     document.getElementById("getValueWEI_Oil_Price").innerHTML = "OIL SOLD!"
   }
-})
 
-//
+  if( (balance&1) != 1 ){
+    document.getElementById("changeBuyOil").className = "btn btn-outline-light"
+    ////Get the latest getValueWEI_Oil_Price price
+    contractDefined_JS.methods.getLatest_WEI_Oil_Price().call((err, balance) => {
+      document.getElementById("getValueWEI_Oil_Price").innerHTML = balance/(10**18) + " ETH"
+    })
+  }
+
+  })
+}
+
+getLatestState()
 
 //BuyGold button
 const changeBuyGold = document.querySelector('#changeBuyGold');
@@ -152,7 +154,7 @@ changeBuyGold.addEventListener('click', () => {
 });
 
 //BuySilver button
-const changeBuySilver = document.querySelector('.changeBuySilver');
+const changeBuySilver = document.querySelector('#changeBuySilver');
 changeBuySilver.addEventListener('click', () => {
   checkAddressMissingMetamask()
 
@@ -192,7 +194,7 @@ changeBuySilver.addEventListener('click', () => {
 //
 //
 //UPDATE CONTRACT BuwWTI SHOULD BE BuyWTI
-const changeBuyOil = document.querySelector('.changeBuyOil');
+const changeBuyOil = document.querySelector('#changeBuyOil');
 changeBuyOil.addEventListener('click', () => {
   checkAddressMissingMetamask()
 
@@ -236,19 +238,7 @@ contractDefined_JS.events.contractStateChangeEvent({
      document.getElementById("getValueScale_FeeSmartContract").innerHTML = "Scale_Fee = " + balance/10 + "%"
      })
      //Check if anything was sold live on the page.
-     contractDefined_JS.methods.State().call((err, balance) => {
-       if( (balance&4) == 4 ){
-         document.getElementById("getValueWEI_Gold_Price").innerHTML = "GOLD SOLD!"
-         document.getElementById("changeBuyGold").className = "btn btn-outline-danger"
-       }
-       if( (balance&2) == 2 ){
-         document.getElementById("getValueWEI_Silver_Price").innerHTML = "SILVER SOLD!"
-       }
-       if( (balance&1) == 1 ){
-         document.getElementById("getValueWEI_Oil_Price").innerHTML = "OIL SOLD!"
-       }
-     })
-
+     getLatestState()
    })
  .on('changed', function(eventResult){
      // remove event from local database
