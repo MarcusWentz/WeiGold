@@ -96,10 +96,9 @@ changeStateInContractEvent.addEventListener('click', () => {
             method: 'eth_sendTransaction',
             params: [
               {
+                //Metamask calculates gas limit and price.
                 from: accounts[0],
                 to: contractAddress_JS,
-                gasPrice: '2540be400',
-                gas:  'C3500',
                 data: contractDefined_JS.methods.OwnerChangeStateServoRefill(document.getElementById("setValueStateSmartContract").value).encodeABI()
               },
             ],
@@ -135,10 +134,9 @@ changeScale_FeeInContractEvent.addEventListener('click', () => {
           method: 'eth_sendTransaction',
           params: [
             {
+              //Metamask calculates gas limit and price.
               from: accounts[0],
               to: contractAddress_JS,
-              gasPrice: '2540be400',
-              gas:  'C3500',
               data: contractDefined_JS.methods.OwnerChangeScaleFee(document.getElementById("setValueScale_FeeSmartContract").value).encodeABI()
             },
           ],
@@ -165,10 +163,9 @@ changeOwnerWithdrawAllWEIContract.addEventListener('click', () => {
       method: 'eth_sendTransaction',
       params: [
         {
+          //Metamask calculates gas limit and price.
           from: accounts[0],
           to: contractAddress_JS,
-          gasPrice: '2540be400',
-          gas:  'C3500',
           data: contractDefined_JS.methods.OwnerWithdrawAllWEI().encodeABI()
         },
       ],
