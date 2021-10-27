@@ -1,9 +1,9 @@
 # WeiGold
 HARD:
 1.HARDHAT: Resources: https://www.youtube.com/watch?v=0r7mgJTeoD0 and https://hardhat.org/tutorial/testing-contracts.html  :
-Subtasks
-1.1:UNIT TESTS [FLOWCHART ON CHAIN LOGIC], 
-1.2:INTEGRATION [ORACLE, CHAINLINK PRICEFEEDS] TESTS, 
+Subtasks:\
+1.1:UNIT TESTS [FLOWCHART ON CHAIN LOGIC]\
+1.2:INTEGRATION [ORACLE, CHAINLINK PRICEFEEDS] TESTS\
 1.3:SOLIDITY COVERAGE FOR UNIT AND INTEGRATION\
 EASY:
 2.JAVASCRIPT+PRESENTATION: HARDHAT STEP 5 OF 9 https://hardhat.org/tutorial/testing-contracts.html TESTS+SLIDE\
