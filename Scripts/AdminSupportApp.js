@@ -52,9 +52,8 @@ async function getAccount() {
 //Make Metamask the client side Web3 provider. Needed for tracking live events.
 const web3 = new Web3(window.ethereum)
 //Now build the contract with Web3.
-const contractAddress_JS = '0x20E5C8AfC26Bec865d749393308E433436757664'
-const contractABI_JS =
-[{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"date","type":"uint256"},{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":false,"internalType":"uint256","name":"valueChangeEventWenjs","type":"uint256"},{"indexed":false,"internalType":"int256","name":"feeChange","type":"int256"}],"name":"contractStateChangeEvent","type":"event"},{"inputs":[],"name":"BuwWTI","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"BuyGold","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"BuySilver","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"Owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"int256","name":"update_Scale_Fee","type":"int256"}],"name":"OwnerChangeScaleFee","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"update_State","type":"uint256"}],"name":"OwnerChangeStateServoRefill","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"OwnerWithdrawAllWEI","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"Scale_Fee","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"State","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_ETH_USD_Price","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_WEI_Gold_Price","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_WEI_Oil_Price","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_WEI_Silver_Price","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}]
+const contractAddress_JS = '0x40c0ca9902707CCa195038A0031c35436b615b8C'
+const contractABI_JS = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"date","type":"uint256"},{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":false,"internalType":"uint256","name":"valueChangeEventWenjs","type":"uint256"},{"indexed":false,"internalType":"int256","name":"feeChange","type":"int256"}],"name":"contractStateChangeEvent","type":"event"},{"inputs":[],"name":"BuyGold","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"BuyOil","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"BuySilver","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"Owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"int256","name":"update_Scale_Fee","type":"int256"}],"name":"OwnerChangeScaleFee","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"update_State","type":"uint256"}],"name":"OwnerChangeStateServoAutoWithdraw","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"Scale_Fee","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"State","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_ETH_USD_Price","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_WEI_Gold_Price","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_WEI_Oil_Price","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_WEI_Silver_Price","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}]
 const contractDefined_JS = new web3.eth.Contract(contractABI_JS, contractAddress_JS)
 
 //Get the latest value for State.
@@ -84,8 +83,6 @@ const changeStateInContractEvent = document.querySelector('#changeStateInContrac
 changeStateInContractEvent.addEventListener('click', () => {
   checkAddressMissingMetamask()
 
-
-  ////Get the latest value for Scale_Fee
   contractDefined_JS.methods.Owner().call((err, address) => {
     if(accounts[0] != address.toLowerCase() ){
       alert("Connected address does not match Owner address! Connect as Owner then try again.")
@@ -99,7 +96,7 @@ changeStateInContractEvent.addEventListener('click', () => {
                 //Metamask calculates gas limit and price.
                 from: accounts[0],
                 to: contractAddress_JS,
-                data: contractDefined_JS.methods.OwnerChangeStateServoRefill(document.getElementById("setValueStateSmartContract").value).encodeABI()
+                data: contractDefined_JS.methods.OwnerChangeStateServoAutoWithdraw(document.getElementById("setValueStateSmartContract").value).encodeABI()
               },
             ],
           })
@@ -115,14 +112,6 @@ const changeScale_FeeInContractEvent = document.querySelector('#changeScale_FeeI
 changeScale_FeeInContractEvent.addEventListener('click', () => {
   checkAddressMissingMetamask()
 
-  // //uint cannot be negative, force to absolute value.
-  // var inputContractText =  Math.abs(document.getElementById("setValueScale_FeeSmartContract").value);
-  // //Check if value is an integer. If not throw an error.
-  // if(Number.isInteger(inputContractText) == false){
-  //   alert("Input value is not an integer! Only put an integer for input.")
-  // }
-
-  ////Get the latest value for Scale_Fee
   contractDefined_JS.methods.Owner().call((err, address) => {
     if(accounts[0] != address.toLowerCase() ){
       alert("Connected address does not match Owner address! Connect as Owner then try again.")
@@ -146,32 +135,6 @@ changeScale_FeeInContractEvent.addEventListener('click', () => {
     }
   })
 
-});
-
-///CUT THIS ONCE MERGED INTO OTHER FUNCTION
-//
-//
-//
-//OwnerWithdrawAllWEI FUNCTION
-// MODIFY CONTRACT STATE WITH SET FUNCTION WITH PREDEFINED DATA FROM WEB3.JS
-const changeOwnerWithdrawAllWEIContract = document.querySelector('.changeOwnerWithdrawAllWEIContract');
-changeOwnerWithdrawAllWEIContract.addEventListener('click', () => {
-  checkAddressMissingMetamask()
-
-  ethereum
-    .request({
-      method: 'eth_sendTransaction',
-      params: [
-        {
-          //Metamask calculates gas limit and price.
-          from: accounts[0],
-          to: contractAddress_JS,
-          data: contractDefined_JS.methods.OwnerWithdrawAllWEI().encodeABI()
-        },
-      ],
-    })
-    .then((txHash) => console.log(txHash))
-    .catch((error) => console.error);
 });
 
 //Get the latest event. Once the event is triggered, website will update value.
