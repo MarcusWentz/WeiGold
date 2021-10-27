@@ -3,7 +3,7 @@
 
 //Empty array to be filled once Metamask is called.
 let accounts = [];
-document.getElementById("getCurrentAccountConnected").innerHTML =  "Ethereum address not connceted. Please refresh and click the top button to connect."
+document.getElementById("getCurrentAccountConnected").innerHTML =  "Click the top button to connect."
 document.getElementById("getCurrentAccountConnected").className = "text-danger"
 
 //If Metamask is not detected the user will be told to install Metamask.
