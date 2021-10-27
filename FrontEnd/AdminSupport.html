@@ -14,10 +14,10 @@
 <body style="background-color:black;">
 
   <div class="container">
-    <div style="height:25%">
+    <div style="height:30%">
     <div class="row">
       <div class="col text-center">
-        <button class="enableEthereumButton btn btn-outline-warning">Connect Metamask for Rinkeby</button>
+        <button class="btn btn-outline-warning" id=enableEthereumButton>Connect Metamask for Rinkeby</button>
         <p class="text-warning" id="getCurrentAccountConnected"></p>
       </div>
     </div>
@@ -28,7 +28,7 @@
   <div style="height:10%">
     <div class="row">
       <div class="col text-center">
-        <button class="changeStateInContractEvent btn btn-outline-warning">Change State [uint]: </button>
+        <button class="btn btn-outline-warning" id=changeStateInContractEvent>Change State and Auto Withdraw [uint]: </button>
       </div>
     </div>
       <div class="row">
@@ -40,7 +40,7 @@
   </div>
 
   <div class="container">
-  <div style="height:10%">
+  <div style="height:20%">
       <div class="row">
         <div class="col text-center">
           <p class="text-warning" id=getValueStateSmartContract </p>
@@ -53,7 +53,7 @@
   <div style="height:10%">
     <div class="row">
       <div class="col text-center">
-        <button class="changeScale_FeeInContractEvent btn btn-outline-warning">Change Scale_Fee [uint]: </button>
+        <button class="btn btn-outline-warning" id=changeScale_FeeInContractEvent >Change Scale_Fee [int]: </button>
       </div>
     </div>
       <div class="row">
@@ -65,22 +65,12 @@
   </div>
 
   <div class="container">
-  <div style="height:10%">
+  <div style="height:20%">
       <div class="row">
         <div class="col text-center">
           <p class="text-warning" id=getValueScale_FeeSmartContract </p>
         </div>
       </div>
-    </div>
-  </div>
-
-  <div class="container">
-  <div style="height:25%">
-    <div class="row">
-      <div class="col text-center">
-        <button class="changeOwnerWithdrawAllWEIContract btn btn-outline-light">[CUT FUNCTION AND PUT INTO CHANGE STATE CONTRACT LOGIC IF] Withdraw Funds in Smart Contract</button>
-      </div>
-    </div>
     </div>
   </div>
 
