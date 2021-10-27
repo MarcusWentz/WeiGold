@@ -11,11 +11,9 @@ const rpcURL = process.env.rinkebyWebSocketSecureEventsInfuraAPIKey // Your RPC 
 const web3 = new Web3(rpcURL)
 
 //Define contract
-const contractAddress_JS = '0x20E5C8AfC26Bec865d749393308E433436757664'
-const contractABI_JS =
-[{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"date","type":"uint256"},{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":false,"internalType":"uint256","name":"valueChangeEventWenjs","type":"uint256"},{"indexed":false,"internalType":"int256","name":"feeChange","type":"int256"}],"name":"contractStateChangeEvent","type":"event"},{"inputs":[],"name":"BuwWTI","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"BuyGold","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"BuySilver","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"Owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"int256","name":"update_Scale_Fee","type":"int256"}],"name":"OwnerChangeScaleFee","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"update_State","type":"uint256"}],"name":"OwnerChangeStateServoRefill","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"OwnerWithdrawAllWEI","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"Scale_Fee","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"State","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_ETH_USD_Price","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_WEI_Gold_Price","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_WEI_Oil_Price","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_WEI_Silver_Price","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}]
+const contractAddress_JS = '0x40c0ca9902707CCa195038A0031c35436b615b8C'
+const contractABI_JS = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"date","type":"uint256"},{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":false,"internalType":"uint256","name":"valueChangeEventWenjs","type":"uint256"},{"indexed":false,"internalType":"int256","name":"feeChange","type":"int256"}],"name":"contractStateChangeEvent","type":"event"},{"inputs":[],"name":"BuyGold","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"BuyOil","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"BuySilver","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"Owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"int256","name":"update_Scale_Fee","type":"int256"}],"name":"OwnerChangeScaleFee","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"update_State","type":"uint256"}],"name":"OwnerChangeStateServoAutoWithdraw","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"Scale_Fee","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"State","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_ETH_USD_Price","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_WEI_Gold_Price","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_WEI_Oil_Price","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_WEI_Silver_Price","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}]
 const contractDefined_JS = new web3.eth.Contract(contractABI_JS, contractAddress_JS)
-
 
 //SERVO TEST
 //https://github.com/sarfata/pi-blaster
@@ -32,30 +30,30 @@ const servoControlPinThree = 27; //[Hardware pin 13, Gold]
 function checkValueLatest() {
   contractDefined_JS.methods.State().call((err, balance) => {
   	console.log(balance)
-  	
+
 	if(balance & 1){
 		console.log("SERVO ONE OPEN")
-		piblaster.setPwm(servoControlPinOne, pulseWidthMax); 
+		piblaster.setPwm(servoControlPinOne, pulseWidthMax);
 	}
 	else{
     		console.log("SERVO ONE CLOSED")
-		piblaster.setPwm(servoControlPinOne, pulseWidthMin); 
+		piblaster.setPwm(servoControlPinOne, pulseWidthMin);
 	}
 	if(balance & 2){
 		console.log("SERVO TWO OPEN")
-		piblaster.setPwm(servoControlPinTwo, pulseWidthMax); 
+		piblaster.setPwm(servoControlPinTwo, pulseWidthMax);
 	}
 	else{
 	    	console.log("SERVO TWO CLOSED")
-		piblaster.setPwm(servoControlPinTwo, pulseWidthMin); 
+		piblaster.setPwm(servoControlPinTwo, pulseWidthMin);
 	}
 	if(balance & 4){
 		console.log("SERVO THREE OPEN")
-		piblaster.setPwm(servoControlPinThree, pulseWidthMax); 
+		piblaster.setPwm(servoControlPinThree, pulseWidthMax);
 	}
 	else{
 	    	console.log("SERVO THREE CLOSED")
-		piblaster.setPwm(servoControlPinThree, pulseWidthMin); 
+		piblaster.setPwm(servoControlPinThree, pulseWidthMin);
 	}
 	if(balance > 7 || balance < 0)
 	{
@@ -82,5 +80,3 @@ contractDefined_JS.events.contractStateChangeEvent({
      // remove event from local database
  })
  .on('error', console.error);
-
-
