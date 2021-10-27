@@ -7,5 +7,4 @@
 
 Chainlink Hackathon Fall 2021
 
-Full Stack:
-Marcus Wentz
+Solo Project by Marcus Wentz
