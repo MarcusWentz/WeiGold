@@ -7,4 +7,4 @@
 
 Chainlink Hackathon Fall 2021
 
-Solo Project by Marcus Wentz
+Solo project by Marcus Wentz.
