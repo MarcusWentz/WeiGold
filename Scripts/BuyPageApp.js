@@ -75,13 +75,19 @@ contractDefined_JS.methods.State().call((err, balance) => {
   if( (balance&2) == 2 ){
     document.getElementById("changeBuySilver").className = "btn btn-outline-danger"
     document.getElementById("getValueWEI_Silver_Price").className = "text-danger"
-    document.getElementById("getValueWEI_Silver_Price").innerHTML = "SILVER SOLD!"
+    document.getElementById("getValueUSD_Silver_Price").className = "text-danger"
+    document.getElementById("getValueWEI_Silver_Price").innerHTML = "SILVER!"
+    document.getElementById("getValueUSD_Silver_Price").innerHTML = "SOLD!"
+
   }
   if( (balance&2) != 2 ){
     document.getElementById("changeBuySilver").className = "btn btn-outline-secondary"
     document.getElementById("getValueWEI_Oil_Price").className = "text-secondary"
-    contractDefined_JS.methods.getLatest_WEI_Oil_Price().call((err, balance) => {
+    contractDefined_JS.methods.getLatest_WEI_Silver_Price().call((err, balance) => {
       document.getElementById("getValueWEI_Silver_Price").innerHTML = (balance/(10**18)).toFixed(6) + " ETH"
+        contractDefined_JS.methods.getLatest_ETH_USD_Price().call((err, convertToETH_USD) => {
+        document.getElementById("getValueUSD_Silver_Price").innerHTML = "$"  + ( (balance*convertToETH_USD)/(10**26) ).toFixed(2) + " USD"
+      })
     })
   }
   if( (balance&1) == 1 ){
@@ -101,7 +107,6 @@ contractDefined_JS.methods.State().call((err, balance) => {
           document.getElementById("getValueUSD_Oil_Price").innerHTML = "$"  + ( (balance*convertToETH_USD)/(10**26) ).toFixed(2) + " USD"
         })
     })
-
   }
 
   })
