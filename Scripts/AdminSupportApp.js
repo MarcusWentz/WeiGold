@@ -3,7 +3,7 @@
 
 //Empty array to be filled once Metamask is called.
 let accounts = [];
-document.getElementById("getCurrentAccountConnected").innerHTML =  "Ethereum address not connceted. Please refresh and click the top button to connect."
+document.getElementById("getCurrentAccountConnected").innerHTML = "Click the top button to connect."
 document.getElementById("getCurrentAccountConnected").className = "text-danger"
 
 //If Metamask is not detected the user will be told to install Metamask.
@@ -29,7 +29,7 @@ function enableMetamaskOnRinkeby() {
   getAccount();
   //Check if user is on the Rinkeby testnet. If not, alert them to change to Rinkeby.
   if(window.ethereum.networkVersion != 4){
-    alert("You are not on the Rinkeby Testnet! Please switch to Rinkeby and refresh page.")
+    alert("You are not on the Rinkeby Testnet! <br> Please switch to Rinkeby and refresh page.")
   }
 }
 
