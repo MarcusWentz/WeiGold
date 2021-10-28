@@ -1,6 +1,6 @@
 # WeiGold
 HARD:\
-1.HARDHAT: Resources: https://www.youtube.com/watch?v=0r7mgJTeoD0 and https://hardhat.org/tutorial/testing-contracts.html :\
+1.HARDHAT [DO NOT USE NODE.JS 17, USE 16 (16 WORKING)!]: Resources: https://www.youtube.com/watch?v=0r7mgJTeoD0 and https://hardhat.org/tutorial/testing-contracts.html :\
 Subtasks:\
 1.1:UNIT TESTS [FLOWCHART ON CHAIN LOGIC]\
 1.2:INTEGRATION [ORACLE, CHAINLINK PRICEFEEDS] TESTS\
