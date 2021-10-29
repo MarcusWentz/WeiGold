@@ -12,7 +12,7 @@ contract WeiGold{
 
     int public Scale_Fee;
     uint public State;
-    address public Owner;
+    address public immutable Owner; //Owner never changes, use immutable to save gas. 
 
     constructor() {
         Owner = msg.sender;
