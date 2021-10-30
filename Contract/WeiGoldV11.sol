@@ -10,7 +10,7 @@ contract WeiGold{
     AggregatorV3Interface internal priceFeedWEIforSilver;
     AggregatorV3Interface internal priceFeedWEIforOil;
 
-    uint public ScaleFee_State; // Slot 1: 32/32. ScaleFee(ScaleFee_State>>3). State=(ScaleFee_State&7). Keeping uint instead of uint96 to make price math conversions work.
+    int public ScaleFee_State; // Slot 1: 32/32. ScaleFee(ScaleFee_State>>3). State=(ScaleFee_State&7). Keeping uint instead of uint96 to make price math conversions work.
     address public immutable Owner;// Slot 2: 32/32 Owner never changes, use immutable to save gas. 
 
     constructor() {
@@ -32,19 +32,19 @@ contract WeiGold{
         (
             uint80 roundID, int price, uint startedAt, uint timeStamp, uint80 answeredInRound
         ) = priceFeedWEIforGold.latestRoundData();
-        return uint( (price*(10**18)*((1000+int(ScaleFee_State>>3))/1000)) / getLatest_ETH_USD_Price() ); //Shift by 3 to get scale
+        return uint( (price*(10**18)*((1000+(ScaleFee_State>>3))/1000)) / getLatest_ETH_USD_Price() ); //Shift by 3 to get scale
     }
     function getLatest_WEI_Silver_Price() public view returns (uint) {
         (
             uint80 roundID, int price, uint startedAt, uint timeStamp, uint80 answeredInRound
         ) = priceFeedWEIforSilver.latestRoundData();
-        return uint( (price*(10**18)*(int(1000+(ScaleFee_State>>3))/1000)) / getLatest_ETH_USD_Price() );
+        return uint( (price*(10**18)*((1000+(ScaleFee_State>>3))/1000)) / getLatest_ETH_USD_Price() );
     }
     function getLatest_WEI_Oil_Price() public view returns (uint) {
         (
             uint80 roundID, int price, uint startedAt, uint timeStamp, uint80 answeredInRound
         ) = priceFeedWEIforOil.latestRoundData();
-        return uint( (price*(10**18)*(int(1000+(ScaleFee_State>>3))/1000)) / getLatest_ETH_USD_Price() );
+        return uint( (price*(10**18)*((1000+(ScaleFee_State>>3))/1000)) / getLatest_ETH_USD_Price() );
     }
 
     modifier ContractOwnnerCheck() {
@@ -54,7 +54,7 @@ contract WeiGold{
 
     event contractStateChangeEvent(
         address indexed from, 
-        uint indexed valueChangeEventWenjs 
+        int indexed valueChangeEventWenjs 
     );
 
     function BuyGold() public payable {
@@ -81,17 +81,24 @@ contract WeiGold{
         emit contractStateChangeEvent(msg.sender, ScaleFee_State);
     }
 
-    function OwnerChangeScaleStateAndWithdraw(uint96 update_State, uint96 update_Scale_Fee ) public ContractOwnnerCheck {
+    function OwnerChangeScaleFee(int update_Scale_Fee) public ContractOwnnerCheck {
+        require( (ScaleFee_State>>3)!= update_Scale_Fee, "Input value is already the same as Scale_Fee!");
+        ScaleFee_State = ScaleFee_State&7; //Clean ScaleFee.
+        ScaleFee_State = (update_Scale_Fee<<3)+ScaleFee_State; //Update state.
+        emit contractStateChangeEvent(msg.sender, update_Scale_Fee); //update_State uses 420 less gas than State. msg.sender is 6650 less gas than Owner to read tested.
+    }
+    
+        function OwnerChangeScale(int update_State) public ContractOwnnerCheck {
         require((ScaleFee_State&7) != update_State, "Input value is already the same as State!");
-        require( (uint(ScaleFee_State>>3))!= update_Scale_Fee, "Input value is already the same as Scale_Fee!");
         require(update_State < 8, "Input must be less than 8!");
-        ScaleFee_State = 0;
-        ScaleFee_State += (update_Scale_Fee<<3);
-        ScaleFee_State += update_State;
-        if(address(this).balance> 0){
-            payable(msg.sender).transfer(address(this).balance); //msg.sender is 6686 less gas than Owner to read tested.
-        }
+        ScaleFee_State = ScaleFee_State>>3; //Clean state.
+        ScaleFee_State = (ScaleFee_State<<3)+update_State; //Update state.
         emit contractStateChangeEvent(msg.sender, update_State); //update_State uses 420 less gas than State. msg.sender is 6650 less gas than Owner to read tested.
+    }
+    
+    function OwnerWithdraw() public ContractOwnnerCheck {
+        require(address(this).balance> 0 ,"No funds to withdraw from contract!");
+        payable(msg.sender).transfer(address(this).balance); //msg.sender is 6686 less gas than Owner to read tested.
     }
 
 }
