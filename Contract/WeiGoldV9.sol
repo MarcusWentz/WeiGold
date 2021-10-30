@@ -52,15 +52,14 @@ contract WeiGold{
         require(msg.sender == Owner, "Only contract owner (deployer) can access this function.");
         _;
     }
-
     
     event contractScale_FeeChangeEvent(
-      int feeChange
+      int indexed feeChange //Indexed for search filter. EVM reports less gas but in theory should cost more. 375 + 375 * numberOfIndexedParameters + numberOfUnindexedBits
     );
 
     event contractStateChangeEvent(
-        address indexed from,
-        uint valueChangeEventWenjs
+        address indexed from, 
+        uint indexed valueChangeEventWenjs 
     );
 
     function BuyGold() public payable {
