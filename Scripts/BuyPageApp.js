@@ -59,14 +59,14 @@ const contractDefined_JS = new web3.eth.Contract(contractABI_JS, contractAddress
 //Get page info based on contract state
 function getLatestState() {
 contractDefined_JS.methods.State().call((err, balance) => {
-  if( (balance&4) == 4 ) {
+  if(balance&4) {
     document.getElementById("changeBuyGold").className = "btn btn-outline-danger"
     document.getElementById("getValueWEI_Gold_Price").className = "text-danger"
     document.getElementById("getValueUSD_Gold_Price").className = "text-danger"
     document.getElementById("getValueWEI_Gold_Price").innerHTML = "GOLD"
     document.getElementById("getValueUSD_Gold_Price").innerHTML = "SOLD!"
   }
-  if( (balance&4) != 4 ){
+  else{
     document.getElementById("changeBuyGold").className = "btn btn-outline-warning"
     document.getElementById("getValueWEI_Gold_Price").className = "text-warning"
     document.getElementById("getValueUSD_Gold_Price").className = "text-warning"
@@ -77,14 +77,14 @@ contractDefined_JS.methods.State().call((err, balance) => {
       })
     })
   }
-  if( (balance&2) == 2 ){
+  if(balance&2){
     document.getElementById("changeBuySilver").className = "btn btn-outline-danger"
     document.getElementById("getValueWEI_Silver_Price").className = "text-danger"
     document.getElementById("getValueUSD_Silver_Price").className = "text-danger"
     document.getElementById("getValueWEI_Silver_Price").innerHTML = "SILVER"
     document.getElementById("getValueUSD_Silver_Price").innerHTML = "SOLD!"
   }
-  if( (balance&2) != 2 ){
+  else{
     document.getElementById("changeBuySilver").className = "btn btn-outline-secondary"
     document.getElementById("getValueWEI_Silver_Price").className = "text-secondary"
     document.getElementById("getValueUSD_Silver_Price").className = "text-secondary"
@@ -95,14 +95,14 @@ contractDefined_JS.methods.State().call((err, balance) => {
       })
     })
   }
-  if( (balance&1) == 1 ){
+  if(balance&1){
     document.getElementById("changeBuyOil").className = "btn btn-outline-danger"
     document.getElementById("getValueWEI_Oil_Price").className = "text-danger"
     document.getElementById("getValueUSD_Oil_Price").className = "text-danger"
     document.getElementById("getValueWEI_Oil_Price").innerHTML = "OIL"
     document.getElementById("getValueUSD_Oil_Price").innerHTML = "SOLD!"
   }
-  if( (balance&1) != 1 ){
+  else{
     document.getElementById("changeBuyOil").className = "btn btn-outline-light"
     document.getElementById("getValueWEI_Oil_Price").className = "text-light"
     document.getElementById("getValueUSD_Oil_Price").className = "text-light"
