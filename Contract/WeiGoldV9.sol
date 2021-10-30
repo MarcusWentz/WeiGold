@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
+import "https://github.com/smartcontractkit/chainlink/blob/develop/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
+
 contract WeiGold{
 
     AggregatorV3Interface internal priceFeedETHforUSD;
@@ -9,8 +11,8 @@ contract WeiGold{
     AggregatorV3Interface internal priceFeedWEIforOil;
 
     int public Scale_Fee;// Needed type for computing buy prices.
-    uint public State; // uint native data type for EVM, saves gas. uint96 packing did not improve gas fees most likely due to high uint comparisons in contract.
-    address public immutable Owner;// Owner never changes, use immutable to save gas.
+    uint public State; // uint96 packing did not improve gas fees most likely due to high uint comparisions in contract.
+    address public immutable Owner;// Owner never changes, use immutable to save gas. 
 
     constructor() {
         Owner = msg.sender;
@@ -51,7 +53,7 @@ contract WeiGold{
         _;
     }
 
-
+    
     event contractScale_FeeChangeEvent(
       int feeChange
     );
@@ -88,17 +90,17 @@ contract WeiGold{
     function OwnerChangeScaleFee(int update_Scale_Fee) public ContractOwnnerCheck {
         require(Scale_Fee != update_Scale_Fee, "Input value is already the same as Scale_Fee!");
         Scale_Fee = update_Scale_Fee;
-        emit contractScale_FeeChangeEvent(Scale_Fee);
+        emit contractScale_FeeChangeEvent(update_Scale_Fee);//update_Scale_Fee uses 432 less gas than Scale_Fee.
     }
 
     function OwnerChangeStateServoAutoWithdraw(uint update_State) public ContractOwnnerCheck {
         require(State != update_State, "Input value is already the same as State!");
-        require(update_State < 8, "Input must be less than 8!!");
+        require(update_State < 8, "Input must be less than 8!");
         State = update_State;
         if(address(this).balance> 0){
             payable(msg.sender).transfer(address(this).balance); //msg.sender is 6686 less gas than Owner to read tested.
         }
-        emit contractStateChangeEvent(msg.sender, State); //msg.sender is 6650 less gas than Owner to read tested.
+        emit contractStateChangeEvent(msg.sender, update_State); //update_State uses 420 less gas than State. msg.sender is 6650 less gas than Owner to read tested.
     }
 
 }
