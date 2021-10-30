@@ -51,7 +51,7 @@ contract WeiGold{
         _;
     }
 
-    event contractStateChangeEvent(
+    event ScaleFee_StateChangeEvent(
         address indexed from, 
         int indexed valueChangeEventWenjs 
     );
@@ -61,7 +61,7 @@ contract WeiGold{
         require(getLatest_WEI_Gold_Price() > 0, "Contract is unable to read Chainlink pricefeeds.");
         require(msg.value == getLatest_WEI_Gold_Price(), "MSG.VALUE must be equal to getLatest_WEI_Gold_Price");
         ScaleFee_State+=4;
-        emit contractStateChangeEvent(msg.sender, ScaleFee_State);
+        emit ScaleFee_StateChangeEvent(msg.sender, ScaleFee_State);
     }
 
     function BuySilver() public payable {
@@ -69,7 +69,7 @@ contract WeiGold{
         require(getLatest_WEI_Silver_Price() > 0, "Contract is unable to read Chainlink pricefeeds.");
         require(msg.value == getLatest_WEI_Silver_Price(), "MSG.VALUE must be equal to getLatest_WEI_Silver_Price()!");
         ScaleFee_State+=2;
-        emit contractStateChangeEvent(msg.sender, ScaleFee_State);
+        emit ScaleFee_StateChangeEvent(msg.sender, ScaleFee_State);
     }
 
     function BuyOil() public payable {
@@ -77,14 +77,14 @@ contract WeiGold{
         require(getLatest_WEI_Oil_Price() > 0, "Contract is unable to read Chainlink pricefeeds.");
         require(msg.value == getLatest_WEI_Oil_Price(), "MSG.VALUE must be equal to getLatest_WEI_Oil_Price()!");
         ScaleFee_State+=1;
-        emit contractStateChangeEvent(msg.sender, ScaleFee_State);
+        emit ScaleFee_StateChangeEvent(msg.sender, ScaleFee_State);
     }
 
     function OwnerChangeScaleFee(int update_Scale_Fee) public ContractOwnnerCheck {
         require( (ScaleFee_State>>3)!= update_Scale_Fee, "Input value is already the same as Scale_Fee!");
         ScaleFee_State = ScaleFee_State&7; //Clean ScaleFee.
         ScaleFee_State = (update_Scale_Fee<<3)+ScaleFee_State; //Update state.
-        emit contractStateChangeEvent(msg.sender, update_Scale_Fee); //update_State uses 420 less gas than State. msg.sender is 6650 less gas than Owner to read tested.
+        emit ScaleFee_StateChangeEvent(msg.sender, ScaleFee_State); //update_State uses 420 less gas than State. msg.sender is 6650 less gas than Owner to read tested.
     }
     
         function OwnerChangeScale(int update_State) public ContractOwnnerCheck {
@@ -92,7 +92,7 @@ contract WeiGold{
         require(update_State < 8, "Input must be less than 8!");
         ScaleFee_State = ScaleFee_State>>3; //Clean state.
         ScaleFee_State = (ScaleFee_State<<3)+update_State; //Update state.
-        emit contractStateChangeEvent(msg.sender, update_State); //update_State uses 420 less gas than State. msg.sender is 6650 less gas than Owner to read tested.
+        emit ScaleFee_StateChangeEvent(msg.sender, ScaleFee_State); //update_State uses 420 less gas than State. msg.sender is 6650 less gas than Owner to read tested.
     }
     
     function OwnerWithdraw() public ContractOwnnerCheck {
