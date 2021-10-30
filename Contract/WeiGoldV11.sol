@@ -84,7 +84,7 @@ contract WeiGold{
         require( (ScaleFee_State>>3)!= update_Scale_Fee, "Input value is already the same as Scale_Fee!");
         ScaleFee_State = ScaleFee_State&7; //Clean ScaleFee.
         ScaleFee_State = (update_Scale_Fee<<3)+ScaleFee_State; //Update state.
-        emit ScaleFee_StateChangeEvent(msg.sender, ScaleFee_State); //update_State uses 420 less gas than State. msg.sender is 6650 less gas than Owner to read tested.
+        emit ScaleFee_StateChangeEvent(msg.sender, ScaleFee_State);
     }
     
         function OwnerChangeState(int update_State) public ContractOwnnerCheck {
@@ -92,7 +92,7 @@ contract WeiGold{
         require(update_State < 8, "Input must be less than 8!");
         ScaleFee_State = ScaleFee_State>>3; //Clean state.
         ScaleFee_State = (ScaleFee_State<<3)+update_State; //Update state.
-        emit ScaleFee_StateChangeEvent(msg.sender, ScaleFee_State); //update_State uses 420 less gas than State. msg.sender is 6650 less gas than Owner to read tested.
+        emit ScaleFee_StateChangeEvent(msg.sender, ScaleFee_State); 
     }
     
     function OwnerWithdraw() public ContractOwnnerCheck {
