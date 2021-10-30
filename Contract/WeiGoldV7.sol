@@ -10,8 +10,8 @@ contract WeiGold{
     AggregatorV3Interface internal priceFeedWEIforSilver;
     AggregatorV3Interface internal priceFeedWEIforOil;
 
-    int public Scale_Fee;
-    uint public State;
+    int public Scale_Fee;//32 bytes Slot 32/32
+    uint public State;//32/32
     address public immutable Owner; //Owner never changes, use immutable to save gas. 
 
     constructor() {
@@ -99,9 +99,9 @@ contract WeiGold{
         require(update_State < 8, "Input must be less than 8!!");
         State = update_State;
         if(address(this).balance> 0){
-            payable(Owner).transfer(address(this).balance);
+            payable(msg.sender).transfer(address(this).balance); //msg.sender is 6686 less gas than Owner to read tested.
         }
-        emit contractStateChangeEvent(msg.sender, State);
+        emit contractStateChangeEvent(msg.sender, State); //msg.sender is 6650 less gas than Owner to read tested.
     }
 
 }
