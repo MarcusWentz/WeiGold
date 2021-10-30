@@ -10,7 +10,7 @@ contract WeiGold{
     AggregatorV3Interface internal priceFeedWEIforSilver;
     AggregatorV3Interface internal priceFeedWEIforOil;
 
-    int public ScaleFee_State; // Slot 1: 32/32. ScaleFee(ScaleFee_State>>3). State=(ScaleFee_State&7). Keeping uint instead of uint96 to make price math conversions work.
+    int public ScaleFee_State; // Slot 1: 32/32. ScaleFee(ScaleFee_State>>3). State=(ScaleFee_State&7). Keeping int instead of uint and uint96 to make price math conversions work and cheaper.
     address public immutable Owner;// Slot 2: 32/32 Owner never changes, use immutable to save gas. 
 
     constructor() {
