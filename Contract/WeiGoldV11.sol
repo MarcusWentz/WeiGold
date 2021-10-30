@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+
 pragma solidity ^0.8.9;
 
 import "https://github.com/smartcontractkit/chainlink/blob/develop/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
@@ -10,9 +10,8 @@ contract WeiGold{
     AggregatorV3Interface internal priceFeedWEIforSilver;
     AggregatorV3Interface internal priceFeedWEIforOil;
 
-    int public Scale_Fee;// Needed type for computing buy prices.
-    uint public State; // uint96 packing did not improve gas fees most likely due to high uint comparisions in contract.
-    address public immutable Owner;// Owner never changes, use immutable to save gas. 
+    uint public ScaleFee_State; // Slot 1: 32/32. ScaleFee(ScaleFee_State>>3). State=(ScaleFee_State&7). Keeping uint instead of uint96 to make price math conversions work.
+    address public immutable Owner;// Slot 2: 32/32 Owner never changes, use immutable to save gas. 
 
     constructor() {
         Owner = msg.sender;
@@ -26,36 +25,32 @@ contract WeiGold{
         (
             uint80 roundID, int price, uint startedAt, uint timeStamp, uint80 answeredInRound
         ) = priceFeedETHforUSD.latestRoundData();
-        return (price);
+        return int(price);
     }
 
     function getLatest_WEI_Gold_Price() public view returns (uint) {
         (
             uint80 roundID, int price, uint startedAt, uint timeStamp, uint80 answeredInRound
         ) = priceFeedWEIforGold.latestRoundData();
-        return uint( (price*(10**18)*((1000+Scale_Fee)/1000)) / getLatest_ETH_USD_Price() );
+        return uint( (price*(10**18)*((1000+int(ScaleFee_State>>3))/1000)) / getLatest_ETH_USD_Price() ); //Shift by 3 to get scale
     }
     function getLatest_WEI_Silver_Price() public view returns (uint) {
         (
             uint80 roundID, int price, uint startedAt, uint timeStamp, uint80 answeredInRound
         ) = priceFeedWEIforSilver.latestRoundData();
-        return uint( (price*(10**18)*((1000+Scale_Fee)/1000)) / getLatest_ETH_USD_Price() );
+        return uint( (price*(10**18)*(int(1000+(ScaleFee_State>>3))/1000)) / getLatest_ETH_USD_Price() );
     }
     function getLatest_WEI_Oil_Price() public view returns (uint) {
         (
             uint80 roundID, int price, uint startedAt, uint timeStamp, uint80 answeredInRound
         ) = priceFeedWEIforOil.latestRoundData();
-        return uint( (price*(10**18)*((1000+Scale_Fee)/1000)) / getLatest_ETH_USD_Price() );
+        return uint( (price*(10**18)*(int(1000+(ScaleFee_State>>3))/1000)) / getLatest_ETH_USD_Price() );
     }
 
     modifier ContractOwnnerCheck() {
         require(msg.sender == Owner, "Only contract owner (deployer) can access this function.");
         _;
     }
-    
-    event contractScale_FeeChangeEvent(
-      int indexed feeChange //Indexed for search filter. EVM reports less gas but in theory should cost more. 375 + 375 * numberOfIndexedParameters + numberOfUnindexedBits
-    );
 
     event contractStateChangeEvent(
         address indexed from, 
@@ -63,39 +58,36 @@ contract WeiGold{
     );
 
     function BuyGold() public payable {
-        require((State&4)==0,  "Gold is sold out already!");
+        require(((ScaleFee_State)&4)==0,  "Gold is sold out already!");
         require(getLatest_WEI_Gold_Price() > 0, "Contract is unable to read Chainlink pricefeeds.");
         require(msg.value == getLatest_WEI_Gold_Price(), "MSG.VALUE must be equal to getLatest_WEI_Gold_Price");
-        State+=4;
-        emit contractStateChangeEvent(msg.sender, State);
+        ScaleFee_State+=4;
+        emit contractStateChangeEvent(msg.sender, ScaleFee_State);
     }
 
     function BuySilver() public payable {
-        require((State&2)==0, "Silver is sold out already!");
+        require((ScaleFee_State&2)==0, "Silver is sold out already!");
         require(getLatest_WEI_Silver_Price() > 0, "Contract is unable to read Chainlink pricefeeds.");
         require(msg.value == getLatest_WEI_Silver_Price(), "MSG.VALUE must be equal to getLatest_WEI_Silver_Price()!");
-        State+=2;
-        emit contractStateChangeEvent(msg.sender, State);
+        ScaleFee_State+=2;
+        emit contractStateChangeEvent(msg.sender, ScaleFee_State);
     }
 
     function BuyOil() public payable {
-        require((State&1)==0, "Oil is sold out already!");
+        require((ScaleFee_State&1)==0, "Oil is sold out already!");
         require(getLatest_WEI_Oil_Price() > 0, "Contract is unable to read Chainlink pricefeeds.");
         require(msg.value == getLatest_WEI_Oil_Price(), "MSG.VALUE must be equal to getLatest_WEI_Oil_Price()!");
-        State+=1;
-        emit contractStateChangeEvent(msg.sender, State);
+        ScaleFee_State+=1;
+        emit contractStateChangeEvent(msg.sender, ScaleFee_State);
     }
 
-    function OwnerChangeScaleFee(int update_Scale_Fee) public ContractOwnnerCheck {
-        require(Scale_Fee != update_Scale_Fee, "Input value is already the same as Scale_Fee!");
-        Scale_Fee = update_Scale_Fee;
-        emit contractScale_FeeChangeEvent(update_Scale_Fee);//update_Scale_Fee uses 432 less gas than Scale_Fee.
-    }
-
-    function OwnerChangeStateServoAutoWithdraw(uint update_State) public ContractOwnnerCheck {
-        require(State != update_State, "Input value is already the same as State!");
+    function OwnerChangeScaleStateAndWithdraw(uint96 update_State, uint96 update_Scale_Fee ) public ContractOwnnerCheck {
+        require((ScaleFee_State&7) != update_State, "Input value is already the same as State!");
+        require( (uint(ScaleFee_State>>3))!= update_Scale_Fee, "Input value is already the same as Scale_Fee!");
         require(update_State < 8, "Input must be less than 8!");
-        State = update_State;
+        ScaleFee_State = 0;
+        ScaleFee_State += (update_Scale_Fee<<3);
+        ScaleFee_State += update_State;
         if(address(this).balance> 0){
             payable(msg.sender).transfer(address(this).balance); //msg.sender is 6686 less gas than Owner to read tested.
         }
