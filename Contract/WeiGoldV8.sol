@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-import "https://github.com/smartcontractkit/chainlink/blob/develop/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
-
 contract WeiGold{
 
     AggregatorV3Interface internal priceFeedETHforUSD;
@@ -11,8 +9,8 @@ contract WeiGold{
     AggregatorV3Interface internal priceFeedWEIforOil;
 
     int public Scale_Fee;// Needed type for computing buy prices.
-    uint public State; // uint96 packing did not improve gas fees most likely due to high uint comparisions in contract.
-    address public immutable Owner;// Owner never changes, use immutable to save gas. 
+    uint public State; // uint native data type for EVM, saves gas. uint96 packing did not improve gas fees most likely due to high uint comparisons in contract.
+    address public immutable Owner;// Owner never changes, use immutable to save gas.
 
     constructor() {
         Owner = msg.sender;
@@ -53,7 +51,7 @@ contract WeiGold{
         _;
     }
 
-    
+
     event contractScale_FeeChangeEvent(
       int feeChange
     );
