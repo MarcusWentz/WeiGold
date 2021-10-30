@@ -10,14 +10,13 @@ contract WeiGold{
     AggregatorV3Interface internal priceFeedWEIforSilver;
     AggregatorV3Interface internal priceFeedWEIforOil;
 
-    int public Scale_Fee;//32 bytes Slot 32/32
-    uint public State;//32/32
-    address public immutable Owner; //Owner never changes, use immutable to save gas. 
+    int public Scale_Fee;// Needed type for computing buy prices.
+    uint public State; // uint96 packing did not improve gas fees most likely due to high uint comparisions in contract.
+    address public immutable Owner;// Owner never changes, use immutable to save gas. 
 
     constructor() {
         Owner = msg.sender;
-        //Pricefeed addresses: https://docs.chain.link/docs/ethereum-addresses/
-        priceFeedETHforUSD =  AggregatorV3Interface(0x8A753747A1Fa494EC906cE90E9f37563A8AF630e);
+        priceFeedETHforUSD =  AggregatorV3Interface(0x8A753747A1Fa494EC906cE90E9f37563A8AF630e); //Pricefeed addresses: https://docs.chain.link/docs/ethereum-addresses/
         priceFeedWEIforGold = AggregatorV3Interface(0x81570059A0cb83888f1459Ec66Aad1Ac16730243);
         priceFeedWEIforSilver = AggregatorV3Interface(0x9c1946428f4f159dB4889aA6B218833f467e1BfD);
         priceFeedWEIforOil = AggregatorV3Interface(0x6292aA9a6650aE14fbf974E5029f36F95a1848Fd);
