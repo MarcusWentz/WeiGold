@@ -83,11 +83,15 @@ const changeStateInContractEvent = document.querySelector('#changeStateInContrac
 changeStateInContractEvent.addEventListener('click', () => {
   checkAddressMissingMetamask()
 
-  contractDefined_JS.methods.Owner().call((err, address) => {
+  contractDefined_JS.methods.State().call((err, State) => {
+    contractDefined_JS.methods.Owner().call((err, address) => {
     if(accounts[0] != address.toLowerCase() ){
       alert("Connected address does not match Owner address! Connect as Owner then try again.")
     }
-    if(accounts[0] == address.toLowerCase() ){
+    if(document.getElementById("setValueStateSmartContract").value == State){
+       alert("State is already set to the input value.")
+    }
+    else {
         ethereum
           .request({
             method: 'eth_sendTransaction',
@@ -103,6 +107,7 @@ changeStateInContractEvent.addEventListener('click', () => {
           .then((txHash) => console.log(txHash))
           .catch((error) => console.error);
     }
+   })
   })
 
 });
@@ -113,10 +118,16 @@ changeScale_FeeInContractEvent.addEventListener('click', () => {
   checkAddressMissingMetamask()
 
   contractDefined_JS.methods.Owner().call((err, address) => {
+    ////Get the latest value for Scale_Fee
+    contractDefined_JS.methods.Scale_Fee().call((err, Scale_Fee) => {
+
     if(accounts[0] != address.toLowerCase() ){
       alert("Connected address does not match Owner address! Connect as Owner then try again.")
     }
-    if(accounts[0] == address.toLowerCase() ){
+    if(document.getElementById("setValueScale_FeeSmartContract").value == Scale_Fee){
+       alert("Scale_Fee is already set to the input value.")
+    }
+    else{
 
       ethereum
         .request({
@@ -133,6 +144,7 @@ changeScale_FeeInContractEvent.addEventListener('click', () => {
         .then((txHash) => console.log(txHash))
         .catch((error) => console.error);
     }
+    })
   })
 
 });
