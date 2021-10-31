@@ -2,9 +2,8 @@
 HARD:\
 1.HARDHAT [DO NOT USE NODE.JS 17, USE 16 (16 WORKING)!]: Resources: https://www.youtube.com/watch?v=0r7mgJTeoD0 and https://hardhat.org/tutorial/testing-contracts.html :\
 Subtasks:\
-1.1:UNIT TESTS [FLOWCHART ON CHAIN LOGIC]\
-1.2:INTEGRATION [ORACLE, CHAINLINK PRICEFEEDS] TESTS\
-1.3:SOLIDITY COVERAGE READ LINES TO DEBUG [40 DONE%: cd WeiGold/hardhat , npx hardhat coverage --testfiles "test/*.ts"]\
+1.1:INTEGRATION [ORACLE, CHAINLINK PRICEFEEDS] TESTS\
+1.2:SOLIDITY COVERAGE READ LINES TO DEBUG [ALMOST DONE!: cd WeiGold/hardhat , npx hardhat coverage --testfiles "test/*.ts"]\
 EASY:\
 2.LOOK FOR TYPOS AND CLEAN UP COMMENTED OUT CODE\
 3.ETHERSCAN: SOURCE CODE ON RINKEBY ETHERSCAN https://rinkeby.etherscan.io/verifyContract \
