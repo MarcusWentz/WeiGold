@@ -58,7 +58,8 @@ contract WeiGold{
 
     function BuyGold() public payable {
         require(((ScaleFee_State)&4)==0,  "Gold is sold out already!");
-        require(getLatest_WEI_Gold_Price() > 0, "Contract is unable to read Chainlink pricefeeds.");
+        //require(getLatest_WEI_Gold_Price() > 0, "Contract is unable to read Chainlink pricefeeds.");
+        require(msg.value != 0, "msg.value is 0. Make sure msg.value is not 0 and Chainlink pricefeeds get called for contract.");
         require(msg.value == getLatest_WEI_Gold_Price(), "MSG.VALUE must be equal to getLatest_WEI_Gold_Price");
         ScaleFee_State+=4;
         emit ScaleFee_StateChangeEvent(msg.sender, ScaleFee_State);
@@ -66,7 +67,8 @@ contract WeiGold{
 
     function BuySilver() public payable {
         require((ScaleFee_State&2)==0, "Silver is sold out already!");
-        require(getLatest_WEI_Silver_Price() > 0, "Contract is unable to read Chainlink pricefeeds.");
+        //require(getLatest_WEI_Silver_Price() > 0, "Contract is unable to read Chainlink pricefeeds.");
+        require(msg.value != 0, "msg.value is 0. Make sure msg.value is not 0 and Chainlink pricefeeds get called for contract.");
         require(msg.value == getLatest_WEI_Silver_Price(), "MSG.VALUE must be equal to getLatest_WEI_Silver_Price()!");
         ScaleFee_State+=2;
         emit ScaleFee_StateChangeEvent(msg.sender, ScaleFee_State);
@@ -74,7 +76,8 @@ contract WeiGold{
 
     function BuyOil() public payable {
         require((ScaleFee_State&1)==0, "Oil is sold out already!");
-        require(getLatest_WEI_Oil_Price() > 0, "Contract is unable to read Chainlink pricefeeds.");
+        //require(getLatest_WEI_Oil_Price() > 0, "Contract is unable to read Chainlink pricefeeds.");
+        require(msg.value != 0, "msg.value is 0. Make sure msg.value is not 0 and Chainlink pricefeeds get called for contract.");
         require(msg.value == getLatest_WEI_Oil_Price(), "MSG.VALUE must be equal to getLatest_WEI_Oil_Price()!");
         ScaleFee_State+=1;
         emit ScaleFee_StateChangeEvent(msg.sender, ScaleFee_State);
@@ -87,7 +90,7 @@ contract WeiGold{
         emit ScaleFee_StateChangeEvent(msg.sender, ScaleFee_State);
     }
     
-    function OwnerChangeState(int update_State) public ContractOwnnerCheck {
+        function OwnerChangeState(int update_State) public ContractOwnnerCheck {
         require((ScaleFee_State&7) != update_State, "Input value is already the same as State!");
         require(update_State < 8, "Input must be less than 8!");
         ScaleFee_State = ScaleFee_State>>3; //Clean state.
