@@ -7,7 +7,7 @@ Subtasks:\
 1.3:SOLIDITY COVERAGE READ LINES TO DEBUG [40 DONE%: cd WeiGold/hardhat , npx hardhat coverage --testfiles "test/*.ts"]\
 EASY:\
 2.LOOK FOR TYPOS AND CLEAN UP COMMENTED OUT CODE\
-3.ETHERSCAN: SOURCE CODE ON RINKEBY ETHERSCAN https://rinkeby.etherscan.io/verifyContract\
+3.ETHERSCAN: SOURCE CODE ON RINKEBY ETHERSCAN https://rinkeby.etherscan.io/verifyContract\ \
 4.FLEEK:USED "OTHER" FOR FORMAT OTHERWISE FRONT END WON'T APPEAR\
 5: Use tape [light weight] or paper clips taped to servo motors for more reach\
 6.VIDEO PRESENTATION:MAKE DEMO VIDEO\
