@@ -87,7 +87,7 @@ contract WeiGold{
         emit ScaleFee_StateChangeEvent(msg.sender, ScaleFee_State);
     }
     
-        function OwnerChangeState(int update_State) public ContractOwnnerCheck {
+    function OwnerChangeState(int update_State) public ContractOwnnerCheck {
         require((ScaleFee_State&7) != update_State, "Input value is already the same as State!");
         require(update_State < 8, "Input must be less than 8!");
         ScaleFee_State = ScaleFee_State>>3; //Clean state.
