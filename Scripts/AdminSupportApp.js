@@ -52,29 +52,39 @@ async function getAccount() {
 //Make Metamask the client side Web3 provider. Needed for tracking live events.
 const web3 = new Web3(window.ethereum)
 //Now build the contract with Web3.
-const contractAddress_JS = '0x40c0ca9902707CCa195038A0031c35436b615b8C'
-const contractABI_JS = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"date","type":"uint256"},{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":false,"internalType":"uint256","name":"valueChangeEventWenjs","type":"uint256"},{"indexed":false,"internalType":"int256","name":"feeChange","type":"int256"}],"name":"contractStateChangeEvent","type":"event"},{"inputs":[],"name":"BuyGold","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"BuyOil","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"BuySilver","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"Owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"int256","name":"update_Scale_Fee","type":"int256"}],"name":"OwnerChangeScaleFee","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"update_State","type":"uint256"}],"name":"OwnerChangeStateServoAutoWithdraw","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"Scale_Fee","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"State","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_ETH_USD_Price","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_WEI_Gold_Price","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_WEI_Oil_Price","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_WEI_Silver_Price","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}]
+const contractAddress_JS = '0x9c503b4a67a59a055Ea2030AaFfCD5934ce5195F'
+const contractABI_JS = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"int256","name":"valueChangeEventWenjs","type":"int256"}],"name":"ScaleFee_StateChangeEvent","type":"event"},{"inputs":[],"name":"BuyGold","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"BuyOil","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"BuySilver","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"Owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"int256","name":"update_Scale_Fee","type":"int256"}],"name":"OwnerChangeScaleFee","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"int256","name":"update_State","type":"int256"}],"name":"OwnerChangeState","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"OwnerWithdraw","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"ScaleFee_State","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_ETH_USD_Price","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_WEI_Gold_Price","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_WEI_Oil_Price","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_WEI_Silver_Price","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}]
 const contractDefined_JS = new web3.eth.Contract(contractABI_JS, contractAddress_JS)
 
 //Get the latest value for State.
-contractDefined_JS.methods.State().call((err, balance) => {
-  if(balance === undefined){
+contractDefined_JS.methods.ScaleFee_State().call((err, ScaleFee_State) => {
+  if(ScaleFee_State === undefined){
     document.getElementById("getValueStateSmartContract").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
     document.getElementById("getValueStateSmartContract").className = "text-danger"
   }
   else{
-    document.getElementById("getValueStateSmartContract").innerHTML =  "State = " + balance
+    document.getElementById("getValueStateSmartContract").innerHTML =  "State = " + (ScaleFee_State&7)
+  }
+})
+
+web3.eth.getBalance(contractAddress_JS, function(err, balance) {
+  if(balance === undefined){
+    document.getElementById("getSmartContractBalance").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
+    document.getElementById("getSmartContractBalance").className = "text-danger"
+  }
+  else{
+    document.getElementById("getSmartContractBalance").innerHTML = "Balance = " + (balance/(10**18)) + " ETH"
   }
 })
 
 ////Get the latest value for Scale_Fee
-contractDefined_JS.methods.Scale_Fee().call((err, balance) => {
-  if(balance === undefined){
+contractDefined_JS.methods.ScaleFee_State().call((err, ScaleFee_State) => {
+  if(ScaleFee_State === undefined){
     document.getElementById("getValueScale_FeeSmartContract").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
     document.getElementById("getValueScale_FeeSmartContract").className = "text-danger"
   }
   else{
-    document.getElementById("getValueScale_FeeSmartContract").innerHTML = "Scale_Fee = " + balance/10 + "%"
+    document.getElementById("getValueScale_FeeSmartContract").innerHTML = "Scale_Fee = " + (ScaleFee_State>>3)/10 + "%"
   }
 })
 
@@ -83,12 +93,13 @@ const changeStateInContractEvent = document.querySelector('#changeStateInContrac
 changeStateInContractEvent.addEventListener('click', () => {
   checkAddressMissingMetamask()
 
-  contractDefined_JS.methods.State().call((err, State) => {
+  contractDefined_JS.methods.ScaleFee_State().call((err, ScaleFee_State) => {
     contractDefined_JS.methods.Owner().call((err, address) => {
+      console.log(ScaleFee_State&7)
     if(accounts[0] != address.toLowerCase() ){
       alert("Connected address does not match Owner address! Connect as Owner then try again.")
     }
-    if(document.getElementById("setValueStateSmartContract").value == State){
+    if(document.getElementById("setValueStateSmartContract").value == (ScaleFee_State&7) ) {
        alert("State is already set to the input value.")
     }
     else {
@@ -100,7 +111,7 @@ changeStateInContractEvent.addEventListener('click', () => {
                 //Metamask calculates gas limit and price.
                 from: accounts[0],
                 to: contractAddress_JS,
-                data: contractDefined_JS.methods.OwnerChangeStateServoAutoWithdraw(document.getElementById("setValueStateSmartContract").value).encodeABI()
+                data: contractDefined_JS.methods.OwnerChangeState(document.getElementById("setValueStateSmartContract").value).encodeABI()
               },
             ],
           })
@@ -112,6 +123,47 @@ changeStateInContractEvent.addEventListener('click', () => {
 
 });
 
+
+
+///
+// MODIFY CONTRACT STATE WITH SET FUNCTION WITH PREDEFINED DATA FROM WEB3.JS
+const WithdrawFundsInContract = document.querySelector('#WithdrawFundsInContract');
+WithdrawFundsInContract.addEventListener('click', () => {
+  checkAddressMissingMetamask()
+
+  contractDefined_JS.methods.Owner().call((err, address) => {
+    web3.eth.getBalance(contractAddress_JS, function(err, balance) {
+    if(accounts[0] != address.toLowerCase() ){
+      alert("Connected address does not match Owner address! Connect as Owner then try again.")
+    }
+    if((balance) == 0)
+    {
+      alert("No Etheruem to withdraw.")
+    }
+    else{
+
+      ethereum
+        .request({
+          method: 'eth_sendTransaction',
+          params: [
+            {
+              //Metamask calculates gas limit and price.
+              from: accounts[0],
+              to: contractAddress_JS,
+              data: contractDefined_JS.methods.OwnerWithdraw().encodeABI()
+            },
+          ],
+        })
+        .then((txHash) => console.log(txHash))
+        .catch((error) => console.error);
+    }
+   })
+  })
+
+});
+///
+
+
 // MODIFY CONTRACT STATE WITH SET FUNCTION WITH PREDEFINED DATA FROM WEB3.JS
 const changeScale_FeeInContractEvent = document.querySelector('#changeScale_FeeInContractEvent');
 changeScale_FeeInContractEvent.addEventListener('click', () => {
@@ -119,12 +171,12 @@ changeScale_FeeInContractEvent.addEventListener('click', () => {
 
   contractDefined_JS.methods.Owner().call((err, address) => {
     ////Get the latest value for Scale_Fee
-    contractDefined_JS.methods.Scale_Fee().call((err, Scale_Fee) => {
+    contractDefined_JS.methods.ScaleFee_State().call((err, ScaleFee_State) => {
 
     if(accounts[0] != address.toLowerCase() ){
       alert("Connected address does not match Owner address! Connect as Owner then try again.")
     }
-    if(document.getElementById("setValueScale_FeeSmartContract").value == Scale_Fee){
+    if(document.getElementById("setValueScale_FeeSmartContract").value == (ScaleFee_State>>3) ){
        alert("Scale_Fee is already set to the input value.")
     }
     else{
@@ -150,17 +202,20 @@ changeScale_FeeInContractEvent.addEventListener('click', () => {
 });
 
 //Get the latest event. Once the event is triggered, website will update value.
-contractDefined_JS.events.contractStateChangeEvent({
+contractDefined_JS.events.ScaleFee_StateChangeEvent({
      fromBlock: 'latest'
  }, function(error, eventResult){})
  .on('data', function(eventResult){
    console.log(eventResult)
      //Call the get function to get the most accurate present values.
-     contractDefined_JS.methods.State().call((err, balance) => {
-      document.getElementById("getValueStateSmartContract").innerHTML =   "State = " + balance
+     contractDefined_JS.methods.ScaleFee_State().call((err, ScaleFee_State) => {
+      document.getElementById("getValueStateSmartContract").innerHTML =   "State = " + (ScaleFee_State&7)
      })
-     contractDefined_JS.methods.Scale_Fee().call((err, balance) => {
-     document.getElementById("getValueScale_FeeSmartContract").innerHTML = "Scale_Fee = " + balance/10 + "%"
+     contractDefined_JS.methods.ScaleFee_State().call((err, ScaleFee_State) => {
+     document.getElementById("getValueScale_FeeSmartContract").innerHTML = "Scale_Fee = " + (ScaleFee_State>>3)/10 + "%"
+     })
+     web3.eth.getBalance(contractAddress_JS, function(err, balance) {
+         document.getElementById("getSmartContractBalance").innerHTML = "Balance = " + (balance/(10**18)) + " ETH"
      })
    })
  .on('changed', function(eventResult){
