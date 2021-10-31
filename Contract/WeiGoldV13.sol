@@ -1,7 +1,3 @@
-pragma solidity ^0.8.9;
-
-import "https://github.com/smartcontractkit/chainlink/blob/develop/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
-
 contract WeiGold{
 
     AggregatorV3Interface internal priceFeedETHforUSD;
@@ -10,7 +6,7 @@ contract WeiGold{
     AggregatorV3Interface internal priceFeedWEIforOil;
 
     int public ScaleFee_State; // Slot 1: 32/32. ScaleFee(ScaleFee_State>>3). State=(ScaleFee_State&7). Keeping int instead of uint and uint96 to make price math conversions work and cheaper.
-    address public immutable Owner;// Slot 2: 32/32 Owner never changes, use immutable to save gas. 
+    address public immutable Owner;// Slot 2: 32/32 Owner never changes, use immutable to save gas.
 
     constructor() {
         Owner = msg.sender;
@@ -51,33 +47,32 @@ contract WeiGold{
         _;
     }
 
+    modifier msgValueNotZero() {
+        require(msg.value != 0, "msg.value is 0. Make sure msg.value is not 0 and Chainlink pricefeeds get called for contract.");
+        _;
+    }
+
     event ScaleFee_StateChangeEvent(
-        address indexed from, 
-        int indexed valueChangeEventWenjs 
+        address indexed from,
+        int indexed valueChangeEventWenjs
     );
 
-    function BuyGold() public payable {
+    function BuyGold() public payable msgValueNotZero {
         require(((ScaleFee_State)&4)==0,  "Gold is sold out already!");
-        //require(getLatest_WEI_Gold_Price() > 0, "Contract is unable to read Chainlink pricefeeds.");
-        require(msg.value != 0, "msg.value is 0. Make sure msg.value is not 0 and Chainlink pricefeeds get called for contract.");
         require(msg.value == getLatest_WEI_Gold_Price(), "MSG.VALUE must be equal to getLatest_WEI_Gold_Price");
         ScaleFee_State+=4;
         emit ScaleFee_StateChangeEvent(msg.sender, ScaleFee_State);
     }
 
-    function BuySilver() public payable {
+    function BuySilver() public payable msgValueNotZero {
         require((ScaleFee_State&2)==0, "Silver is sold out already!");
-        //require(getLatest_WEI_Silver_Price() > 0, "Contract is unable to read Chainlink pricefeeds.");
-        require(msg.value != 0, "msg.value is 0. Make sure msg.value is not 0 and Chainlink pricefeeds get called for contract.");
         require(msg.value == getLatest_WEI_Silver_Price(), "MSG.VALUE must be equal to getLatest_WEI_Silver_Price()!");
         ScaleFee_State+=2;
         emit ScaleFee_StateChangeEvent(msg.sender, ScaleFee_State);
     }
 
-    function BuyOil() public payable {
+    function BuyOil() public payable msgValueNotZero {
         require((ScaleFee_State&1)==0, "Oil is sold out already!");
-        //require(getLatest_WEI_Oil_Price() > 0, "Contract is unable to read Chainlink pricefeeds.");
-        require(msg.value != 0, "msg.value is 0. Make sure msg.value is not 0 and Chainlink pricefeeds get called for contract.");
         require(msg.value == getLatest_WEI_Oil_Price(), "MSG.VALUE must be equal to getLatest_WEI_Oil_Price()!");
         ScaleFee_State+=1;
         emit ScaleFee_StateChangeEvent(msg.sender, ScaleFee_State);
@@ -89,15 +84,15 @@ contract WeiGold{
         ScaleFee_State = (update_Scale_Fee<<3)+ScaleFee_State; //Update state.
         emit ScaleFee_StateChangeEvent(msg.sender, ScaleFee_State);
     }
-    
+
         function OwnerChangeState(int update_State) public ContractOwnnerCheck {
         require((ScaleFee_State&7) != update_State, "Input value is already the same as State!");
         require(update_State < 8, "Input must be less than 8!");
         ScaleFee_State = ScaleFee_State>>3; //Clean state.
         ScaleFee_State = (ScaleFee_State<<3)+update_State; //Update state.
-        emit ScaleFee_StateChangeEvent(msg.sender, ScaleFee_State); 
+        emit ScaleFee_StateChangeEvent(msg.sender, ScaleFee_State);
     }
-    
+
     function OwnerWithdraw() public ContractOwnnerCheck {
         require(address(this).balance> 0 ,"No funds to withdraw from contract!");
         payable(msg.sender).transfer(address(this).balance); //msg.sender is 6686 less gas than Owner to read tested.
