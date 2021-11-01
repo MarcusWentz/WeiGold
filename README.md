@@ -1,9 +1,8 @@
 # WeiGold
 HARD:\
-1.HARDHAT [DO NOT USE NODE.JS 17, USE 16 (16 WORKING)!]: Resources: https://www.youtube.com/watch?v=0r7mgJTeoD0 and https://hardhat.org/tutorial/testing-contracts.html :\
-Subtasks:\
-1.2:SOLIDITY COVERAGE HARD CODE VALUES INTO PRICEFEEDS AND READ LINES?: cd WeiGold/hardhat , npx hardhat coverage --testfiles "test/*.ts"]\
-EASY:\
+1.HARDHAT MOCKS FOR MSG.VALUE LOGIC AND EVENTS [DO NOT USE NODE.JS 17, USE 16 (16 WORKING)!]: 
+Resources: https://www.youtube.com/watch?v=0r7mgJTeoD0 and https://hardhat.org/tutorial/testing-contracts.html :\
+
 2.LOOK FOR TYPOS AND CLEAN UP COMMENTED OUT CODE\
 3.ETHERSCAN: SOURCE CODE ON RINKEBY ETHERSCAN https://rinkeby.etherscan.io/verifyContract \
 4.FLEEK:USED "OTHER" FOR FORMAT OTHERWISE FRONT END WON'T APPEAR\
