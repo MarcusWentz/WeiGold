@@ -1,5 +1,5 @@
 # WeiGold
-1.Update FrontEnd Javascript and servos with v16 [test] [Final]\
+1.Update FrontEnd Javascript and servos with latest contract V16\
 2:HTML Bootstrap: Test buttons clipping size HTML + Boostrap \
 3.VIDEO PRESENTATION:TALK OVER SLIDES FOR VIDEO AUDIO\
 4.VIDEO PRESENTATION:MAKE DEMO VIDEO [ttape [light weight] or paper clips to extend servo\]\
