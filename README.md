@@ -1,5 +1,5 @@
 # WeiGold
-1.:Update site with v15 [Final]
+1.Update site with v16 [Final]
 1.5: HTML Bootstrap: Test buttons clipping size HTML + Boostrap \
 2.LOOK FOR TYPOS AND CLEAN UP COMMENTED OUT CODE\
 3.ETHERSCAN: SOURCE CODE ON RINKEBY ETHERSCAN https://rinkeby.etherscan.io/verifyContract \
