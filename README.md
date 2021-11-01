@@ -1,5 +1,5 @@
 # WeiGold
-0.5: mockgetset scale return values for scale = 1000 test doubles \ 
+0.5: mockgetset scale return values for scale = 1000 test doubles\
 1.Update FrontEnd Javascript and servos with v16 [test] [Final]\
 2:HTML Bootstrap: Test buttons clipping size HTML + Boostrap \
 3.VIDEO PRESENTATION:TALK OVER SLIDES FOR VIDEO AUDIO\
