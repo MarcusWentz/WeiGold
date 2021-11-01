@@ -25,7 +25,7 @@ contract WeiGold{
         (
             uint80 roundID, int price, uint startedAt, uint timeStamp, uint80 answeredInRound
         ) = priceFeedETHforUSD.latestRoundData();
-        return int(price);
+        return price;
     }
     function getLatest_WEI_Gold_Price() public view returns (uint) {
         (
