@@ -95,7 +95,6 @@ changeStateInContractEvent.addEventListener('click', () => {
 
   contractDefined_JS.methods.ScaleFee_State().call((err, ScaleFee_State) => {
     contractDefined_JS.methods.Owner().call((err, address) => {
-      console.log(ScaleFee_State&7)
     if(accounts[0] != address.toLowerCase() ){
       alert("Connected address does not match Owner address! Connect as Owner then try again.")
     }
@@ -123,9 +122,6 @@ changeStateInContractEvent.addEventListener('click', () => {
 
 });
 
-
-
-///
 // MODIFY CONTRACT STATE WITH SET FUNCTION WITH PREDEFINED DATA FROM WEB3.JS
 const WithdrawFundsInContract = document.querySelector('#WithdrawFundsInContract');
 WithdrawFundsInContract.addEventListener('click', () => {
@@ -161,8 +157,6 @@ WithdrawFundsInContract.addEventListener('click', () => {
   })
 
 });
-///
-
 
 // MODIFY CONTRACT STATE WITH SET FUNCTION WITH PREDEFINED DATA FROM WEB3.JS
 const changeScale_FeeInContractEvent = document.querySelector('#changeScale_FeeInContractEvent');
