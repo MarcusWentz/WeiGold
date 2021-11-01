@@ -64,7 +64,6 @@ describe("contract WeiGold tests:", function () {
          });
        });
 
-
       describe("BuyGold", function () {
         it("Fail tx if msg.value = 0.", async function () {
         await expect(MockWeiGoldDeployed.BuyGold()).to.be.reverted;
