@@ -61,55 +61,43 @@ function getLatestState() {
 contractDefined_JS.methods.ScaleFee_State().call((err, State) => {
   if(State&4) {
     document.getElementById("changeBuyGold").className = "btn btn-outline-danger"
-    document.getElementById("getValueWEI_Gold_Price").className = "text-danger"
     document.getElementById("getValueUSD_Gold_Price").className = "text-danger"
-    document.getElementById("getValueWEI_Gold_Price").innerHTML = "GOLD"
-    document.getElementById("getValueUSD_Gold_Price").innerHTML = "SOLD!"
+    document.getElementById("getValueUSD_Gold_Price").innerHTML = "GOLD SOLD!"
   }
   else{
     document.getElementById("changeBuyGold").className = "btn btn-outline-warning"
-    document.getElementById("getValueWEI_Gold_Price").className = "text-warning"
     document.getElementById("getValueUSD_Gold_Price").className = "text-warning"
-    contractDefined_JS.methods.getLatest_WEI_Gold_Price().call((err, balance) => {
-      document.getElementById("getValueWEI_Gold_Price").innerHTML =  (balance/(10**18)).toFixed(6) + " ETH"
+    contractDefined_JS.methods.getLatest_WEI_Gold_Price().call((err, WEI_Gold_Price) => {
         contractDefined_JS.methods.getLatest_ETH_USD_Price().call((err, convertToETH_USD) => {
-          document.getElementById("getValueUSD_Gold_Price").innerHTML = "$"  + ( (balance*convertToETH_USD)/(10**26) ).toFixed(2) + " USD"
+          document.getElementById("getValueUSD_Gold_Price").innerHTML = (WEI_Gold_Price/(10**18)).toFixed(6) + " ETH = $"  + ( (WEI_Gold_Price*convertToETH_USD)/(10**26) ).toFixed(2) + " USD"
       })
     })
   }
   if(State&2){
     document.getElementById("changeBuySilver").className = "btn btn-outline-danger"
-    document.getElementById("getValueWEI_Silver_Price").className = "text-danger"
     document.getElementById("getValueUSD_Silver_Price").className = "text-danger"
-    document.getElementById("getValueWEI_Silver_Price").innerHTML = "SILVER"
-    document.getElementById("getValueUSD_Silver_Price").innerHTML = "SOLD!"
+    document.getElementById("getValueUSD_Silver_Price").innerHTML = "SILVER SOLD!"
   }
   else{
     document.getElementById("changeBuySilver").className = "btn btn-outline-secondary"
-    document.getElementById("getValueWEI_Silver_Price").className = "text-secondary"
     document.getElementById("getValueUSD_Silver_Price").className = "text-secondary"
-    contractDefined_JS.methods.getLatest_WEI_Silver_Price().call((err, balance) => {
-      document.getElementById("getValueWEI_Silver_Price").innerHTML = (balance/(10**18)).toFixed(6) + " ETH"
+    contractDefined_JS.methods.getLatest_WEI_Silver_Price().call((err, WEI_Silver_Price) => {
         contractDefined_JS.methods.getLatest_ETH_USD_Price().call((err, convertToETH_USD) => {
-        document.getElementById("getValueUSD_Silver_Price").innerHTML = "$"  + ( (balance*convertToETH_USD)/(10**26) ).toFixed(2) + " USD"
+        document.getElementById("getValueUSD_Silver_Price").innerHTML =  (WEI_Silver_Price/(10**18)).toFixed(6) + " ETH = $"  + ( (WEI_Silver_Price*convertToETH_USD)/(10**26) ).toFixed(2) + " USD"
       })
     })
   }
   if(State&1){
     document.getElementById("changeBuyOil").className = "btn btn-outline-danger"
-    document.getElementById("getValueWEI_Oil_Price").className = "text-danger"
     document.getElementById("getValueUSD_Oil_Price").className = "text-danger"
-    document.getElementById("getValueWEI_Oil_Price").innerHTML = "OIL"
-    document.getElementById("getValueUSD_Oil_Price").innerHTML = "SOLD!"
+    document.getElementById("getValueUSD_Oil_Price").innerHTML = "OIL SOLD!"
   }
   else{
     document.getElementById("changeBuyOil").className = "btn btn-outline-light"
-    document.getElementById("getValueWEI_Oil_Price").className = "text-light"
     document.getElementById("getValueUSD_Oil_Price").className = "text-light"
-    contractDefined_JS.methods.getLatest_WEI_Oil_Price().call((err, balance) => {
-      document.getElementById("getValueWEI_Oil_Price").innerHTML = (balance/(10**18)).toFixed(6) + " ETH"
+    contractDefined_JS.methods.getLatest_WEI_Oil_Price().call((err, WEI_Oil_Price) => {
         contractDefined_JS.methods.getLatest_ETH_USD_Price().call((err, convertToETH_USD) => {
-          document.getElementById("getValueUSD_Oil_Price").innerHTML = "$"  + ( (balance*convertToETH_USD)/(10**26) ).toFixed(2) + " USD"
+          document.getElementById("getValueUSD_Oil_Price").innerHTML = (WEI_Oil_Price/(10**18)).toFixed(6) + " ETH = $"  + ( (WEI_Oil_Price*convertToETH_USD)/(10**26) ).toFixed(2) + " USD"
         })
     })
   }
@@ -122,12 +110,12 @@ contractDefined_JS.methods.ScaleFee_State().call((err, ScaleFee) => {
   if(ScaleFee === undefined){
     document.getElementById("getValueScale_FeeSmartContract").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
     document.getElementById("getValueScale_FeeSmartContract").className = "text-danger"
-    document.getElementById("getValueWEI_Gold_Price").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
-    document.getElementById("getValueWEI_Gold_Price").className = "text-danger"
-    document.getElementById("getValueWEI_Silver_Price").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
-    document.getElementById("getValueWEI_Silver_Price").className = "text-danger"
-    document.getElementById("getValueWEI_Oil_Price").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
-    document.getElementById("getValueWEI_Oil_Price").className = "text-danger"
+    document.getElementById("getValueUSD_Gold_Price").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
+    document.getElementById("getValueUSD_Gold_Price").className = "text-danger"
+    document.getElementById("getValueUSD_Silver_Price").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
+    document.getElementById("getValueUSD_Silver_Price").className = "text-danger"
+    document.getElementById("getValueUSD_Oil_Price").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
+    document.getElementById("getValueUSD_Oil_Price").className = "text-danger"
   }
   else{
     document.getElementById("getValueScale_FeeSmartContract").innerHTML = "Scale_Fee = " + (ScaleFee>>3)/10 + "%"
