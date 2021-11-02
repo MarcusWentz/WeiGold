@@ -1,5 +1,5 @@
 # WeiGold
-1. Use height-min just like the Welcome page and the website is done [About, Admin, Buy]\
+1. Use min-height just like the Welcome page and the website is done [About, Admin, Buy]\
 2.VIDEO PRESENTATION:TALK OVER SLIDES FOR VIDEO AUDIO\
 3.VIDEO PRESENTATION:MAKE DEMO VIDEO [ttape [light weight] or paper clips to extend servo\]\
 [RIGHT BEFORE SUBMITTING ADD ONE MORE SLIDE VIDEO WITH ETHERSCAN]\
