@@ -1,5 +1,5 @@
 # WeiGold
-1. Use min-height just like the Welcome page and the website is done [Admin, Buy]\
+1.Merge connect button for Admin and Buypage like Uniswap/Bancor\
 2.VIDEO PRESENTATION:TALK OVER SLIDES FOR VIDEO AUDIO\
 3.VIDEO PRESENTATION:MAKE DEMO VIDEO [ttape [light weight] or paper clips to extend servo\]\
 [RIGHT BEFORE SUBMITTING ADD ONE MORE SLIDE VIDEO WITH ETHERSCAN]\
