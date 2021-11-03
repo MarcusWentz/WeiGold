@@ -3,8 +3,7 @@
 
 //Empty array to be filled once Metamask is called.
 let accounts = [];
-document.getElementById("getCurrentAccountConnected").innerHTML =  "Click the top button to connect."
-document.getElementById("getCurrentAccountConnected").className = "text-danger"
+document.getElementById("enableEthereumButton").innerHTML =  "Connect Metamask"
 
 //If Metamask is not detected the user will be told to install Metamask.
 function detectMetamaskInstalled(){
@@ -45,8 +44,7 @@ ethereumButton.addEventListener('click', () => {
 
 async function getAccount() {
   accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-  document.getElementById("getCurrentAccountConnected").innerHTML = accounts[0]
-  document.getElementById("getCurrentAccountConnected").className = "text-warning"
+  document.getElementById("enableEthereumButton").innerText = accounts[0].substr(0,5) + "..." +  accounts[0].substr(38,4)
 }
 
 //Make Metamask the client side Web3 provider. Needed for tracking live events.
