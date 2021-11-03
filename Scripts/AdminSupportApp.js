@@ -98,8 +98,11 @@ changeStateInContractEvent.addEventListener('click', () => {
     if(accounts[0] != address.toLowerCase() ){
       alert("Connected address does not match Owner address! Connect as Owner then try again.")
     }
-    if(document.getElementById("setValueStateSmartContract").value == (ScaleFee_State&7) ) {
-       alert("State is already set to the input value.")
+    if( (document.getElementById("setValueStateSmartContract").value%(1)) !== (0) ){
+      alert("Input must be an integer!")
+    }
+    if(document.getElementById("setValueStateSmartContract").value < (0) || document.getElementById("setValueStateSmartContract").value == (ScaleFee_State&7) ) {
+      alert("Integer must be positive and not the same as current value to avoid wasting gas.")
     }
     else {
         ethereum
@@ -166,15 +169,16 @@ changeScale_FeeInContractEvent.addEventListener('click', () => {
   contractDefined_JS.methods.Owner().call((err, address) => {
     ////Get the latest value for Scale_Fee
     contractDefined_JS.methods.ScaleFee_State().call((err, ScaleFee_State) => {
-
     if(accounts[0] != address.toLowerCase() ){
       alert("Connected address does not match Owner address! Connect as Owner then try again.")
     }
-    if(document.getElementById("setValueScale_FeeSmartContract").value == (ScaleFee_State>>3) ){
-       alert("Scale_Fee is already set to the input value.")
+    if( (document.getElementById("setValueScale_FeeSmartContract").value%(1)) !== (0) ){
+      alert("Input must be an integer!")
+    }
+    if(document.getElementById("setValueScale_FeeSmartContract").value < (0) || document.getElementById("setValueScale_FeeSmartContract").value == (ScaleFee_State>>3) ) {
+      alert("Integer must be positive and not the same as current value to avoid wasting gas.")
     }
     else{
-
       ethereum
         .request({
           method: 'eth_sendTransaction',
