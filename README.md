@@ -29,7 +29,7 @@ __________2.ETHERSCAN: SOURCE CODE ON RINKEBY ETHERSCAN https://rinkeby.ethersca
 Live site on IPFS+Filecoin with Fleek:\
 _______3.FLEEK:USED "OTHER" FOR FORMAT OTHERWISE FRONT END WON'T APPEAR_____________
 
-5.MAKE VIDEO PUBLIC WITH SUBMISSION
+_________5.MAKE VIDEO PUBLIC WITH SUBMISSION___________
 
 Chainlink Hackathon Fall 2021.
 
