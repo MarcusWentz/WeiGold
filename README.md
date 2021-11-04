@@ -15,6 +15,8 @@ Hardware used:\
 -A cardboard box
   
 Wiring diagram:\
+<img src="https://github.com/MarcusWentz/WeiGold/blob/main/Images/Wiring.png" alt="Wiring"/>
+
 _______INSERT PHOTO FROM GITHUB IMAGES FOLDER__
 
 Instructions:\
