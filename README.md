@@ -1,14 +1,13 @@
 # WeiGold
 
 WeiGold presentation and demo:\
-1.VIDEO PRESENTATION:MAKE DEMO VIDEO\
-!!!!!VIDEO PRESENTATION: PATRICK SAID MAX TIME DO NOT GO OVER 5 MINUTES!!!!!!!!!!!!!!!!!!!!!!
+1.MAKE DEMO VIDEO 80 SECONDS [1:20 LONG]\ 
 
 Contract source code published at deployed Rinkeby address with Etherscan:\
-__________2.ETHERSCAN: SOURCE CODE ON RINKEBY ETHERSCAN https://rinkeby.etherscan.io/verifyContract ___________\
+__________2.ETHERSCAN: SOURCE CODE ON RINKEBY ETHERSCAN https://rinkeby.etherscan.io/verifyContract ___________
 
 Live site on IPFS+Filecoin with Fleek:\
-_______3.FLEEK:USED "OTHER" FOR FORMAT OTHERWISE FRONT END WON'T APPEAR_____________\
+_______3.FLEEK:USED "OTHER" FOR FORMAT OTHERWISE FRONT END WON'T APPEAR_____________
 
 5.MAKE VIDEO PUBLIC WITH SUBMISSION
 
