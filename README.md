@@ -4,17 +4,17 @@ WeiGold Youtube presentation and demo:\
 1.MAKE DEMO VIDEO 80 SECONDS [1:20 LONG]\ 
 
 WeiGold's structure:\
-<INSERT PHOTO FROM GITHUB>
+_______INSERT PHOTO FROM GITHUB IMAGES FOLDER__
 
-Hardware used:
--Rasberry Pi 4
--S90 Servo Motors [3 of them]
+Hardware used:\
+-Rasberry Pi 4\
+-S90 Servo Motors [3 of them]\
 -A cardboard box
   
-Wiring diagram: 
-<INSERT PHOTO FROM GITHUB>
+Wiring diagram:\
+_______INSERT PHOTO FROM GITHUB IMAGES FOLDER__
 
-Instructions:
+Instructions:\
 1a.Install web3.js and pi-blaster.js with Node.js on wired Rasberry Pi 4\
 1b.web3.js: npm install web3\
 1c.[pi-blaster.js:  Build and install directly from source: https://github.com/sarfata/pi-blaster]\
