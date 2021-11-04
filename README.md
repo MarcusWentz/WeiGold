@@ -34,6 +34,6 @@ ______[MAKE PUBLIC] 3.FLEEK:USED "OTHER" FOR FORMAT OTHERWISE FRONT END WON'T AP
 
 _________4.MAKE VIDEO PUBLIC WITH SUBMISSION AFTER FLEEK LINK ADDED___________
 
-Chainlink Hackathon Fall 2021.
-
 Solo project by Marcus Wentz.
+
+Chainlink Hackathon Fall 2021.
