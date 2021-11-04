@@ -1,6 +1,6 @@
 # WeiGold: ____YOUTUBE TITLE_________
 
-WeiGold ensures fair, transparent vending for physical gold, silver and oil\ 
+WeiGold ensures fair, transparent vending for physical gold, silver and oil\
 based on Chainlink's commodities pricefeed aggregators.
 
 WeiGold Youtube presentation and demo:\
