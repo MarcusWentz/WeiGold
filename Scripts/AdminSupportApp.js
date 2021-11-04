@@ -96,27 +96,31 @@ changeStateInContractEvent.addEventListener('click', () => {
     if(accounts[0] == address.toLowerCase() ){
       if((document.getElementById("setValueStateSmartContract").value%(1)) === (0) ){
         if(document.getElementById("setValueStateSmartContract").value >= (0)) {
-          if(document.getElementById("setValueStateSmartContract").value != (ScaleFee_State&7))
-          {
-            ethereum
-              .request({
-                method: 'eth_sendTransaction',
-                params: [
-                  {
-                    //Metamask calculates gas limit and price.
-                    from: accounts[0],
-                    to: contractAddress_JS,
-                    data: contractDefined_JS.methods.OwnerChangeState(document.getElementById("setValueStateSmartContract").value).encodeABI()
-                  },
-                ],
-              })
-              .then((txHash) => console.log(txHash))
-              .catch((error) => console.error);
-          }
-          else{
-            alert("Don't waste gas setting the same value.")
-          }
-        }
+          if(document.getElementById("setValueStateSmartContract").value != (ScaleFee_State&7)) {
+            if(document.getElementById("setValueStateSmartContract").value < 8) {
+                ethereum
+                  .request({
+                    method: 'eth_sendTransaction',
+                    params: [
+                      {
+                        //Metamask calculates gas limit and price.
+                        from: accounts[0],
+                        to: contractAddress_JS,
+                        data: contractDefined_JS.methods.OwnerChangeState(document.getElementById("setValueStateSmartContract").value).encodeABI()
+                      },
+                    ],
+                  })
+                  .then((txHash) => console.log(txHash))
+                  .catch((error) => console.error);
+                }
+                else{
+                  alert("State must be less than 8!")
+                }
+            }
+            else{
+              alert("Don't waste gas setting the same value.")
+             }
+           }
         else{
           alert("Integer must be positive.")
         }
