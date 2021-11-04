@@ -1,5 +1,4 @@
-# WeiGold: ____YOUTUBE TITLE_________
-
+# WeiGold: Fair Value Commodties Vending Machine (Powered by Chainlink and Servo Motors)
 WeiGold ensures fair, transparent vending for physical gold, silver and oil\
 based on Chainlink's commodities pricefeed aggregators.
 
@@ -16,8 +15,6 @@ Hardware used:\
   
 Wiring diagram:\
 <img src="https://github.com/MarcusWentz/WeiGold/blob/main/Images/Wiring.png" alt="Wiring"/>
-
-_______INSERT PHOTO FROM GITHUB IMAGES FOLDER__
 
 Instructions:\
 1a.Install web3.js and pi-blaster.js with Node.js on wired Rasberry Pi 4\
