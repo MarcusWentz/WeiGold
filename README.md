@@ -1,6 +1,7 @@
 # WeiGold: ____YOUTUBE TITLE_________
 
-WeiGold's purpose is to ensure fair, transparent vending for physical gold, silver and oil based on Chainlink's commodities pricefeed aggregators.
+WeiGold ensures fair, transparent vending for physical gold, silver and oil\ 
+based on Chainlink's commodities pricefeed aggregators.
 
 WeiGold Youtube presentation and demo:\
 _________1.MAKE DEMO VIDEO 80 SECONDS [1:20 LONG]\_______
