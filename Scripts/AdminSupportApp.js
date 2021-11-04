@@ -144,31 +144,31 @@ WithdrawFundsInContract.addEventListener('click', () => {
 
   contractDefined_JS.methods.Owner().call((err, address) => {
     web3.eth.getBalance(contractAddress_JS, function(err, balance) {
-    if(accounts[0] != address.toLowerCase() ){
-      alert("Connected address does not match Owner address! Connect as Owner then try again.")
-    }
-    if((balance) == 0)
-    {
-      alert("No Etheruem to withdraw.")
-    }
+    if(accounts[0] == address.toLowerCase() ){
+      if(balance > 0) {
+              ethereum
+                .request({
+                  method: 'eth_sendTransaction',
+                  params: [
+                    {
+                      //Metamask calculates gas limit and price.
+                      from: accounts[0],
+                      to: contractAddress_JS,
+                      data: contractDefined_JS.methods.OwnerWithdraw().encodeABI()
+                    },
+                  ],
+                })
+                .then((txHash) => console.log(txHash))
+                .catch((error) => console.error);
+      }
+      else{
+          alert("No Etheruem to withdraw. ")
+        }
+      }
     else{
-
-      ethereum
-        .request({
-          method: 'eth_sendTransaction',
-          params: [
-            {
-              //Metamask calculates gas limit and price.
-              from: accounts[0],
-              to: contractAddress_JS,
-              data: contractDefined_JS.methods.OwnerWithdraw().encodeABI()
-            },
-          ],
-        })
-        .then((txHash) => console.log(txHash))
-        .catch((error) => console.error);
-    }
-   })
+      alert("Connected address does not match Owner address! Connect as Owner then try again.")
+     }
+    })
   })
 
 });
