@@ -1,7 +1,7 @@
-# WeiGold
+# WeiGold: ____YOUTUBE TITLE_________
 
 WeiGold Youtube presentation and demo:\
-1.MAKE DEMO VIDEO 80 SECONDS [1:20 LONG]\ 
+_________1.MAKE DEMO VIDEO 80 SECONDS [1:20 LONG]\_______
 
 WeiGold's structure:\
 _______INSERT PHOTO FROM GITHUB IMAGES FOLDER__
