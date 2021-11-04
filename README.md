@@ -27,12 +27,12 @@ Instructions:\
 4.Interact with the contract and watch the servos move based on contract State!
   
 Contract source code published at deployed Rinkeby address with Etherscan:\
-__________2.ETHERSCAN: SOURCE CODE ON RINKEBY ETHERSCAN https://rinkeby.etherscan.io/verifyContract ___________
+__________[ADD SLIDE AND RENDER VIDEO BEFORE GOING PUBLIC FOR FLEEK] 2.ETHERSCAN: SOURCE CODE ON RINKEBY ETHERSCAN https://rinkeby.etherscan.io/verifyContract ___________
 
 Live site on IPFS+Filecoin with Fleek:\
-_______3.FLEEK:USED "OTHER" FOR FORMAT OTHERWISE FRONT END WON'T APPEAR_____________
+______[MAKE PUBLIC] 3.FLEEK:USED "OTHER" FOR FORMAT OTHERWISE FRONT END WON'T APPEAR_____________
 
-_________5.MAKE VIDEO PUBLIC WITH SUBMISSION___________
+_________4.MAKE VIDEO PUBLIC WITH SUBMISSION AFTER FLEEK LINK ADDED___________
 
 Chainlink Hackathon Fall 2021.
 
