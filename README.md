@@ -7,7 +7,7 @@ WeiGold Youtube presentation with demo:\
 _________1.MAKE DEMO VIDEO 80 SECONDS [1:20 LONG]\_______
 
 WeiGold's structure:\
-_______INSERT PHOTO FROM GITHUB IMAGES FOLDER__
+<img src="https://github.com/MarcusWentz/WeiGold/blob/main/Images/Overview_Structure.png" alt="Overview_Structure"/>
 
 Hardware used:\
 -Rasberry Pi 4\
