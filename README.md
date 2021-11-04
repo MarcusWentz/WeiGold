@@ -1,4 +1,4 @@
-# WeiGold: Fair Value Commodties Vending Machine (Powered by Chainlink and Servo Motors)
+# WeiGold: Fair Value Commodties Vending Machine/ (Powered by Chainlink and Servo Motors)
 WeiGold ensures fair, transparent vending for physical gold, silver and oil\
 based on Chainlink's commodities pricefeed aggregators.
 
