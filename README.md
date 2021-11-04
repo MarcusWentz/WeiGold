@@ -21,7 +21,7 @@ Instructions:\
 1a.Install web3.js and pi-blaster.js with Node.js on wired Rasberry Pi 4\
 1b.web3.js: npm install web3\
 1c.[pi-blaster.js:  Build and install directly from source: https://github.com/sarfata/pi-blaster]\
-2.Have the "servo_Website_Test.js" script running on the wired Rasberry Pi 4\
+2.Have the "HardwareServoControl.js" script running on the wired Rasberry Pi 4\
 3.Connect to site with Metamask on Rinkeby [make sure you have some free Rinkeby Ethereum to modify contract states]\
 (you can create your own custom contract by redeploying on Remix and changing address and ABI for FrontEnd and Servo scripts)\
 4.Interact with the contract and watch the servos move based on contract State!
