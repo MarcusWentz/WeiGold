@@ -27,7 +27,7 @@ Instructions:\
 4.Interact with the contract and watch the servos move based on contract State!
   
 Contract source code published at deployed Rinkeby address with Etherscan:\
-__________[ADD SLIDE AND RENDER VIDEO BEFORE GOING PUBLIC FOR FLEEK] 2.ETHERSCAN: SOURCE CODE ON RINKEBY ETHERSCAN https://rinkeby.etherscan.io/verifyContract ___________
+https://rinkeby.etherscan.io/address/0x46f9a3c317ab291419cef90284ebdf13cf440277#code
 
 Live site on IPFS+Filecoin with Fleek:\
 ______[MAKE PUBLIC] 3.FLEEK:USED "OTHER" FOR FORMAT OTHERWISE FRONT END WON'T APPEAR_____________
