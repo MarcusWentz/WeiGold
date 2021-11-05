@@ -29,10 +29,8 @@ Instructions:\
 Contract source code published at deployed Rinkeby address with Etherscan:\
 https://rinkeby.etherscan.io/address/0x46f9a3c317ab291419cef90284ebdf13cf440277#code
 
-Live site on IPFS+Filecoin with Fleek [if IPFS gateway goes down, use another IPFS gateway, use Github pages or run locally]:\
-______[MAKE PUBLIC] 3.FLEEK:USED "OTHER" FOR FORMAT OTHERWISE FRONT END WON'T APPEAR_____________
-
-_________4.MAKE VIDEO PUBLIC WITH SUBMISSION AFTER FLEEK LINK ADDED___________
+Live site on IPFS+Filecoin with Fleek [if IPFS gateway goes down, use another IPFS gateway, use Github pages [https://marcuswentz.github.io/WeiGold/index.html?] or run locally]:\
+https://weigold.on.fleek.co/index.html?
 
 Solo project by Marcus Wentz.
 
