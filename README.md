@@ -4,7 +4,7 @@ WeiGold ensures fair, transparent vending for physical gold, silver and oil\
 based on Chainlink's commodities pricefeed aggregators.
 
 WeiGold Youtube presentation with demo:\
-_________1.MAKE DEMO VIDEO 80 SECONDS [1:20 LONG]\_______
+___LINK ME______
 
 WeiGold's structure:\
 <img src="https://github.com/MarcusWentz/WeiGold/blob/main/Images/Overview_Structure.png" alt="Overview_Structure"/>
@@ -29,7 +29,7 @@ Instructions:\
 Contract source code published at deployed Rinkeby address with Etherscan:\
 https://rinkeby.etherscan.io/address/0x46f9a3c317ab291419cef90284ebdf13cf440277#code
 
-Live site on IPFS+Filecoin with Fleek:\
+Live site on IPFS+Filecoin with Fleek [if IPFS gateway goes down, use another IPFS gateway, use Github pages or run locally]:\
 ______[MAKE PUBLIC] 3.FLEEK:USED "OTHER" FOR FORMAT OTHERWISE FRONT END WON'T APPEAR_____________
 
 _________4.MAKE VIDEO PUBLIC WITH SUBMISSION AFTER FLEEK LINK ADDED___________
