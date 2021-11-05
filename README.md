@@ -4,8 +4,7 @@ WeiGold ensures fair, transparent vending for physical gold, silver and oil\
 based on Chainlink's commodities pricefeed aggregators.
 
 WeiGold Youtube presentation with demo:\
-<img src="https://github.com/MarcusWentz/WeiGold/blob/main/Images/WeiGold.png" alt="Overview_Structure"/>
-https://www.youtube.com/watch?v=mDhl4KZngug
+[https://github.com/MarcusWentz/WeiGold/blob/main/Images/WeiGold.png](https://www.youtube.com/watch?v=mDhl4KZngug)
 
 WeiGold's structure:\
 <img src="https://github.com/MarcusWentz/WeiGold/blob/main/Images/Overview_Structure.png" alt="Overview_Structure"/>
