@@ -30,29 +30,29 @@ function checkValueLatest() {
   contractDefined_JS.methods.ScaleFee_State().call((err, balance) => {
   	console.log(balance&7)
 
-	if(balance & 1){
-		console.log("SERVO ONE OPEN")
-		piblaster.setPwm(servoControlPinOne, pulseWidthMax);
+	if(balance & 1){	
+	   	console.log("SERVO ONE OPEN")
+		piblaster.setPwm(servoControlPinOne, pulseWidthMin);
 	}
 	else{
-    		console.log("SERVO ONE CLOSED")
-		piblaster.setPwm(servoControlPinOne, pulseWidthMin);
+		console.log("SERVO ONE CLOSED")
+		piblaster.setPwm(servoControlPinOne, pulseWidthMax);
 	}
 	if(balance & 2){
 		console.log("SERVO TWO OPEN")
-		piblaster.setPwm(servoControlPinTwo, pulseWidthMax);
+		piblaster.setPwm(servoControlPinTwo, pulseWidthMin);
 	}
 	else{
-	    	console.log("SERVO TWO CLOSED")
-		piblaster.setPwm(servoControlPinTwo, pulseWidthMin);
+		console.log("SERVO TWO CLOSED")
+		piblaster.setPwm(servoControlPinTwo, pulseWidthMax);
 	}
 	if(balance & 4){
 		console.log("SERVO THREE OPEN")
-		piblaster.setPwm(servoControlPinThree, pulseWidthMax);
+		piblaster.setPwm(servoControlPinThree, pulseWidthMin);
 	}
 	else{
-	    	console.log("SERVO THREE CLOSED")
-		piblaster.setPwm(servoControlPinThree, pulseWidthMin);
+		console.log("SERVO THREE CLOSED")
+		piblaster.setPwm(servoControlPinThree, pulseWidthMax);
 	}
 	if((balance&7) > 7 || (balance&7) < 0)
 	{
