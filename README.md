@@ -10,9 +10,9 @@ WeiGold's structure:\
 <img src="https://github.com/MarcusWentz/WeiGold/blob/main/Images/Overview_Structure.png" alt="Overview_Structure"/>
 
 Hardware used:\
--Rasberry Pi 4\
--S90 Servo Motors [3 of them]\
--A cardboard box
+-Rasberry Pi 4 [Quantity: 1]\
+-S90 Servo Motors [Quantity: 3]\
+-A cardboard box [Quantity: 1]
   
 Wiring diagram:\
 <img src="https://github.com/MarcusWentz/WeiGold/blob/main/Images/Wiring.png" alt="Wiring"/>
