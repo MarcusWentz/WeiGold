@@ -1,4 +1,4 @@
-# WeiGold: Fair Value Commodties Vending Machine
+# WeiGold: Fair Value Commodities Vending Machine
 
 WeiGold ensures fair, transparent vending for physical gold, silver and oil\
 based on Chainlink's commodities pricefeed aggregators.
