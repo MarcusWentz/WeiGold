@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.10;
 
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 
@@ -60,6 +60,7 @@ contract WeiGold{
         require(((ScaleFee_State)&4)==0,  "Gold is sold out already!");
         require(msg.value == getLatest_WEI_Gold_Price(), "MSG.VALUE must be equal to getLatest_WEI_Gold_Price");
         ScaleFee_State+=4;
+        payable(Owner).transfer(address(this).balance); 
         emit ScaleFee_StateChangeEvent(msg.sender, ScaleFee_State);
     }
     
@@ -67,12 +68,14 @@ contract WeiGold{
         require((ScaleFee_State&2)==0, "Silver is sold out already!");
         require(msg.value == getLatest_WEI_Silver_Price(), "MSG.VALUE must be equal to getLatest_WEI_Silver_Price()!");
         ScaleFee_State+=2;
+        payable(Owner).transfer(address(this).balance); 
         emit ScaleFee_StateChangeEvent(msg.sender, ScaleFee_State);
     }
     function BuyOil() public payable  {
         require((ScaleFee_State&1)==0, "Oil is sold out already!");
         require(msg.value == getLatest_WEI_Oil_Price(), "MSG.VALUE must be equal to getLatest_WEI_Oil_Price()!");
         ScaleFee_State+=1;
+        payable(Owner).transfer(address(this).balance); 
         emit ScaleFee_StateChangeEvent(msg.sender, ScaleFee_State);
     }
     
@@ -86,9 +89,5 @@ contract WeiGold{
         require(update_State < 8, "Input must be less than 8!");
         ScaleFee_State = ((ScaleFee_State>>3)<<3)+update_State; //Update state.
         emit ScaleFee_StateChangeEvent(msg.sender, ScaleFee_State); 
-    }
-    function OwnerWithdraw() public ContractOwnnerCheck {
-        require(address(this).balance> 0 ,"No funds to withdraw from contract!");
-        payable(msg.sender).transfer(address(this).balance); //msg.sender is 6686 less gas than Owner to read tested.
     }
 }
