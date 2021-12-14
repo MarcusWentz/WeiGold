@@ -27,7 +27,7 @@ Instructions:\
 4.Interact with the contract and watch the servos move based on contract State!
   
 Contract source code published at deployed Rinkeby address with Etherscan:\
-https://rinkeby.etherscan.io/address/0x46f9a3c317ab291419cef90284ebdf13cf440277#code
+https://rinkeby.etherscan.io/address/0x44f3e9288682385e08433db8e95b2aab9075dd83#code
 
 Live site on IPFS+Filecoin with Fleek [if IPFS gateway goes down, use another IPFS gateway, use Github pages [https://marcuswentz.github.io/WeiGold/index.html?] or run locally]:\
 https://weigold.on.fleek.co/index.html?
