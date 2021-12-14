@@ -63,7 +63,6 @@ contract WeiGold{
         payable(Owner).transfer(address(this).balance); 
         emit ScaleFee_StateChangeEvent(msg.sender, ScaleFee_State);
     }
-    
     function BuySilver() public payable {
         require((ScaleFee_State&2)==0, "Silver is sold out already!");
         require(msg.value == getLatest_WEI_Silver_Price(), "MSG.VALUE must be equal to getLatest_WEI_Silver_Price()!");
@@ -80,7 +79,7 @@ contract WeiGold{
     }
     
     function OwnerChangeScaleFee(int update_Scale_Fee) public ContractOwnerCheck {
-        require( (ScaleFee_State>>3)!= update_Scale_Fee, "Input value is already the same as Scale_Fee!");
+        require((ScaleFee_State>>3)!= update_Scale_Fee, "Input value is already the same as Scale_Fee!");
         ScaleFee_State = (update_Scale_Fee<<3)+(ScaleFee_State&7); //Update state.
         emit ScaleFee_StateChangeEvent(msg.sender, ScaleFee_State);
     }
@@ -90,4 +89,9 @@ contract WeiGold{
         ScaleFee_State = ((ScaleFee_State>>3)<<3)+update_State; //Update state.
         emit ScaleFee_StateChangeEvent(msg.sender, ScaleFee_State); 
     }
+    function OwnerClaimSelfDestructedETH() public ContractOwnerCheck {
+        require(address(this).balance> 0 ,"No self destructed ETH detected.");
+        payable(msg.sender).transfer(address(this).balance); //msg.sender is 6686 less gas than Owner to read tested.
+    }
+
 }
