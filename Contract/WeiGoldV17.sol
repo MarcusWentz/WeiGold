@@ -46,7 +46,7 @@ contract WeiGold{
         return uint( (price*(10**18)*((1000+(ScaleFee_State>>3))/1000)) / getLatest_ETH_USD_Price() );
     }
     
-    modifier ContractOwnnerCheck() {
+    modifier ContractOwnerCheck() {
         require(msg.sender == Owner, "Only contract owner (deployer) can access this function.");
         _;
     }
@@ -79,12 +79,12 @@ contract WeiGold{
         emit ScaleFee_StateChangeEvent(msg.sender, ScaleFee_State);
     }
     
-    function OwnerChangeScaleFee(int update_Scale_Fee) public ContractOwnnerCheck {
+    function OwnerChangeScaleFee(int update_Scale_Fee) public ContractOwnerCheck {
         require( (ScaleFee_State>>3)!= update_Scale_Fee, "Input value is already the same as Scale_Fee!");
         ScaleFee_State = (update_Scale_Fee<<3)+(ScaleFee_State&7); //Update state.
         emit ScaleFee_StateChangeEvent(msg.sender, ScaleFee_State);
     }
-    function OwnerChangeState(int update_State) public ContractOwnnerCheck {
+    function OwnerChangeState(int update_State) public ContractOwnerCheck {
         require((ScaleFee_State&7) != update_State, "Input value is already the same as State!");
         require(update_State < 8, "Input must be less than 8!");
         ScaleFee_State = ((ScaleFee_State>>3)<<3)+update_State; //Update state.
