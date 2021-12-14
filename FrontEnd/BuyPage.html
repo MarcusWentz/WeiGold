@@ -1,7 +1,7 @@
 <html>
+
 <head>
-  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-  <title>Admin</title>
+  <title>Buy</title>
   <!-- Bootstrap -->
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -11,93 +11,96 @@
   <!-- Helps objects scale to mobile devices -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
+
 <body style="background-color:black;">
 
 <div class="container-fluid">
 
-  <div style="min-height: 4vh"> </div>
+  <div style="min-height: 4vh"></div>
 
-  <div style="min-height: 13vh">
-    <div class="row">
+  <div style="min-height: 10vh">
+  <div class="row">
+    <div class="col text-center">
+      <button class="btn btn-outline-warning" id=enableEthereumButton></button>
+    </div>
+  </div>
+  </div>
+
+  <div style="min-height: 10vh">
+  <div class="row">
       <div class="col text-center">
-        <button class="btn btn-outline-warning" id=enableEthereumButton></button>
+        <p class="text-warning" id=getValueScale_FeeSmartContract </p>
       </div>
     </div>
   </div>
+
+  <div style="min-height: 8vh">
+  <div class="row">
+    <div class="col text-center">
+      <button class="btn btn-outline-warning" id=changeBuyGold>Buy 1 Gold Ounce [XAU]</button>
+    </div>
+  </div>
+</div>
+
+<div style="min-height: 12vh">
+  <div class="row">
+    <div class="col text-center">
+      <p class="text-warning" id=getValueUSD_Gold_Price </p>
+    </div>
+  </div>
+</div>
+
+<div style="min-height: 8vh">
+  <div class="row">
+    <div class="col text-center">
+      <button class="btn btn-outline-secondary" id=changeBuySilver>Buy 1 Silver Ounce [XAG]</button>
+    </div>
+  </div>
+</div>
+
+    <div style="min-height: 12vh">
+    <div class="row">
+    <div class="col text-center">
+      <p class="text-secondary" id=getValueUSD_Silver_Price </p>
+    </div>
+  </div>
+</div>
+
+  <div style="min-height: 8vh">
+  <div class="row">
+    <div class="col text-center">
+      <button class="btn btn-outline-light" id=changeBuyOil>Buy 1 Oil Barrel [WTI]</button>
+    </div>
+  </div>
+</div>
+
+<div style="min-height: 10vh">
+<div class="row">
+    <div class="col text-center">
+      <p class="text-light" id=getValueUSD_Oil_Price </p>
+  </div>
+</div>
+</div>
+
+<div style="min-height: 1vh">
+  <div class="row">
+    <div class="col text-center">
+      <form action="About.html">
+        <input type="submit" class="btn btn-outline-warning" value="About" />
+    </form>
+    </div>
+  </div>
+</div>
 
   <div style="min-height: 1vh">
-   <div class="row">
-        <div class="col text-center">
-          <p class="text-warning" id=getValueStateSmartContract </p>
-        </div>
-      </div>
-    </div>
-
-      <div style="min-height: 7vh">
-    <div class="row">
-      <div class="col text-center">
-        <button class="btn btn-outline-warning" id=changeStateInContractEvent>Change State: </button>
-      </div>
+  <div class="row">
+    <div class="col text-center">
+      <form action="AdminSupport.html">
+        <input type="submit" class="btn btn-outline-warning" value="Admin Control Link for Support" />
+    </form>
     </div>
   </div>
-
-  <div style="min-height: 13vh">
-    <div class="row">
-      <div class="col text-center">
-        <input type="text" style="text-align:center" id="setValueStateSmartContract" value="0" autocomplete="off">
-      </div>
-    </div>
-  </div>
-
-    <div style="min-height: 1vh">
-      <div class="row">
-        <div class="col text-center">
-          <p class="text-warning" id=getValueScale_FeeSmartContract </p>
-        </div>
-      </div>
-    </div>
-
-    <div style="min-height: 7vh">
-    <div class="row">
-      <div class="col text-center">
-        <button class="btn btn-outline-warning" id=changeScale_FeeInContractEvent >Change Scale_Fee: </button>
-      </div>
-    </div>
-  </div>
-
-  <div style="min-height: 13vh">
-    <div class="row">
-        <div class="col text-center">
-          <input type="text" style="text-align:center" id="setValueScale_FeeSmartContract" value="0" autocomplete="off">
-        </div>
-      </div>
-    </div>
-
-    <div style="min-height: 1vh">
-      <div class="row">
-        <div class="col text-center">
-          <p class="text-warning" id=getSmartContractBalance </p>
-        </div>
-      </div>
-    </div>
-
-    <div style="min-height: 15vh">
-    <div class="row">
-      <div class="col text-center">
-        <button class="btn btn-outline-warning" id=WithdrawFundsInContract >Withdraw Ethereum in Contract</button>
-      </div>
-    </div>
-  </div>
-
-    <div style="min-height: 1vh">
-    <div class="row">
-      <div class="col text-center">
-        <form action="../index.html">
-          <input type="submit" class="btn btn-outline-warning" value="Return to Home Page" />
-      </form>
-      </div>
-    </div>
-  </div>
+</div>
 
 </div>
 
@@ -108,7 +111,8 @@
   <!-- WEB3 IMPORT -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.5.0-rc.0/web3.min.js"></script>
   <!-- Needed to run javascript main library -->
-  <script src="../Scripts/AdminSupportApp.js"></script>
+  <script src="../Scripts/BuyPageApp.js"></script>
 
 </body>
+
 </html>
