@@ -155,7 +155,7 @@ WithdrawFundsInContract.addEventListener('click', () => {
                       //Metamask calculates gas limit and price.
                       from: accounts[0],
                       to: contractAddress_JS,
-                      data: contractDefined_JS.methods.OwnerWithdraw().encodeABI()
+                      data: contractDefined_JS.methods.OwnerClaimSelfDestructedETH().encodeABI()
                     },
                   ],
                 })
