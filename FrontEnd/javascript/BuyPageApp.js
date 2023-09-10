@@ -22,13 +22,13 @@ function checkAddressMissingMetamask() {
   }
 }
 
-//Function called for getting Metamask accounts on Rinkeby. Used in every button in case the user forgets to click the top button.
-function enableMetamaskOnRinkeby() {
+//Function called for getting Metamask accounts on Sepolia. Used in every button in case the user forgets to click the top button.
+function enableMetamaskOnSepolia() {
   //Get account details from Metamask wallet.
   getAccount();
-  //Check if user is on the Rinkeby testnet. If not, alert them to change to Rinkeby.
-  if(window.ethereum.networkVersion != 4){
-    alert("You are not on the Rinkeby Testnet! Please switch to Rinkeby and refresh page.")
+  //Check if user is on the Sepolia testnet. If not, alert them to change to Sepolia.
+  if(window.ethereum.networkVersion != 11155111){
+    alert("You are not on the Sepolia Testnet! Please switch to Sepolia and refresh page.")
   }
 }
 
@@ -39,7 +39,7 @@ detectMetamaskInstalled()
 const ethereumButton = document.querySelector('#enableEthereumButton');
 ethereumButton.addEventListener('click', () => {
     detectMetamaskInstalled()
-    enableMetamaskOnRinkeby()
+    enableMetamaskOnSepolia()
 });
 
 async function getAccount() {
@@ -50,84 +50,85 @@ async function getAccount() {
 //Make Metamask the client side Web3 provider. Needed for tracking live events.
 const web3 = new Web3(window.ethereum)
 //Now build the contract with Web3.
-const contractAddress_JS = '0x44F3E9288682385E08433dB8E95B2aab9075DD83'
+const contractAddress_JS = '0x78D0C8452FF3C56e9c651d40A34799cDBEB2e968'
 const contractABI_JS =
-[{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"int256","name":"valueChangeEventWenjs","type":"int256"}],"name":"ScaleFee_StateChangeEvent","type":"event"},{"inputs":[],"name":"BuyGold","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"BuyOil","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"BuySilver","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"int256","name":"update_Scale_Fee","type":"int256"}],"name":"OwnerChangeScaleFee","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"int256","name":"update_State","type":"int256"}],"name":"OwnerChangeState","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"OwnerClaimSelfDestructedETH","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[],"name":"getLatest_ETH_USD_Price","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_WEI_Gold_Price","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_WEI_Oil_Price","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatest_WEI_Silver_Price","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"Owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"ScaleFee_State","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"}]
+[{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[],"name":"etherNotSent","type":"error"},{"inputs":[],"name":"msgValueTooSmall","type":"error"},{"inputs":[],"name":"notOwner","type":"error"},{"inputs":[],"name":"oraclePriceFeedZero","type":"error"},{"inputs":[],"name":"slotEmpty","type":"error"},{"anonymous":false,"inputs":[],"name":"slotsUpdated","type":"event"},{"inputs":[{"internalType":"uint256","name":"slot","type":"uint256"}],"name":"BuyGold","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"uint256","name":"slot","type":"uint256"},{"internalType":"uint256","name":"count","type":"uint256"}],"name":"OwnerUpdateSlots","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"getLatestEthUsdPrice","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatestWeiGoldPrice","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"scaleFee","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"vendingSlotCount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}]
+
 const contractDefined_JS = new web3.eth.Contract(contractABI_JS, contractAddress_JS)
 
 //Get page info based on contract state
-function getLatestState() {
-contractDefined_JS.methods.ScaleFee_State().call((err, State) => {
-  if(State&4) {
-    document.getElementById("changeBuyGold").className = "btn btn-outline-danger"
-    document.getElementById("getValueUSD_Gold_Price").className = "text-danger"
-    document.getElementById("getValueUSD_Gold_Price").innerHTML = "GOLD SOLD!"
-  }
-  else{
-    document.getElementById("changeBuyGold").className = "btn btn-outline-warning"
-    document.getElementById("getValueUSD_Gold_Price").className = "text-warning"
-    contractDefined_JS.methods.getLatest_WEI_Gold_Price().call((err, WEI_Gold_Price) => {
-        contractDefined_JS.methods.getLatest_ETH_USD_Price().call((err, convertToETH_USD) => {
-          document.getElementById("getValueUSD_Gold_Price").innerHTML = (WEI_Gold_Price/(10**18)).toFixed(6) + " ETH = $"  + ( (WEI_Gold_Price*convertToETH_USD)/(10**26) ).toFixed(2) + " USD"
-      })
-    })
-  }
-  if(State&2){
-    document.getElementById("changeBuySilver").className = "btn btn-outline-danger"
-    document.getElementById("getValueUSD_Silver_Price").className = "text-danger"
-    document.getElementById("getValueUSD_Silver_Price").innerHTML = "SILVER SOLD!"
-  }
-  else{
-    document.getElementById("changeBuySilver").className = "btn btn-outline-secondary"
-    document.getElementById("getValueUSD_Silver_Price").className = "text-secondary"
-    contractDefined_JS.methods.getLatest_WEI_Silver_Price().call((err, WEI_Silver_Price) => {
-        contractDefined_JS.methods.getLatest_ETH_USD_Price().call((err, convertToETH_USD) => {
-        document.getElementById("getValueUSD_Silver_Price").innerHTML =  (WEI_Silver_Price/(10**18)).toFixed(6) + " ETH = $"  + ( (WEI_Silver_Price*convertToETH_USD)/(10**26) ).toFixed(2) + " USD"
-      })
-    })
-  }
-  if(State&1){
-    document.getElementById("changeBuyOil").className = "btn btn-outline-danger"
-    document.getElementById("getValueUSD_Oil_Price").className = "text-danger"
-    document.getElementById("getValueUSD_Oil_Price").innerHTML = "OIL SOLD!"
-  }
-  else{
-    document.getElementById("changeBuyOil").className = "btn btn-outline-light"
-    document.getElementById("getValueUSD_Oil_Price").className = "text-light"
-    contractDefined_JS.methods.getLatest_WEI_Oil_Price().call((err, WEI_Oil_Price) => {
-        contractDefined_JS.methods.getLatest_ETH_USD_Price().call((err, convertToETH_USD) => {
-          document.getElementById("getValueUSD_Oil_Price").innerHTML = (WEI_Oil_Price/(10**18)).toFixed(6) + " ETH = $"  + ( (WEI_Oil_Price*convertToETH_USD)/(10**26) ).toFixed(2) + " USD"
-        })
-    })
-  }
+// function getLatestState() {
+// contractDefined_JS.methods.ScaleFee_State().call((err, State) => {
+//   if(State&4) {
+//     document.getElementById("changeBuyGold").className = "btn btn-outline-danger"
+//     document.getElementById("getValueUSD_Gold_Price").className = "text-danger"
+//     document.getElementById("getValueUSD_Gold_Price").innerHTML = "GOLD SOLD!"
+//   }
+//   else{
+//     document.getElementById("changeBuyGold").className = "btn btn-outline-warning"
+//     document.getElementById("getValueUSD_Gold_Price").className = "text-warning"
+//     contractDefined_JS.methods.getLatest_WEI_Gold_Price().call((err, WEI_Gold_Price) => {
+//         contractDefined_JS.methods.getLatest_ETH_USD_Price().call((err, convertToETH_USD) => {
+//           document.getElementById("getValueUSD_Gold_Price").innerHTML = (WEI_Gold_Price/(10**18)).toFixed(6) + " ETH = $"  + ( (WEI_Gold_Price*convertToETH_USD)/(10**26) ).toFixed(2) + " USD"
+//       })
+//     })
+//   }
+//   if(State&2){
+//     document.getElementById("changeBuySilver").className = "btn btn-outline-danger"
+//     document.getElementById("getValueUSD_Silver_Price").className = "text-danger"
+//     document.getElementById("getValueUSD_Silver_Price").innerHTML = "SILVER SOLD!"
+//   }
+//   else{
+//     document.getElementById("changeBuySilver").className = "btn btn-outline-secondary"
+//     document.getElementById("getValueUSD_Silver_Price").className = "text-secondary"
+//     contractDefined_JS.methods.getLatest_WEI_Silver_Price().call((err, WEI_Silver_Price) => {
+//         contractDefined_JS.methods.getLatest_ETH_USD_Price().call((err, convertToETH_USD) => {
+//         document.getElementById("getValueUSD_Silver_Price").innerHTML =  (WEI_Silver_Price/(10**18)).toFixed(6) + " ETH = $"  + ( (WEI_Silver_Price*convertToETH_USD)/(10**26) ).toFixed(2) + " USD"
+//       })
+//     })
+//   }
+//   if(State&1){
+//     document.getElementById("changeBuyOil").className = "btn btn-outline-danger"
+//     document.getElementById("getValueUSD_Oil_Price").className = "text-danger"
+//     document.getElementById("getValueUSD_Oil_Price").innerHTML = "OIL SOLD!"
+//   }
+//   else{
+//     document.getElementById("changeBuyOil").className = "btn btn-outline-light"
+//     document.getElementById("getValueUSD_Oil_Price").className = "text-light"
+//     contractDefined_JS.methods.getLatest_WEI_Oil_Price().call((err, WEI_Oil_Price) => {
+//         contractDefined_JS.methods.getLatest_ETH_USD_Price().call((err, convertToETH_USD) => {
+//           document.getElementById("getValueUSD_Oil_Price").innerHTML = (WEI_Oil_Price/(10**18)).toFixed(6) + " ETH = $"  + ( (WEI_Oil_Price*convertToETH_USD)/(10**26) ).toFixed(2) + " USD"
+//         })
+//     })
+//   }
 
-  })
-}
+//   })
+// }
 
-////Get the latest value for Scale_Fee and check if we have null values
-contractDefined_JS.methods.ScaleFee_State().call((err, ScaleFee) => {
-  if(ScaleFee === undefined){
-    document.getElementById("getValueScale_FeeSmartContract").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
-    document.getElementById("getValueScale_FeeSmartContract").className = "text-danger"
-    document.getElementById("getValueUSD_Gold_Price").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
-    document.getElementById("getValueUSD_Gold_Price").className = "text-danger"
-    document.getElementById("getValueUSD_Silver_Price").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
-    document.getElementById("getValueUSD_Silver_Price").className = "text-danger"
-    document.getElementById("getValueUSD_Oil_Price").innerHTML =  "Install Metamask and select Rinkeby Testnet to have a Web3 provider to read blockchain data."
-    document.getElementById("getValueUSD_Oil_Price").className = "text-danger"
-  }
-  else{
-    document.getElementById("getValueScale_FeeSmartContract").innerHTML = "Scale_Fee = " + (ScaleFee>>3)/10 + "%"
-    getLatestState()
-  }
-})
+// ////Get the latest value for Scale_Fee and check if we have null values
+// contractDefined_JS.methods.ScaleFee_State().call((err, ScaleFee) => {
+//   if(ScaleFee === undefined){
+//     document.getElementById("getValueScale_FeeSmartContract").innerHTML =  "Install Metamask and select Sepolia Testnet to have a Web3 provider to read blockchain data."
+//     document.getElementById("getValueScale_FeeSmartContract").className = "text-danger"
+//     document.getElementById("getValueUSD_Gold_Price").innerHTML =  "Install Metamask and select Sepolia Testnet to have a Web3 provider to read blockchain data."
+//     document.getElementById("getValueUSD_Gold_Price").className = "text-danger"
+//     document.getElementById("getValueUSD_Silver_Price").innerHTML =  "Install Metamask and select Sepolia Testnet to have a Web3 provider to read blockchain data."
+//     document.getElementById("getValueUSD_Silver_Price").className = "text-danger"
+//     document.getElementById("getValueUSD_Oil_Price").innerHTML =  "Install Metamask and select Sepolia Testnet to have a Web3 provider to read blockchain data."
+//     document.getElementById("getValueUSD_Oil_Price").className = "text-danger"
+//   }
+//   else{
+//     document.getElementById("getValueScale_FeeSmartContract").innerHTML = "Scale_Fee = " + (ScaleFee>>3)/10 + "%"
+//     getLatestState()
+//   }
+// })
 
 //BuyGold button
 const changeBuyGold = document.querySelector('#changeBuyGold');
 changeBuyGold.addEventListener('click', () => {
   checkAddressMissingMetamask()
 
-  contractDefined_JS.methods.ScaleFee_State().call((err, State) => {
+  contractDefined_JS.methods.vendingSlotCount(0).call((err, State) => {
     if(State&4){
       alert("Gold is sold out! Cannot buy gold until Owner refill.")
     }
@@ -154,80 +155,16 @@ changeBuyGold.addEventListener('click', () => {
 
 });
 
-//BuySilver button
-const changeBuySilver = document.querySelector('#changeBuySilver');
-changeBuySilver.addEventListener('click', () => {
-  checkAddressMissingMetamask()
-
-  contractDefined_JS.methods.ScaleFee_State().call((err, State) => {
-    if(State&2){
-      alert("Silver is sold out! Cannot buy silver until Owner refill.")
-    }
-    else {
-        contractDefined_JS.methods.getLatest_WEI_Silver_Price().call((err, silverPrice) => {
-          ethereum
-            .request({
-              method: 'eth_sendTransaction',
-              params: [
-                {
-                  //Metamask calculates gas limit and price.
-                  from: accounts[0],
-                  to: contractAddress_JS,
-                  data: contractDefined_JS.methods.BuySilver().encodeABI(),
-                  value: web3.utils.toHex(silverPrice)
-                  },
-              ],
-            })
-            .then((txHash) => console.log(txHash))
-            .catch((error) => console.error);
-        })
-    }
-  })
-
-});
-
-//BuyOil button
-const changeBuyOil = document.querySelector('#changeBuyOil');
-changeBuyOil.addEventListener('click', () => {
-  checkAddressMissingMetamask()
-
-    contractDefined_JS.methods.ScaleFee_State().call((err, State) => {
-      if(State&1){
-        alert("Oil is sold out! Cannot buy oil until Owner refill.")
-      }
-      else {
-            contractDefined_JS.methods.getLatest_WEI_Oil_Price().call((err, oilPrice) => {
-              ethereum
-                .request({
-                  method: 'eth_sendTransaction',
-                  params: [
-                    {
-                      //Metamask calculates gas limit and price.
-                      from: accounts[0],
-                      to: contractAddress_JS,
-                      data: contractDefined_JS.methods.BuyOil().encodeABI(),
-                      value: web3.utils.toHex(oilPrice)
-                      },
-                  ],
-                })
-                .then((txHash) => console.log(txHash))
-                .catch((error) => console.error);
-            })
-      }
-    })
-
-});
-
 //Get the latest event. Once the event is triggered, website will update value.
-contractDefined_JS.events.ScaleFee_StateChangeEvent({
+contractDefined_JS.events.slotsUpdated({
      fromBlock: 'latest'
  }, function(error, eventResult){})
  .on('data', function(eventResult){
    console.log(eventResult)
      //Get latest Scale_Fee after event.
-     contractDefined_JS.methods.ScaleFee_State().call((err, ScaleFee) => {
-     document.getElementById("getValueScale_FeeSmartContract").innerHTML = "Scale_Fee = " + (ScaleFee>>3)/10 + "%"
-     })
+    //  contractDefined_JS.methods.ScaleFee_State().call((err, ScaleFee) => {
+    //  document.getElementById("getValueScale_FeeSmartContract").innerHTML = "Scale_Fee = " + (ScaleFee>>3)/10 + "%"
+    //  })
      //Check if anything was sold live on the page.
      getLatestState()
    })
