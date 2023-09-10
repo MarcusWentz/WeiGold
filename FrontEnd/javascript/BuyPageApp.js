@@ -48,13 +48,56 @@ async function getAccount() {
 }
 
 //Make Metamask the client side Web3 provider. Needed for tracking live events.
-const web3 = new Web3(window.ethereum)
+const provider = new ethers.providers.Web3Provider(window.ethereum); //Imported ethers from index.html with "<script src="https://cdn.ethers.io/lib/ethers-5.6.umd.min.js" type="text/javascript"></script>".
+
+
 //Now build the contract with Web3.
 const contractAddress_JS = '0x78D0C8452FF3C56e9c651d40A34799cDBEB2e968'
 const contractABI_JS =
 [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[],"name":"etherNotSent","type":"error"},{"inputs":[],"name":"msgValueTooSmall","type":"error"},{"inputs":[],"name":"notOwner","type":"error"},{"inputs":[],"name":"oraclePriceFeedZero","type":"error"},{"inputs":[],"name":"slotEmpty","type":"error"},{"anonymous":false,"inputs":[],"name":"slotsUpdated","type":"event"},{"inputs":[{"internalType":"uint256","name":"slot","type":"uint256"}],"name":"BuyGold","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"uint256","name":"slot","type":"uint256"},{"internalType":"uint256","name":"count","type":"uint256"}],"name":"OwnerUpdateSlots","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"getLatestEthUsdPrice","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLatestWeiGoldPrice","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"scaleFee","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"vendingSlotCount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}]
 
-const contractDefined_JS = new web3.eth.Contract(contractABI_JS, contractAddress_JS)
+const contractDefined_JS = new ethers.Contract(contractAddress_JS, contractABI_JS, provider);
+
+async function buyGoldTx() {
+
+  const storageCount = await contractDefined_JS.vendingSlotCount(0);
+  if(storageCount == 0){
+    alert("Gold is sold out! Cannot buy gold until Owner refill.")
+    return;
+  }
+
+  const ethGoldPrice = await contractDefined_JS.getLatestWeiGoldPrice();
+  if(ethGoldPrice == 0){
+    alert("Oracle price from getLatestWeiGoldPrice() is zero.")
+    return;
+  }
+
+  const callDataObject = await contractDefined_JS.populateTransaction.BuyGold(0);
+  const txData = callDataObject.data;
+  
+
+  const mempoolScaleTenPercent = BigInt(ethGoldPrice)*BigInt(110)/BigInt(100)
+
+  // console.log(ethGoldPrice)
+  // console.log(mempoolScaleTenPercent)
+
+  ethereum
+  .request({
+    method: 'eth_sendTransaction',
+    params: [
+      {
+        from: accounts[0],
+        to: contractAddress_JS,
+        data: txData,
+        value: ethers.utils.hexlify(mempoolScaleTenPercent)
+      },
+    ],
+  })
+  .then((txHash) => console.log(txHash))
+  .catch((error) => console.error);  
+    
+}
+
 
 //Get page info based on contract state
 // function getLatestState() {
@@ -127,48 +170,55 @@ const contractDefined_JS = new web3.eth.Contract(contractABI_JS, contractAddress
 const changeBuyGold = document.querySelector('#changeBuyGold');
 changeBuyGold.addEventListener('click', () => {
   checkAddressMissingMetamask()
+  buyGoldTx();
 
-  contractDefined_JS.methods.vendingSlotCount(0).call((err, State) => {
-    if(State&4){
-      alert("Gold is sold out! Cannot buy gold until Owner refill.")
-    }
-    else {
-      contractDefined_JS.methods.getLatest_WEI_Gold_Price().call((err, goldPrice) => {
-          ethereum
-            .request({
-              method: 'eth_sendTransaction',
-              params: [
-                {
-                  //Metamask calculates gas limit and price.
-                  from: accounts[0],
-                  to: contractAddress_JS,
-                  data: contractDefined_JS.methods.BuyGold().encodeABI(),
-                  value: web3.utils.toHex(goldPrice)
-                  },
-              ],
-            })
-            .then((txHash) => console.log(txHash))
-            .catch((error) => console.error);
-      })
-    }
-  })
+  // // contractDefined_JS.methods.vendingSlotCount(0).call((err, State) => {
+  // //   if(State&4){
+  // //     alert("Gold is sold out! Cannot buy gold until Owner refill.")
+  // //   }
+  // //   else {
+  //     contractDefined_JS.methods.getLatest_WEI_Gold_Price().call((err, goldPrice) => {
+  //         ethereum
+  //           .request({
+  //             method: 'eth_sendTransaction',
+  //             params: [
+  //               {
+  //                 //Metamask calculates gas limit and price.
+  //                 from: accounts[0],
+  //                 to: contractAddress_JS,
+  //                 data: contractDefined_JS.methods.BuyGold(0).encodeABI(),
+  //                 value: ethers.utils.toHex(goldPrice)
+  //                 },
+  //             ],
+  //           })
+  //           .then((txHash) => console.log(txHash))
+  //           .catch((error) => console.error);
+  //     })
+  //   }
+  // // })
 
 });
 
-//Get the latest event. Once the event is triggered, website will update value.
-contractDefined_JS.events.slotsUpdated({
-     fromBlock: 'latest'
- }, function(error, eventResult){})
- .on('data', function(eventResult){
-   console.log(eventResult)
-     //Get latest Scale_Fee after event.
-    //  contractDefined_JS.methods.ScaleFee_State().call((err, ScaleFee) => {
-    //  document.getElementById("getValueScale_FeeSmartContract").innerHTML = "Scale_Fee = " + (ScaleFee>>3)/10 + "%"
-    //  })
-     //Check if anything was sold live on the page.
-     getLatestState()
-   })
- .on('changed', function(eventResult){
-     // remove event from local database
- })
- .on('error', console.error);
+// //Get the latest event. Once the event is triggered, website will update value.
+// contractDefined_JS.events.slotsUpdated({
+//      fromBlock: 'latest'
+//  }, function(error, eventResult){})
+//  .on('data', function(eventResult){
+//    console.log(eventResult)
+//      //Get latest Scale_Fee after event.
+//     //  contractDefined_JS.methods.ScaleFee_State().call((err, ScaleFee) => {
+//     //  document.getElementById("getValueScale_FeeSmartContract").innerHTML = "Scale_Fee = " + (ScaleFee>>3)/10 + "%"
+//     //  })
+//      //Check if anything was sold live on the page.
+//      getLatestState()
+//    })
+//  .on('changed', function(eventResult){
+//      // remove event from local database
+//  })
+//  .on('error', console.error);
+
+contractDefined_JS.on("slotsUpdated", () => {
+
+  // getStoredData()
+
+});
