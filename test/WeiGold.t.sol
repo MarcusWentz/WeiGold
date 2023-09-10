@@ -4,8 +4,16 @@ pragma solidity ^0.8.13;
 import "forge-std/Test.sol";
 import "../src/WeiGold.sol";
 
-contract WeiGoldTest is Test {
+//Run tests with:
+//forge test --fork-url $sepoliaInfuraHttps
+//forge coverage --fork-url $sepoliaInfuraHttps --report lcov && genhtml lcov.info -o report --branch-coverage
+
+contract WeiGoldTest is Test { 
     WeiGold public weigold;
+
+    //Functions fallback and receive used when the test contract is sent msg.value to prevent the test from reverting.
+    fallback() external payable {}     // Fallback function is called when msg.data is not empty
+    receive() external payable {}      // Function to receive Ether. msg.data must be empty
 
     function setUp() public {
         weigold = new WeiGold();
@@ -37,9 +45,36 @@ contract WeiGoldTest is Test {
 
     function testBuyGoldSlotEmpty() public {
         vm.startPrank(address(0)); //Change the address to not be the owner. The owner is address(this) in this context.
-        vm.expectRevert(slotEmpty.selector);    //Revert if not the owner. Custom error from SimpleStorage.
         assertEq(weigold.vendingSlotCount(0),0);
+        vm.expectRevert(slotEmpty.selector);    //Revert if not the owner. Custom error from SimpleStorage.
         weigold.BuyGold(0);
+    }
+
+    function testBuyGoldMsgValueTooSmall() public {
+        testOwnerUpdateSlotsValid();
+        vm.startPrank(address(0)); //Change the address to not be the owner. The owner is address(this) in this context.
+        assertEq(weigold.vendingSlotCount(0),1);
+        vm.expectRevert(msgValueTooSmall.selector);    //Revert if not the owner. Custom error from SimpleStorage.
+        weigold.BuyGold(0);
+    }
+
+    function testBuyGoldValidWithPriceRefund() public {
+        testOwnerUpdateSlotsValid();
+        vm.startPrank(address(0)); //Change the address to not be the owner. The owner is address(this) in this context.
+        uint256 prankBalance = address(0).balance;
+        assertGt(prankBalance,3 ether);
+        assertEq(weigold.vendingSlotCount(0),1);
+        weigold.BuyGold{value:3 ether}(0);
+    }
+
+    function testBuyGoldValidWithNoPriceRefund() public {
+        testOwnerUpdateSlotsValid();
+        vm.startPrank(address(0)); //Change the address to not be the owner. The owner is address(this) in this context.
+        uint256 prankBalance = address(0).balance;
+        uint256 priceEthGold = weigold.getLatestWeiGoldPrice();
+        assertGt(prankBalance,priceEthGold);
+        assertEq(weigold.vendingSlotCount(0),1);
+        weigold.BuyGold{value:priceEthGold}(0);
     }
 
 }
