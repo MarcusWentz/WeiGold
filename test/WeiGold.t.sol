@@ -9,21 +9,31 @@ contract WeiGoldTest is Test {
 
     function setUp() public {
         weigold = new WeiGold();
+        assertEq(weigold.scaleFee(),3);
+        assertEq(weigold.owner(),address(this));
     }
 
-    function testIncrement() public {
+    function testOracleEthUsdPrice() public {
         int256 priceEthUsd = weigold.getLatestEthUsdPrice();
         assertGt(priceEthUsd,0);
     }
 
-    function testSetNumber() public {
+    function testOracleEthGoldPrice() public {
         uint256 priceEthGold = weigold.getLatestWeiGoldPrice();
         assertGt(priceEthGold,0);
     }
 
-    function testSetNumbera() public {
+    function testOwnerUpdateSlotsValid() public {
         assertEq(weigold.vendingSlotCount(0),0);
         weigold.OwnerUpdateSlots(0,1);
         assertEq(weigold.vendingSlotCount(0),1);
     }
+
+    function testOwnerUpdateSlotsNotOwner() public {
+        vm.startPrank(address(0)); //Change the address to not be the owner. The owner is address(this) in this context.
+        vm.expectRevert(notOwner.selector);    //Revert if not the owner. Custom error from SimpleStorage.
+        weigold.OwnerUpdateSlots(0,1);
+        //address(this);
+    }
+
 }

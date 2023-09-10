@@ -62,13 +62,5 @@ contract WeiGold {
             return;
         } revert notOwner();
     }
-    function OwnerClaimSelfDestructedETH() public {
-        if(msg.sender == owner){
-            if(address(this).balance == 0) revert etherNotSent();
-            (bool sentOwner, ) = payable(owner).call{value: address(this).balance}("");
-            if(sentOwner == false) revert etherNotSent();
-            return;
-        } revert notOwner();
-    }
 
 }
