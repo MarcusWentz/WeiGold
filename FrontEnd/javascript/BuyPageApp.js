@@ -88,7 +88,7 @@ async function callGetLatestWeiGoldPrice() {
     document.getElementById("getLatestWeiGoldPrice").innerHTML =  "Install Metamask and select Sepolia Testnet to have a Web3 provider to read blockchain data."
   }
   else{
-    document.getElementById("getLatestWeiGoldPrice").innerHTML =  (storedDataCallValue/(10**18)).toFixed(3) + " ETH"
+    document.getElementById("getLatestWeiGoldPrice").innerHTML =   + (storedDataCallValue/(10**18)).toFixed(8) + " ETH"
   }
   let storedDataCallValuez = await contractDefined_JS.getLatestEthUsdPrice()
   if(storedDataCallValuez === undefined){
