@@ -148,9 +148,6 @@ contractDefined_JS.events.slotsUpdated({
      contractDefined_JS.methods.ScaleFee_State().call((err, ScaleFee_State) => {
       document.getElementById("getValueStateSmartContract").innerHTML =   "State = " + (ScaleFee_State&7)
      })
-     contractDefined_JS.methods.ScaleFee_State().call((err, ScaleFee_State) => {
-     document.getElementById("getValueScale_FeeSmartContract").innerHTML = "Scale_Fee = " + (ScaleFee_State>>3)/10 + "%"
-     })
      web3.eth.getBalance(contractAddress_JS, function(err, balance) {
          document.getElementById("getSmartContractBalance").innerHTML = "Balance = " + (balance/(10**18)) + " ETH"
      })
