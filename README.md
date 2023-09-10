@@ -22,12 +22,12 @@ Instructions:\
 1b.web3.js: npm install web3\
 1c.pi-blaster.js:  Build and install directly from source: https://github.com/sarfata/pi-blaster \
 2.Have the "HardwareServoControl.js" script running on the wired Raspberry Pi 4\
-3.Connect to site with Metamask on Rinkeby [make sure you have some free Rinkeby Ethereum to modify contract states]\
+3.Connect to site with Metamask on Sepolia [make sure you have some free Sepolia Ethereum to modify contract states]\
 (you can create your own custom contract by redeploying on Remix and changing address and ABI for FrontEnd and Servo scripts)\
 4.Interact with the contract and watch the servos move based on contract State!
   
-Contract source code published at deployed Rinkeby address with Etherscan:\
-https://rinkeby.etherscan.io/address/0x44f3e9288682385e08433db8e95b2aab9075dd83#code
+Contract source code published at deployed Sepolia address with Etherscan:\
+https://sepolia.etherscan.io/address/0x9aa6e19c7d886076a0d5d50c586e63d9efd199ec#code
 
 Live site on IPFS+Filecoin with Fleek [if IPFS gateway goes down, use another IPFS gateway, use Github pages [https://marcuswentz.github.io/WeiGold/index.html?] or run locally]:\
 https://weigold.on.fleek.co/index.html?
@@ -35,3 +35,8 @@ https://weigold.on.fleek.co/index.html?
 Solo project by Marcus Wentz.
 
 Chainlink Hackathon Fall 2021.
+
+Contract deployed and verified in Foundry with command 
+```
+forge create --rpc-url $sepoliaInfuraHttps --etherscan-api-key $etherscanApiKey --verify --private-key $devTestnetPrivateKey src/WeiGold.sol:WeiGold
+```
