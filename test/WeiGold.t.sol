@@ -33,7 +33,13 @@ contract WeiGoldTest is Test {
         vm.startPrank(address(0)); //Change the address to not be the owner. The owner is address(this) in this context.
         vm.expectRevert(notOwner.selector);    //Revert if not the owner. Custom error from SimpleStorage.
         weigold.OwnerUpdateSlots(0,1);
-        //address(this);
+    }
+
+    function testBuyGoldSlotEmpty() public {
+        vm.startPrank(address(0)); //Change the address to not be the owner. The owner is address(this) in this context.
+        vm.expectRevert(slotEmpty.selector);    //Revert if not the owner. Custom error from SimpleStorage.
+        assertEq(weigold.vendingSlotCount(0),0);
+        weigold.BuyGold(0);
     }
 
 }
