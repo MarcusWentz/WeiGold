@@ -26,11 +26,19 @@ Instructions:\
 (you can create your own custom contract by redeploying on Remix and changing address and ABI for FrontEnd and Servo scripts)\
 4.Interact with the contract and watch the servos move based on contract State!
   
-Contract source code published at deployed Sepolia address with Etherscan:\
-https://sepolia.etherscan.io/address/0x9aa6e19c7d886076a0d5d50c586e63d9efd199ec#code
+Contract source code published at deployed Sepolia address with Etherscan:
 
-Live site on IPFS+Filecoin with Fleek [if IPFS gateway goes down, use another IPFS gateway, use Github pages [https://marcuswentz.github.io/WeiGold/index.html?] or run locally]:\
-https://weigold.on.fleek.co/index.html?
+https://sepolia.etherscan.io/address/0xf72ad88c2db9e89738773db2388770572ad3d628#code
+
+Website live on GitHub pages:
+
+https://marcuswentz.github.io/WeiGold/index.html? 
+
+or run locally with 
+
+```
+npx http-server
+```
 
 Solo project by Marcus Wentz.
 

@@ -13,7 +13,7 @@ error etherNotSent();
 contract WeiGold { 
 
     AggregatorV3Interface internal priceFeedETHforUSD;
-    AggregatorV3Interface internal priceFeedWEIforGold;
+    AggregatorV3Interface internal priceFeedUSDforGold;
 
     address public immutable owner;// Slot 0: 32/32 Owner never changes, use immutable to save gas. 
     int public constant scaleFee = 3; // thousandth percent 
@@ -25,7 +25,7 @@ contract WeiGold {
         owner = msg.sender;
         //Sepolia testnet pricefeeds (hard to bridge to rollups on testnets).
         priceFeedETHforUSD =  AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306); //Pricefeed addresses: https://docs.chain.link/data-feeds/price-feeds/addresses/?network=optimism&page=1
-        priceFeedWEIforGold = AggregatorV3Interface(0xC5981F461d74c46eB4b0CF3f4Ec79f025573B0Ea);
+        priceFeedUSDforGold = AggregatorV3Interface(0xC5981F461d74c46eB4b0CF3f4Ec79f025573B0Ea);
     }
     
     function getLatestEthUsdPrice() public view returns (int) {
@@ -37,7 +37,7 @@ contract WeiGold {
     function getLatestWeiGoldPrice() public view returns (uint) {
         (
             uint80 roundID, int price, uint startedAt, uint timeStamp, uint80 answeredInRound
-        ) = priceFeedWEIforGold.latestRoundData();
+        ) = priceFeedUSDforGold.latestRoundData();
         return uint( (price*(10**18)*((1000+scaleFee)/1000)) / getLatestEthUsdPrice() ); // 0.3% fee like Uniswap.
     }
 
