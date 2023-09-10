@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.18;
 
-import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol"; // forge install smartcontractkit/chainlink
+// import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
+import "chainlink/v0.8/interfaces/AggregatorV3Interface.sol"; // "forge install smartcontractkit/chainlink-brownie-contracts" and set custom "chainlink" remapping in file https://chainstack.com/using-chainlinks-vrf-with-foundry/
 
 error slotEmpty();
 error oraclePriceFeedZero();
