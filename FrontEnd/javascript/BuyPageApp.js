@@ -88,18 +88,25 @@ async function callGetLatestWeiGoldPrice() {
     document.getElementById("getLatestWeiGoldPrice").innerHTML =  "Install Metamask and select Sepolia Testnet to have a Web3 provider to read blockchain data."
   }
   else{
-    document.getElementById("getLatestWeiGoldPrice").innerHTML =  storedDataCallValue + " ETH"
+    document.getElementById("getLatestWeiGoldPrice").innerHTML =  (storedDataCallValue/(10**18)).toFixed(3) + " ETH"
+  }
+  let storedDataCallValuez = await contractDefined_JS.getLatestEthUsdPrice()
+  if(storedDataCallValuez === undefined){
+    document.getElementById("getLatestEthUsdPrice").innerHTML =  "Install Metamask and select Sepolia Testnet to have a Web3 provider to read blockchain data."
+  }
+  else{
+    document.getElementById("getLatestEthUsdPrice").innerHTML =  "$" + (storedDataCallValuez*(storedDataCallValue/(10**26))).toFixed(2)
   }
 }
 
 async function callGetLatestEthUsdPrice() {
-  let storedDataCallValue = await contractDefined_JS.getLatestEthUsdPrice()
-  if(storedDataCallValue === undefined){
-    document.getElementById("getLatestEthUsdPrice").innerHTML =  "Install Metamask and select Sepolia Testnet to have a Web3 provider to read blockchain data."
-  }
-  else{
-    document.getElementById("getLatestEthUsdPrice").innerHTML =  "$" + storedDataCallValue 
-  }
+  // let storedDataCallValue = await contractDefined_JS.getLatestEthUsdPrice()
+  // if(storedDataCallValue === undefined){
+  //   document.getElementById("getLatestEthUsdPrice").innerHTML =  "Install Metamask and select Sepolia Testnet to have a Web3 provider to read blockchain data."
+  // }
+  // else{
+  //   document.getElementById("getLatestEthUsdPrice").innerHTML =  "$" + (storedDataCallValue/(10**8)).toFixed(2)
+  // }
 }
 
 async function buyGoldTx() {
