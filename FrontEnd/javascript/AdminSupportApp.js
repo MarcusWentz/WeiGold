@@ -3,7 +3,7 @@
 
 //Empty array to be filled once Metamask is called.
 let accounts = [];
-document.getElementById("enableEthereumButton").innerHTML =  "Connect Metamask"
+document.getElementById("enableEthereumButton").innerHTML =  "Connect Metamask 🦊"
 
 //If Metamask is not detected the user will be told to install Metamask.
 function detectMetamaskInstalled(){
@@ -136,88 +136,6 @@ const contractDefined_JS = new web3.eth.Contract(contractABI_JS, contractAddress
 //    })
 //   })
 
-// });
-
-// MODIFY CONTRACT STATE WITH SET FUNCTION WITH PREDEFINED DATA FROM WEB3.JS
-const WithdrawFundsInContract = document.querySelector('#WithdrawFundsInContract');
-WithdrawFundsInContract.addEventListener('click', () => {
-  checkAddressMissingMetamask()
-
-  contractDefined_JS.methods.Owner().call((err, address) => {
-    web3.eth.getBalance(contractAddress_JS, function(err, balance) {
-    if(accounts[0] == address.toLowerCase() ){
-      if(balance > 0) {
-              ethereum
-                .request({
-                  method: 'eth_sendTransaction',
-                  params: [
-                    {
-                      //Metamask calculates gas limit and price.
-                      from: accounts[0],
-                      to: contractAddress_JS,
-                      data: contractDefined_JS.methods.OwnerClaimSelfDestructedETH().encodeABI()
-                    },
-                  ],
-                })
-                .then((txHash) => console.log(txHash))
-                .catch((error) => console.error);
-      }
-      else{
-          alert("No Etheruem to withdraw. ")
-        }
-      }
-    else{
-      alert("Connected address does not match Owner address! Connect as Owner then try again.")
-     }
-    })
-  })
-
-});
-
-// MODIFY CONTRACT STATE WITH SET FUNCTION WITH PREDEFINED DATA FROM WEB3.JS
-// const changeScale_FeeInContractEvent = document.querySelector('#changeScale_FeeInContractEvent');
-// changeScale_FeeInContractEvent.addEventListener('click', () => {
-//   checkAddressMissingMetamask()
-
-//   contractDefined_JS.methods.Owner().call((err, address) => {
-//     ////Get the latest value for Scale_Fee
-//     contractDefined_JS.methods.ScaleFee_State().call((err, ScaleFee_State) => {
-//     if(accounts[0] == address.toLowerCase() ){
-//       if((document.getElementById("setValueScale_FeeSmartContract").value%(1)) === (0) ) {
-//         if(document.getElementById("setValueScale_FeeSmartContract").value >= (0) ) {
-//           if(document.getElementById("setValueScale_FeeSmartContract").value != (ScaleFee_State>>3)) {
-//             ethereum
-//               .request({
-//                 method: 'eth_sendTransaction',
-//                 params: [
-//                   {
-//                     //Metamask calculates gas limit and price.
-//                     from: accounts[0],
-//                     to: contractAddress_JS,
-//                     data: contractDefined_JS.methods.OwnerChangeScaleFee(document.getElementById("setValueScale_FeeSmartContract").value).encodeABI()
-//                   },
-//                 ],
-//               })
-//               .then((txHash) => console.log(txHash))
-//               .catch((error) => console.error);
-//             }
-//             else{
-//               alert("Don't waste gas setting the same value.")
-//             }
-//         }
-//         else {
-//           alert("Integer must be positive.")
-//         }
-//       }
-//       else{
-//         alert("Input must be an integer!")
-//       }
-//     }
-//     else{
-//       alert("Connected address does not match Owner address! Connect as Owner then try again.")
-//     }
-//     })
-//   })
 // });
 
 //Get the latest event. Once the event is triggered, website will update value.
