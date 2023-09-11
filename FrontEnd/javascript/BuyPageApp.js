@@ -24,16 +24,6 @@ function checkAddressMissingMetamask() {
   }
 }
 
-//Function called for getting Metamask accounts on Sepolia. Used in every button in case the user forgets to click the top button.
-function enableMetamaskOnSepolia() {
-  //Get account details from Metamask wallet.
-  getAccount();
-  //Check if user is on the Sepolia testnet. If not, alert them to change to Sepolia.
-  if(window.ethereum.networkVersion != sepoliaChainId){
-    alert("You are not on the Sepolia Testnet! Please switch to Sepolia and refresh page.")
-  }
-}
-
 //When the page is opened check for error handling issues.
 detectMetamaskInstalled()
 
@@ -105,16 +95,6 @@ async function getContractValues() {
   }
 }
 
-async function callGetLatestEthUsdPrice() {
-  // let storedDataCallValue = await contractDefined_JS.getLatestEthUsdPrice()
-  // if(storedDataCallValue === undefined){
-  //   document.getElementById("getLatestEthUsdPrice").innerHTML =  "Install Metamask and select Sepolia Testnet to have a Web3 provider to read blockchain data."
-  // }
-  // else{
-  //   document.getElementById("getLatestEthUsdPrice").innerHTML =  "$" + (storedDataCallValue/(10**8)).toFixed(2)
-  // }
-}
-
 async function buyGoldTx() {
 
   const storageCount = await contractDefined_JS.vendingSlotCount(0);
@@ -155,127 +135,36 @@ async function buyGoldTx() {
     
 }
 
-
-//Get page info based on contract state
-// function getLatestState() {
-// contractDefined_JS.methods.ScaleFee_State().call((err, State) => {
-//   if(State&4) {
-//     document.getElementById("changeBuyGold").className = "btn btn-outline-danger"
-//     document.getElementById("getValueUSD_Gold_Price").className = "text-danger"
-//     document.getElementById("getValueUSD_Gold_Price").innerHTML = "GOLD SOLD!"
-//   }
-//   else{
-//     document.getElementById("changeBuyGold").className = "btn btn-outline-warning"
-//     document.getElementById("getValueUSD_Gold_Price").className = "text-warning"
-//     contractDefined_JS.methods.getLatest_WEI_Gold_Price().call((err, WEI_Gold_Price) => {
-//         contractDefined_JS.methods.getLatest_ETH_USD_Price().call((err, convertToETH_USD) => {
-//           document.getElementById("getValueUSD_Gold_Price").innerHTML = (WEI_Gold_Price/(10**18)).toFixed(6) + " ETH = $"  + ( (WEI_Gold_Price*convertToETH_USD)/(10**26) ).toFixed(2) + " USD"
-//       })
-//     })
-//   }
-//   if(State&2){
-//     document.getElementById("changeBuySilver").className = "btn btn-outline-danger"
-//     document.getElementById("getValueUSD_Silver_Price").className = "text-danger"
-//     document.getElementById("getValueUSD_Silver_Price").innerHTML = "SILVER SOLD!"
-//   }
-//   else{
-//     document.getElementById("changeBuySilver").className = "btn btn-outline-secondary"
-//     document.getElementById("getValueUSD_Silver_Price").className = "text-secondary"
-//     contractDefined_JS.methods.getLatest_WEI_Silver_Price().call((err, WEI_Silver_Price) => {
-//         contractDefined_JS.methods.getLatest_ETH_USD_Price().call((err, convertToETH_USD) => {
-//         document.getElementById("getValueUSD_Silver_Price").innerHTML =  (WEI_Silver_Price/(10**18)).toFixed(6) + " ETH = $"  + ( (WEI_Silver_Price*convertToETH_USD)/(10**26) ).toFixed(2) + " USD"
-//       })
-//     })
-//   }
-//   if(State&1){
-//     document.getElementById("changeBuyOil").className = "btn btn-outline-danger"
-//     document.getElementById("getValueUSD_Oil_Price").className = "text-danger"
-//     document.getElementById("getValueUSD_Oil_Price").innerHTML = "OIL SOLD!"
-//   }
-//   else{
-//     document.getElementById("changeBuyOil").className = "btn btn-outline-light"
-//     document.getElementById("getValueUSD_Oil_Price").className = "text-light"
-//     contractDefined_JS.methods.getLatest_WEI_Oil_Price().call((err, WEI_Oil_Price) => {
-//         contractDefined_JS.methods.getLatest_ETH_USD_Price().call((err, convertToETH_USD) => {
-//           document.getElementById("getValueUSD_Oil_Price").innerHTML = (WEI_Oil_Price/(10**18)).toFixed(6) + " ETH = $"  + ( (WEI_Oil_Price*convertToETH_USD)/(10**26) ).toFixed(2) + " USD"
-//         })
-//     })
-//   }
-
-//   })
-// }
-
-// ////Get the latest value for Scale_Fee and check if we have null values
-// contractDefined_JS.methods.ScaleFee_State().call((err, ScaleFee) => {
-//   if(ScaleFee === undefined){
-//     document.getElementById("getValueScale_FeeSmartContract").innerHTML =  "Install Metamask and select Sepolia Testnet to have a Web3 provider to read blockchain data."
-//     document.getElementById("getValueScale_FeeSmartContract").className = "text-danger"
-//     document.getElementById("getValueUSD_Gold_Price").innerHTML =  "Install Metamask and select Sepolia Testnet to have a Web3 provider to read blockchain data."
-//     document.getElementById("getValueUSD_Gold_Price").className = "text-danger"
-//     document.getElementById("getValueUSD_Silver_Price").innerHTML =  "Install Metamask and select Sepolia Testnet to have a Web3 provider to read blockchain data."
-//     document.getElementById("getValueUSD_Silver_Price").className = "text-danger"
-//     document.getElementById("getValueUSD_Oil_Price").innerHTML =  "Install Metamask and select Sepolia Testnet to have a Web3 provider to read blockchain data."
-//     document.getElementById("getValueUSD_Oil_Price").className = "text-danger"
-//   }
-//   else{
-//     document.getElementById("getValueScale_FeeSmartContract").innerHTML = "Scale_Fee = " + (ScaleFee>>3)/10 + "%"
-//     getLatestState()
-//   }
-// })
-
 //BuyGold button
 const changeBuyGold = document.querySelector('#changeBuyGold');
 changeBuyGold.addEventListener('click', () => {
   checkAddressMissingMetamask()
   buyGoldTx();
-
-  // // contractDefined_JS.methods.vendingSlotCount(0).call((err, State) => {
-  // //   if(State&4){
-  // //     alert("Gold is sold out! Cannot buy gold until Owner refill.")
-  // //   }
-  // //   else {
-  //     contractDefined_JS.methods.getLatest_WEI_Gold_Price().call((err, goldPrice) => {
-  //         ethereum
-  //           .request({
-  //             method: 'eth_sendTransaction',
-  //             params: [
-  //               {
-  //                 //Metamask calculates gas limit and price.
-  //                 from: accounts[0],
-  //                 to: contractAddress_JS,
-  //                 data: contractDefined_JS.methods.BuyGold(0).encodeABI(),
-  //                 value: ethers.utils.toHex(goldPrice)
-  //                 },
-  //             ],
-  //           })
-  //           .then((txHash) => console.log(txHash))
-  //           .catch((error) => console.error);
-  //     })
-  //   }
-  // // })
-
 });
-
-// //Get the latest event. Once the event is triggered, website will update value.
-// contractDefined_JS.events.slotsUpdated({
-//      fromBlock: 'latest'
-//  }, function(error, eventResult){})
-//  .on('data', function(eventResult){
-//    console.log(eventResult)
-//      //Get latest Scale_Fee after event.
-//     //  contractDefined_JS.methods.ScaleFee_State().call((err, ScaleFee) => {
-//     //  document.getElementById("getValueScale_FeeSmartContract").innerHTML = "Scale_Fee = " + (ScaleFee>>3)/10 + "%"
-//     //  })
-//      //Check if anything was sold live on the page.
-//      getLatestState()
-//    })
-//  .on('changed', function(eventResult){
-//      // remove event from local database
-//  })
-//  .on('error', console.error);
 
 contractDefined_JS.on("slotsUpdated", () => {
 
-  // getStoredData()
+  getContractValues()
 
 });
+
+async function enableMetamaskOnSepolia() {
+  //Get account details from Metamask wallet.
+  getAccount();
+  //Check if user is on the Sepolia testnet. If not, alert them to change to Sepolia.
+  if(window.ethereum.networkVersion != sepoliaChainId){
+    // alert("You are not on the Sepolia Testnet! Please switch to Sepolia and refresh page.")
+    try{
+      await window.ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [{
+             chainId: "0xaa36a7"
+          }]
+        })
+      location.reload(); 
+      // alert("Failed to add the network at chainId " + sepoliaChainId + " with wallet_addEthereumChain request. Add the network with https://chainlist.org/ or do it manually. Error log: " + error.message)
+    } catch (error) {
+      alert("Failed to add the network at chainId " + sepoliaChainId + " with wallet_addEthereumChain request. Add the network with https://chainlist.org/ or do it manually. Error log: " + error.message)
+    }
+  }
+}
