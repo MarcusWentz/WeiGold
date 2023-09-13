@@ -61,6 +61,14 @@ changeStateInContractEvent.addEventListener('click', () => {
 
 async function ownerChangeStateTx(setValueStateSmartContract) {
 
+  const contractOwner = await contractDefined_JS.owner();
+  // console.log(accounts[0])
+  // console.log(contractOwner.toLowerCase())
+  if(accounts[0] != contractOwner.toLowerCase()){
+    alert("Only the contract owner address can call this function!")
+    return;
+  }
+
   const callDataObject = await contractDefined_JS.populateTransaction.OwnerUpdateSlots(0,setValueStateSmartContract);
   const txData = callDataObject.data;
   
