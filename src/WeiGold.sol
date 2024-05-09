@@ -45,7 +45,7 @@ contract WeiGold {
         if(vendingSlotCount[slot] == 0) revert slotEmpty();
         if(getLatestWeiGoldPrice() == 0) revert oraclePriceFeedZero();
         if(msg.value < getLatestWeiGoldPrice()) revert msgValueTooSmall();  // Price for MSG.VALUE can change in mempool. Allow user to overpay then refund them.     
-        --vendingSlotCount[slot];
+        vendingSlotCount[slot] -= 1; // Avoid using prefix or postfix operators to avoid execution order complexity.
         if(msg.value > getLatestWeiGoldPrice() ) { 
             (bool sentUser, ) = payable(msg.sender).call{value: msg.value -  getLatestWeiGoldPrice()}("");
             if(sentUser == false) revert etherNotSent(); 
