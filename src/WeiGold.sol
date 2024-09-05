@@ -2,8 +2,8 @@
 pragma solidity 0.8.26;
 
 // import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
-import "chainlink/v0.8/interfaces/AggregatorV3Interface.sol"; // "forge install smartcontractkit/chainlink-brownie-contracts" and set custom "chainlink" remapping in file https://chainstack.com/using-chainlinks-vrf-with-foundry/
-import { Owned } from "solmate/auth/Owned.sol";
+import {AggregatorV3Interface} from "chainlink/v0.8/interfaces/AggregatorV3Interface.sol"; // "forge install smartcontractkit/chainlink-brownie-contracts" and set custom "chainlink" remapping in file https://chainstack.com/using-chainlinks-vrf-with-foundry/
+import {Owned} from "solmate/auth/Owned.sol";
 
 interface IWeiGold{
 
