@@ -7,6 +7,7 @@ pragma solidity 0.8.26;
 // and set custom "chainlink" remapping in file 
 // https://chainstack.com/using-chainlinks-vrf-with-foundry/
 import {AggregatorV3Interface} from "chainlink/v0.8/interfaces/AggregatorV3Interface.sol"; 
+// @dev "forge install rari-capital/solmate --no-commit"
 import {Owned} from "solmate/auth/Owned.sol";
 
 interface IWeiGold{
