@@ -43,7 +43,7 @@ https://superbridge.app/op-sepolia
 
 ## WeiGold.sol on Optimism Sepolia (verified on Etherscan):
 
-???
+https://sepolia-optimism.etherscan.io/address/0xabe0F522a3E5dC815a4A1f4138eC420c43087387#code
 
 ## Website live on GitHub pages:
 
