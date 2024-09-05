@@ -37,9 +37,13 @@ https://www.youtube.com/watch?v=nxwqg_YGh0c
 (you can create your own custom contract by redeploying on Remix and changing address and ABI for FrontEnd and Servo scripts)
 4.Interact with the contract and watch the servos move based on contract State!
 ```
+## Bridge ETH from Sepolia to Optimism Sepolia:
+
+https://superbridge.app/op-sepolia
+
 ## WeiGold.sol on Optimism Sepolia (verified on Etherscan):
 
-https://sepolia-optimism.etherscan.io/address/0x090b750b9b5251828e16360fd69100dc4c674e71#code
+https://sepolia-optimism.etherscan.io/address/0xec9a237864f7e78fd835db717db4e3d3c4254b11
 
 ## Website live on GitHub pages:
 
@@ -50,8 +54,20 @@ https://marcuswentz.github.io/WeiGold/index.html?
 ```
 npx http-server
 ```
-
-## Contract deployed and verified in Foundry with command 
+## Forge
+### Install Solmate Library
+```
+forge install rari-capital/solmate --no-commit
+```
+### Tests while forking a network
+```
+forge test --fork-url $optimismSepoliaHTTPS
+```
+### Tests while forking a network with test coverage report
+```
+forge coverage --fork-url $optimismSepoliaHTTPS --report lcov && genhtml lcov.info -o report --branch-coverage
+```
+### Forge deploy and verify contract
 ```
 forge create src/WeiGold.sol:WeiGold \
 --private-key $devTestnetPrivateKey \
