@@ -57,8 +57,9 @@ async function getDataOnChainToLoad(){
     getContractValues()
   }
   if(chainIdConnected != optimismSepoliaChainId){
-    document.getElementById("getLatestEthUsdPrice").innerHTML =  "Install Metamask and select Sepolia Testnet to have a Web3 provider to read blockchain data."
-    document.getElementById("getLatestWeiGoldPrice").innerHTML =  "Install Metamask and select Sepolia Testnet to have a Web3 provider to read blockchain data."
+    document.getElementById("storageSlotZeroCount").innerHTML =  "Install Metamask and select Optimism Sepolia Testnet to have a Web3 provider to read blockchain data."
+    document.getElementById("getLatestEthUsdPrice").innerHTML =  "Install Metamask and select Optimism Sepolia Testnet to have a Web3 provider to read blockchain data."
+    document.getElementById("getLatestWeiGoldPrice").innerHTML =  "Install Metamask and select Optimism Sepolia Testnet to have a Web3 provider to read blockchain data."
   }
 
 }
@@ -72,21 +73,21 @@ async function getChainIdConnected() {
 async function getContractValues() {
   let valueGetLatestWeiGoldPrice = await contractDefined_JS.getLatestWeiGoldPrice()
   if(valueGetLatestWeiGoldPrice === undefined){
-    document.getElementById("getLatestWeiGoldPrice").innerHTML =  "Install Metamask and select Sepolia Testnet to have a Web3 provider to read blockchain data."
+    document.getElementById("getLatestWeiGoldPrice").innerHTML =  "Install Metamask and select Optimism Sepolia Testnet to have a Web3 provider to read blockchain data."
   }
   else{
     document.getElementById("getLatestWeiGoldPrice").innerHTML =   + (valueGetLatestWeiGoldPrice/(10**18)).toFixed(8) + " ETH"
   }
   let valueGetLatestEthUsdPrice = await contractDefined_JS.getLatestEthUsdPrice()
   if(valueGetLatestEthUsdPrice === undefined){
-    document.getElementById("getLatestEthUsdPrice").innerHTML =  "Install Metamask and select Sepolia Testnet to have a Web3 provider to read blockchain data."
+    document.getElementById("getLatestEthUsdPrice").innerHTML =  "Install Metamask and select Optimism Sepolia Testnet to have a Web3 provider to read blockchain data."
   }
   else{
     document.getElementById("getLatestEthUsdPrice").innerHTML =  "$" + (valueGetLatestEthUsdPrice*valueGetLatestWeiGoldPrice/(10**26)).toFixed(2)
   }
   let getVendingSlotCountZero = await contractDefined_JS.vendingSlotCount(0)
   if(getVendingSlotCountZero === undefined){
-    document.getElementById("storageSlotZeroCount").innerHTML =  "Install Metamask and select Sepolia Testnet to have a Web3 provider to read blockchain data."
+    document.getElementById("storageSlotZeroCount").innerHTML =  "Install Metamask and select Optimism Sepolia Testnet to have a Web3 provider to read blockchain data."
   }
   else{
     document.getElementById("storageSlotZeroCount").innerHTML = getVendingSlotCountZero

@@ -48,7 +48,26 @@ const contractABI_JS = [{"inputs":[],"stateMutability":"nonpayable","type":"cons
 
 const contractDefined_JS = new ethers.Contract(contractAddress_JS, contractABI_JS, provider);
 
-getContractValues()
+
+getDataOnChainToLoad()
+
+async function getDataOnChainToLoad(){
+  let chainIdConnected = await getChainIdConnected();
+
+  if(chainIdConnected == optimismSepoliaChainId){
+    getContractValues()
+  }
+  if(chainIdConnected != optimismSepoliaChainId){
+    document.getElementById("storageSlotZeroCount").innerHTML =  "Install Metamask and select Optimism Sepolia Testnet to have a Web3 provider to read blockchain data."
+  }
+
+}
+
+async function getChainIdConnected() {
+  const connectedNetworkObject = await provider.getNetwork();
+  const chainIdConnected = connectedNetworkObject.chainId;
+  return chainIdConnected
+}
 
 // MODIFY CONTRACT STATE WITH SET FUNCTION WITH PREDEFINED DATA FROM WEB3.JS
 const changeStateInContractEvent = document.querySelector('#changeStateInContractEvent');
