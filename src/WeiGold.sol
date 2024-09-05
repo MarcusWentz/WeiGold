@@ -111,7 +111,7 @@ contract WeiGold is IWeiGold, Owned {
         emit SlotsUpdated();
     }
 
-    // @notice Users can buy gold from a vending machine slot that isn't empty.
+    // @notice Owner updates slot counts.
     // @param slot - Vending machine slot select for updating the count. 
     // @param count - New count value that will be stored. 
     function ownerUpdateSlots(uint256 slot, uint256 count) public onlyOwner {
