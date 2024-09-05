@@ -1,8 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.26;
 
+// @notice Remix IDE import
 // import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
-import {AggregatorV3Interface} from "chainlink/v0.8/interfaces/AggregatorV3Interface.sol"; // "forge install smartcontractkit/chainlink-brownie-contracts" and set custom "chainlink" remapping in file https://chainstack.com/using-chainlinks-vrf-with-foundry/
+// @dev "forge install smartcontractkit/chainlink-brownie-contracts" 
+// and set custom "chainlink" remapping in file 
+// https://chainstack.com/using-chainlinks-vrf-with-foundry/
+import {AggregatorV3Interface} from "chainlink/v0.8/interfaces/AggregatorV3Interface.sol"; 
 import {Owned} from "solmate/auth/Owned.sol";
 
 interface IWeiGold{
@@ -88,7 +92,8 @@ contract WeiGold is IWeiGold, Owned {
         if(vendingSlotCount[slot] == 0) revert SlotEmpty();
         // @dev Emergency revert if the oracle is hacked. 
         if(latestWeiGoldPrice == 0) revert OraclePriceFeedZero();
-        if(msg.value < latestWeiGoldPrice) revert MsgValueTooSmall();  // Price for MSG.VALUE can change in mempool. Allow user to overpay then refund them.     
+        // @dev Price for msg.value can change while the user's transaction is in the mempool. Allow user to overpay then refund them.     
+        if(msg.value < latestWeiGoldPrice) revert MsgValueTooSmall();  
         // @dev Avoid using prefix or postfix operators to avoid execution order complexity.
         // Here we use a compound operator instead (similar behavior as prefix operator with updating return the value right away).
         vendingSlotCount[slot] -= 1; 
