@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.13;
+pragma solidity 0.8.26;
 
 import "forge-std/Test.sol";
-import "../src/WeiGold.sol";
+import {WeiGold, IWeiGold} from "../src/WeiGold.sol";
 
-//Run tests with:
-//forge test --fork-url $sepoliaInfuraHttps
-//forge coverage --fork-url $sepoliaInfuraHttps --report lcov && genhtml lcov.info -o report --branch-coverage
+// Run tests with:
+// forge test --fork-url $optimismSepoliaHTTPS
+// forge coverage --fork-url $optimismSepoliaHTTPS --report lcov && genhtml lcov.info -o report --branch-coverage
 
-contract WeiGoldTest is Test { 
+contract WeiGoldTest is Test, IWeiGold { 
+
     WeiGold public weigold;
 
     //Functions fallback and receive used when the test contract is sent msg.value to prevent the test from reverting.
@@ -17,8 +18,9 @@ contract WeiGoldTest is Test {
 
     function setUp() public {
         weigold = new WeiGold();
-        assertEq(weigold.scaleFee(),3);
-        assertEq(weigold.owner(),address(this));
+        assertEq(weigold.MAX_BPS(),10000);
+        assertEq(weigold.SCALE_FEE(),30);
+        assertEq(weigold.OWNER(),address(this));
     }
 
     function testOracleEthUsdPrice() public {
@@ -60,11 +62,13 @@ contract WeiGoldTest is Test {
 
     function testBuyGoldValidWithPriceRefund() public {
         testOwnerUpdateSlotsValid();
+        uint256 priceEthGold = weigold.getLatestWeiGoldPrice();
+        deal(address(0),2*priceEthGold);
         vm.startPrank(address(0)); //Change the address to not be the owner. The owner is address(this) in this context.
-        uint256 prankBalance = address(0).balance;
-        assertGt(prankBalance,3 ether);
+        uint256 prankBalanceBeforeRefund = address(0).balance;
         assertEq(weigold.vendingSlotCount(0),1);
-        weigold.BuyGold{value:3 ether}(0);
+        weigold.BuyGold{value: priceEthGold + 1}(0);
+        assertEq(address(0).balance,prankBalanceBeforeRefund-priceEthGold);
     }
 
     function testBuyGoldValidWithNoPriceRefund() public {
