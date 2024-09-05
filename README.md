@@ -50,7 +50,6 @@ https://sepolia-optimism.etherscan.io/address/0xec9a237864f7e78fd835db717db4e3d3
 https://marcuswentz.github.io/WeiGold/index.html? 
 
 ## Run website locally with 
-
 ```
 npx http-server
 ```
