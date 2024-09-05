@@ -27,7 +27,7 @@ https://www.youtube.com/watch?v=nxwqg_YGh0c
 ## Wiring diagram:
 <img src="https://github.com/MarcusWentz/WeiGold/blob/main/Images/Wiring.png" alt="Wiring"/>
 
-## Hardware Setup Instructions:
+## Hardware Javascript Programming Instructions:
 ```
 1a.Install web3.js and pi-blaster.js with Node.js on wired Raspberry Pi 4
 1b.web3.js: npm install web3
