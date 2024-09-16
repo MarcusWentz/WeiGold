@@ -58,6 +58,10 @@ npx http-server
 ```
 forge install rari-capital/solmate --no-commit
 ```
+### Install Chainlink Library
+```
+forge install smartcontractkit/chainlink-brownie-contracts --no-commit
+```
 ### Tests while forking a network
 ```
 forge test --fork-url $optimismSepoliaHTTPS
