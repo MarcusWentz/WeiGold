@@ -53,7 +53,8 @@ https://marcuswentz.github.io/WeiGold/index.html?
 ```
 npx http-server
 ```
-## Forge
+## Foundry Forge Commands
+
 ### Install Solmate Library
 ```
 forge install rari-capital/solmate --no-commit
