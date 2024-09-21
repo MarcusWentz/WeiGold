@@ -1,4 +1,3 @@
-chainlink-brownie-contracts/=lib/chainlink-brownie-contracts/
 ds-test/=lib/forge-std/lib/ds-test/src/
 forge-std/=lib/forge-std/src/
 lib/forge-std:ds-test/=lib/forge-std/lib/ds-test/src/
